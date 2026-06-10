@@ -1,0 +1,1 @@
+Gerencia se o usuário está logado
