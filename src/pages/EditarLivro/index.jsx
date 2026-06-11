@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { buscarLivroPorId, atualizarLivro, deletarLivro } from '../../services/api'; // Ajuste o caminho se necessário
+import { buscarLivroPorId, atualizarLivro, deletarLivro } from '../../service/api'; 
 
 export default function EditarLivro() {
   const { id } = useParams();
@@ -12,16 +12,16 @@ export default function EditarLivro() {
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
-  // 1. Vai buscar os dados atuais para preencher o formulário
   useEffect(() => {
     async function carregarLivro() {
       try {
         const livro = await buscarLivroPorId(id);
-        // O Hook Form usa o 'reset' para preencher os inputs com os dados carregados da API
+        
+       
         reset({
           titulo: livro.titulo,
-          autor: livro.autor,
-          editora: livro.editora
+          autor: livro.autor?.nome || livro.autor,
+          editora: livro.editora?.nome || livro.editora
         });
       } catch {
         setErroAPI('Não foi possível carregar os dados deste livro.');
@@ -30,7 +30,6 @@ export default function EditarLivro() {
     carregarLivro();
   }, [id, reset]);
 
-  // 2. Atualizar os dados (PUT)
   async function onSubmit(dadosDoFormulario) {
     setErroAPI('');
     setSucesso('');
@@ -44,7 +43,6 @@ export default function EditarLivro() {
     }
   }
 
-  // 3. Apagar o livro (DELETE)
   async function apagarLivro() {
     const confirmar = window.confirm("Tem certeza que deseja apagar este livro?");
     
