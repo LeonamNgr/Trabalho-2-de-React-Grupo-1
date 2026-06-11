@@ -1,1 +1,0 @@
-Gerencia o modo escuro para acessibilidade
