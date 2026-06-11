@@ -12,10 +12,12 @@ function App() {
     <>
       <Navbar />
       <Routes>
+        <Route path="/" element={<Navigate to="/login" />} />
+
         <Route path="/login" element={<Login />} />
 
         <Route
-          path="/"
+          path="/home"
           element={
             <PrivateRoute>
               <Home />
@@ -24,7 +26,7 @@ function App() {
         />
 
         <Route
-          path="/cadastrar"
+          path="/livros/adicionar"
           element={
             <PrivateRoute>
               <AdicionarLivro />
@@ -33,7 +35,7 @@ function App() {
         />
 
         <Route
-          path="/buscar"
+          path="/livros/buscar"
           element={
             <PrivateRoute>
               <BuscarLivro />
@@ -42,14 +44,14 @@ function App() {
         />
 
         <Route
-          path="/editar/:id"
+          path="/livros/editar/:id"
           element={
             <PrivateRoute>
               <EditarLivro />
             </PrivateRoute>
           }
         />
-
+        
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
