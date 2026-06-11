@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { criarLivro } from '../../services/api'; // Ajuste o caminho se necessário
+import { criarLivro } from '../../services/api'; 
 
 export default function AdicionarLivro() {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ export default function AdicionarLivro() {
       await criarLivro(dadosDoFormulario);
       
       setSucesso('Livro adicionado com sucesso!');
-      reset(); // Limpa os campos do formulário
+      reset(); 
       
       setTimeout(() => navigate('/'), 2000);
     } catch {
@@ -47,22 +47,22 @@ export default function AdicionarLivro() {
           </div>
 
           <div className="mb-3">
-            <label className="form-label fw-bold">Autor</label>
+            <label className="form-label fw-bold">Autor (Nome ou ID)</label>
             <input 
               type="text" 
               className={`form-control ${errors.autor ? 'is-invalid' : ''}`}
-              placeholder="Ex: J.R.R. Tolkien"
+              placeholder="Ex: J.R.R. Tolkien ou 1"
               {...register('autor', { required: 'O autor é obrigatório' })}
             />
             {errors.autor && <span className="invalid-feedback">{errors.autor.message}</span>}
           </div>
 
           <div className="mb-3">
-            <label className="form-label fw-bold">Editora</label>
+            <label className="form-label fw-bold">Editora (Nome ou ID)</label>
             <input 
               type="text" 
               className={`form-control ${errors.editora ? 'is-invalid' : ''}`}
-              placeholder="Ex: HarperCollins"
+              placeholder="Ex: HarperCollins ou 2"
               {...register('editora', { required: 'A editora é obrigatória' })}
             />
             {errors.editora && <span className="invalid-feedback">{errors.editora.message}</span>}
