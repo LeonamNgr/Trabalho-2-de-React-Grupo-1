@@ -11,7 +11,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/");
+      navigate("/home");
     }
   }, [user, navigate]);
 
@@ -26,7 +26,7 @@ const Login = () => {
     const success = login(username, password);
 
     if (success) {
-      navigate("/");
+      navigate("/home");
     } else {
       setError("Usuário ou senha inválidos!");
     }
