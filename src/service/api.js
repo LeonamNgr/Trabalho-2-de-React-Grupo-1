@@ -1,25 +1,9 @@
-import axios from 'axios';
+import axios from "axios";
 
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080' 
+  baseURL: "http://localhost:8080",
 });
-
-
-api.interceptors.request.use((config) => {
- 
-  const token = localStorage.getItem('token'); 
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
-}, (error) => {
-  return Promise.reject(error);
-});
-
-
 
 
 export const buscarTodosOsLivros = async () => {
@@ -42,6 +26,7 @@ export const atualizarLivro = async (id, dadosDoLivro) => {
   return response.data;
 };
 
+// Deletar livro
 export const deletarLivro = async (id) => {
   const response = await api.delete(`/Livro/deletar-livro/${id}`);
   return response.data;
