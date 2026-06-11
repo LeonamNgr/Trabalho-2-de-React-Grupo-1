@@ -1,1 +1,5 @@
-Gerencia se o usuário está logado
+import { createContext } from "react";
+
+export const authContext = createContext();
+
+     
