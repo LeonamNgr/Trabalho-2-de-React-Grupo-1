@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import Login from "./pages/Login/index.jsx";
-import Home from "./pages/Home/home.jsx";
-import PrivateRoute from "./components/Header/privateRoute.jsx";
+import Login from "./pages/Login/";
+import Home from "./pages/Home/";
+import PrivateRoute from "./routes/privateRoute.jsx";
 import Header from "./components/Header/index.jsx";
 
 function App() {
