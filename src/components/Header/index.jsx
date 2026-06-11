@@ -8,8 +8,12 @@ const Header = () => {
   return (
     <header>
       <nav>
-        <Link to="/home">Home</Link>
+        {user && <Link to="/home">Home</Link>}
+        {user && <Link to="/livros/adicionar">Adicionar Livro</Link>}
+        {user && <Link to="/livros/buscar">Buscar Livro</Link>}
+
         {!user && <Link to="/login">Login</Link>}
+
         {user && <button onClick={logout}>Logout</button>}
       </nav>
     </header>
@@ -17,4 +21,3 @@ const Header = () => {
 };
 
 export default Header;
-

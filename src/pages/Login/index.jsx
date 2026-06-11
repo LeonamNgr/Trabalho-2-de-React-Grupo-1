@@ -1,6 +1,5 @@
 import { useState, useContext } from "react";
-import { authContext } from "../../contexts/authContext";
-import "./Login.css"; 
+import { authContext } from "../../contexts/AuthContext";
 
 const Login = () => {
   const { login } = useContext(authContext);
@@ -8,38 +7,57 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
+
     if (!username || !password) {
       setError("Preencha todos os campos!");
       return;
     }
+
     const success = login(username, password);
+
     if (!success) {
       setError("Usuário ou senha inválidos!");
     }
-  };
+  }
 
   return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        <input
-          type="text"
-          placeholder="Usuário"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Entrar</button>
-        {error && <p className="error">{error}</p>}
-      </form>
-    </div>
+    <main className="main-container d-flex align-items-center justify-content-center">
+      <div className="card shadow p-4" style={{ maxWidth: "400px", width: "100%" }}>
+        <h2 className="page-title">Login</h2>
+
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label">Usuário</label>
+            <input
+              className="form-control"
+              type="text"
+              placeholder="Digite seu usuário"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">Senha</label>
+            <input
+              className="form-control"
+              type="password"
+              placeholder="Digite sua senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+
+          <button className="btn btn-marrom w-100" type="submit">
+            Entrar
+          </button>
+
+          {error && <p className="text-danger text-center mt-3">{error}</p>}
+        </form>
+      </div>
+    </main>
   );
 };
 

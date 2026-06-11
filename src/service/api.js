@@ -1,37 +1,36 @@
-import axios from 'axios';
+import axios from "axios";
 
-// Configuração base da API
 const api = axios.create({
-  baseURL: 'http://localhost:8080' 
+  baseURL: "http://localhost:8080",
 });
 
-// Buscar um livro específico (GET)
-export const buscarLivroPorId = async (id) => {
-  const response = await api.get(`/livros/${id}`);
-  return response.data;
-};
-
-// Buscar todos os livros (GET)
+// Buscar todos os livros
 export const buscarTodosOsLivros = async () => {
-  const response = await api.get('/livros');
-  return response.data; // Vai devolver a lista/array com todos os livros
+  const response = await api.get("/Livro/todos-os-livros");
+  return response.data;
 };
 
-// Criar um novo livro (POST)
+// Buscar livro por ID
+export const buscarLivroPorId = async (id) => {
+  const response = await api.get(`/Livro/${id}`);
+  return response.data;
+};
+
+// Criar livro
 export const criarLivro = async (dadosDoLivro) => {
-  const response = await api.post('/livros', dadosDoLivro);
+  const response = await api.post("/Livro/adicionar-livro", dadosDoLivro);
   return response.data;
 };
 
-// Atualizar um livro existente (PUT)
+// Atualizar livro
 export const atualizarLivro = async (id, dadosDoLivro) => {
-  const response = await api.put(`/livros/${id}`, dadosDoLivro);
+  const response = await api.put(`/Livro/atualizar-livro/${id}`, dadosDoLivro);
   return response.data;
 };
 
-// Deletar um livro (DELETE)
+// Deletar livro
 export const deletarLivro = async (id) => {
-  const response = await api.delete(`/livros/${id}`);
+  const response = await api.delete(`/Livro/deletar-livro/${id}`);
   return response.data;
 };
 
