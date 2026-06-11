@@ -1,45 +1,20 @@
-import { useContext, useEffect, useState } from "react";
-import { authContext } from "../../contexts/authContext";
-import axios from "axios";
-import "./Home.css";
+import styles from "./Home.module.css";
 
-const Home = () => {
-  const { user } = useContext(authContext);
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  // Exemplo: consumindo uma API pública
-  useEffect(() => {
-    axios.get("https://jsonplaceholder.typicode.com/posts")
-      .then((response) => {
-        setData(response.data.slice(0, 5)); // pega só 5 itens
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Erro ao buscar dados:", error);
-        setLoading(false);
-      });
-  }, []);
-
+export default function Home() {
   return (
-    <div className="home-container">
-      <h1>Bem-vindo, {user?.username}!</h1>
-      <p>Essa é a página inicial protegida pelo login.</p>
+    <main className={styles.container}>
+      <h1 className={styles.titulo}>Livraria React</h1>
+      <p className={styles.subtitulo}>
+        Sistema de gerenciamento de livros
+      </p>
 
-      {loading ? (
-        <p>Carregando dados...</p>
-      ) : (
-        <ul className="data-list">
-          {data.map((item) => (
-            <li key={item.id}>
-              <h3>{item.title}</h3>
-              <p>{item.body}</p>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+      <section className={styles.lista}>
+        <article className={styles.cardLivro}>
+          <h3>Dom Casmurro</h3>
+          <p>Autor: Machado de Assis</p>
+          <p>Ano: 1899</p>
+        </article>
+      </section>
+    </main>
   );
-};
-
-export default Home;
+}

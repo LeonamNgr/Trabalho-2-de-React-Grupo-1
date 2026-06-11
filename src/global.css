@@ -1,0 +1,51 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #f8f5f0;
+  color: #3b2c5a;
+  font-family: Arimo, sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+.main-container {
+  min-height: calc(100vh - 70px);
+  padding: 2rem 1rem;
+}
+
+.page-title {
+  color: #3b2c5a;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.page-subtitle {
+  color: #3b2c5a;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.card-livro {
+  border-left: 5px solid #3b2c5a;
+  transition: 0.2s;
+}
+
+.card-livro:hover {
+  transform: translateY(-3px);
+}
+
+.btn-marrom {
+  background-color: #3b2c5a;
+  color: #fae383;
+}
+
+.btn-marrom:hover {
+  background-color: #3b2c5a;
+  color:#fae383;
+}
