@@ -29,7 +29,6 @@ export default function Navbar() {
 
         <div className="collapse navbar-collapse" id="navbarCollapse">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            {/* O map mágico acontecendo aqui */}
             {navLinks.map((link) => (
               <li className="nav-item" key={link.id}>
                 <a className="nav-link" href={link.path}>
@@ -39,7 +38,6 @@ export default function Navbar() {
             ))}
           </ul>
 
-          {/* Mantivemos a barra de pesquisa que será perfeita para buscar um livro específico */}
           <form className="d-flex" role="search">
             <input
               className="form-control me-2"
