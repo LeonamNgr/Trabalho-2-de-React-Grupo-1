@@ -9,6 +9,7 @@ import PrivateRoute from "./routes/PrivateRoute.jsx";
 import AdicionarLivro from "./pages/AdicionarLivro/index.jsx";
 import BuscarLivro from "./pages/BuscarLivro/index.jsx";
 import EditarLivro from "./pages/EditarLivro/index.jsx";
+import Livros from "./pages/Livros/index.jsx";
 
 function App() {
   return (
@@ -51,6 +52,14 @@ function App() {
           element={
             <PrivateRoute>
               <EditarLivro />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/livros"
+          element={
+            <PrivateRoute>
+              <Livros />
             </PrivateRoute>
           }
         />
