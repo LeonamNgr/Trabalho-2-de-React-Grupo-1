@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import { buscarLivroPorId } from '../../services/api'; 
+import { buscarLivroPorId } from '../../service/api'; 
 
 export default function BuscarLivro() {
   const [livroEncontrado, setLivroEncontrado] = useState(null);
