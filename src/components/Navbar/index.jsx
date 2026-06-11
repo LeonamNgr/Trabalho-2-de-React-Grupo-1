@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import { ThemeContext } from "../../contexts/ThemeContext.jsx";
 import styles from "./Navbar.module.css";
 
@@ -6,8 +7,9 @@ export default function Navbar() {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   const navLinks = [
-    { id: 1, label: "Início", path: "/" },
-    { id: 2, label: "Cadastrar Livro", path: "/cadastrar" },
+    { id: 1, label: "Início", path: "/home" },
+    { id: 2, label: "Cadastrar Livro", path: "/livros/adicionar" },
+    { id: 3, label: "Buscar Livros", path: "/livros/buscar" },
   ];
 
   return (
@@ -15,9 +17,9 @@ export default function Navbar() {
       className={`navbar navbar-expand-lg bg-body-tertiary ${styles.navbarCustom}`}
     >
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
+        <Link className="navbar-brand" to="/home">
           📚 Biblioteca
-        </a>
+        </Link>
 
         <button
           className="navbar-toggler"
@@ -36,9 +38,9 @@ export default function Navbar() {
             {/* O map mágico acontecendo aqui */}
             {navLinks.map((link) => (
               <li className="nav-item" key={link.id}>
-                <a className="nav-link" href={link.path}>
+                <Link className="nav-link" to={link.path}>
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
