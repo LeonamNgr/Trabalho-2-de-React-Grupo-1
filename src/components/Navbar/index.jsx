@@ -1,6 +1,10 @@
+import { useContext } from "react";
+import { ThemeContext } from "../../contexts/ThemeContext.jsx";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
   const navLinks = [
     { id: 1, label: "Início", path: "/" },
     { id: 2, label: "Cadastrar Livro", path: "/cadastrar" },
@@ -39,18 +43,31 @@ export default function Navbar() {
             ))}
           </ul>
 
-          {/* Mantivemos a barra de pesquisa que será perfeita para buscar um livro específico */}
-          <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Buscar livro..."
-              aria-label="Buscar"
-            />
-            <button className="btn btn-outline-success" type="submit">
-              Buscar
+          <div className="d-flex align-items-center">
+            {/* Botão de Dark Mode */}
+            <button 
+              className="btn btn-outline-secondary me-3" 
+              onClick={toggleTheme}
+              type="button"
+              aria-label="Alternar tema"
+              title="Alternar tema"
+            >
+              {theme === "light" ? "🌙" : "☀️"}
             </button>
-          </form>
+
+            {/* Mantivemos a barra de pesquisa que será perfeita para buscar um livro específico */}
+            <form className="d-flex" role="search">
+              <input
+                className="form-control me-2"
+                type="search"
+                placeholder="Buscar livro..."
+                aria-label="Buscar"
+              />
+              <button className="btn btn-outline-success" type="submit">
+                Buscar
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </nav>

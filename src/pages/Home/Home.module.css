@@ -1,17 +1,16 @@
 .container {
   min-height: 100vh;
   padding: 2rem;
-  background-color: #f8f5f0;
 }
 
 .titulo {
-  color: #3b2f2f;
+  color: var(--home-titulo);
   font-weight: bold;
   text-align: center;
 }
 
 .subtitulo {
-  color: #6b5b4b;
+  color: var(--home-subtitulo);
   text-align: center;
   margin-bottom: 2rem;
 }
@@ -23,18 +22,19 @@
 }
 
 .cardLivro {
-  background-color: #fff;
-  border-left: 5px solid #8b5e3c;
+  background-color: var(--home-card-bg);
+  border-left: 5px solid var(--home-card-border);
   border-radius: 10px;
   padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .cardLivro h3 {
-  color: #4a2c1a;
+  color: var(--home-card-titulo);
   font-size: 1.2rem;
 }
 
 .cardLivro p {
-  color: #555;
+  color: var(--home-card-texto);
   margin-bottom: 0.4rem;
 }

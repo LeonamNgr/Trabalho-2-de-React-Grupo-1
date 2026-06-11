@@ -1,12 +1,45 @@
+:root {
+  /* Cores Globais da Aplicação */
+  --bg-color: #f8f5f0;
+  --text-color: #3b2c5a;
+  --primary-color: #3b2c5a;
+  --btn-text: #fae383;
+
+  /* Cores Específicas da Home (Tons terrosos originais) */
+  --home-titulo: #3b2f2f;
+  --home-subtitulo: #6b5b4b;
+  --home-card-border: #8b5e3c;
+  --home-card-titulo: #4a2c1a;
+  --home-card-texto: #555;
+  --home-card-bg: #fff;
+}
+
+:root[data-bs-theme="dark"] {
+  /* Cores Globais - Modo Escuro */
+  --bg-color: #1a1625;
+  --text-color: #e6e1f9;
+  --primary-color: #8c7db7;
+  --btn-text: #1a1625;
+
+  /* Cores Específicas da Home - Modo Escuro */
+  --home-titulo: #f8f5f0;
+  --home-subtitulo: #d4ccb8;
+  --home-card-border: #c89670;
+  --home-card-titulo: #f0e6d2;
+  --home-card-texto: #bbb;
+  --home-card-bg: #2a2438;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  background-color: #f8f5f0;
-  color: #3b2c5a;
+  background-color: var(--bg-color);
+  color: var(--text-color);
   font-family: Arimo, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a {
@@ -19,21 +52,23 @@ a {
 }
 
 .page-title {
-  color: #3b2c5a;
+  color: var(--primary-color);
   font-weight: 700;
   text-align: center;
   margin-bottom: 1.5rem;
 }
 
 .page-subtitle {
-  color: #3b2c5a;
+  color: var(--text-color);
   text-align: center;
   margin-bottom: 2rem;
 }
 
 .card-livro {
-  border-left: 5px solid #3b2c5a;
+  border-left: 5px solid var(--primary-color);
   transition: 0.2s;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 .card-livro:hover {
@@ -41,11 +76,13 @@ a {
 }
 
 .btn-marrom {
-  background-color: #3b2c5a;
-  color: #fae383;
+  background-color: var(--primary-color);
+  color: var(--btn-text);
+  border: none;
 }
 
 .btn-marrom:hover {
-  background-color: #3b2c5a;
-  color:#fae383;
+  background-color: var(--primary-color);
+  color: var(--btn-text);
+  opacity: 0.9;
 }
