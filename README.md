@@ -1,16 +1,86 @@
-# React + Vite
+# 📚 Biblioteca - React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Bem-vindo ao repositório do **Segundo Trabalho de React**. Este projeto é uma aplicação web desenvolvida para o consumo de uma API, permitindo gerenciar o acervo de uma biblioteca de forma intuitiva, dinâmica e responsiva.
 
-Currently, two official plugins are available:
+## 🎯 Objetivo do Projeto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Construir uma interface agradável utilizando **React** para consumir uma API. A aplicação engloba funcionalidades como cadastro, listagem, busca, edição e autenticação de usuários, aplicando os principais conceitos de componentização e hooks.
 
-## React Compiler
+## ✨ Funcionalidades (Requisitos Atendidos)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Componentes Funcionais & Hooks:** Uso intensivo de `useState`, `useEffect` e `useContext`.
+- **Rotas com React Router:** Navegação fluída entre páginas (`/`, `/login`, `/cadastrar`, `/buscar`, `/editar/:id`).
+- **Autenticação Simples:** Context API (`AuthContext`) protegendo rotas privadas (`PrivateRoute`).
+- **Requisições HTTP:** Uso da biblioteca `axios` para métodos `GET`, `POST`, `PUT` e `DELETE`.
+- **Organização de Componentes:** Props sendo utilizadas para dinamizar a interface.
+- **Estrutura Completa:** Possui mais de 2 componentes e 5 páginas (Home, Login, Cadastrar, Buscar, Editar).
+- **Filtros e Validações:** Capacidade de buscar/filtrar livros e validar entradas no formulário.
 
-## Expanding the ESLint configuration
+## 🛠️ Tecnologias Utilizadas
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- [React](https://reactjs.org/) + [Vite](https://vitejs.dev/)
+- [React Router DOM](https://reactrouter.com/) (Navegação)
+- [Axios](https://axios-http.com/) (Requisições HTTP)
+- [Bootstrap](https://getbootstrap.com/) (Estilização e Layout)
+- Vanilla CSS + CSS Modules
+
+## 📁 Estrutura de Pastas
+
+A estrutura do projeto dentro do diretório `src/` está organizada da seguinte maneira:
+
+```text
+src/
+├── components/          # Componentes reaproveitáveis da interface
+│   ├── Header/          # Cabeçalho da aplicação
+│   └── Navbar/          # Menu de navegação superior
+├── contexts/            # Context API para gerenciamento de estados
+│   └── AuthContext.jsx  # Contexto responsável pelo login/autenticação
+├── pages/               # Páginas roteáveis da aplicação
+│   ├── AdicionarLivro/  # Formulário de cadastro de livros
+│   ├── BuscarLivro/     # Listagem e filtro de livros
+│   ├── EditarLivro/     # Formulário de edição de livros
+│   ├── Home/            # Página inicial após o login
+│   └── Login/           # Tela de autenticação
+├── routes/              # Configurações de roteamento
+│   ├── AppRouter.jsx    # Mapeamento central das rotas
+│   └── privateRoute.jsx # Wrapper para proteção de rotas privadas
+├── service/             # Configurações de integração externa
+│   └── api.js           # Instância e métodos do Axios
+├── App.jsx              # Componente raiz e árvore de rotas
+├── global.css           # Estilos globais
+└── main.jsx             # Ponto de entrada do React
+```
+
+## 🚀 Como Rodar o Projeto
+
+1. Clone este repositório:
+   ```bash
+   git clone https://github.com/LeonamNgr/Trabalho-2-de-React-Grupo-1.git
+   ```
+2. Acesse a pasta do projeto:
+   ```bash
+   cd Trabalho-2-de-React-Grupo-1
+   ```
+3. Instale as dependências:
+   ```bash
+   npm install
+   ```
+4. Inicie o servidor de desenvolvimento:
+   ```bash
+   npm run dev
+   ```
+
+## 👥 Equipe de Desenvolvimento (Grupo 1 - Turma 34)
+
+Este projeto foi desenvolvido colaborativamente por:
+
+| Integrante | GitHub |
+| :--- | :--- |
+| **1. [Ana Paula Pimenta]** | [@anapimenta74](https://github.com/anapimenta74) |
+| **2. [Diana Monteiro]** | [@DiaMont30](https://github.com/DiaMont30) |
+| **3. [Laís Ferrari]** | [@laislaferrari](https://github.com/laislaferrari) |
+| **4. [Leonam Machado]** | [@LeonamNgr](https://github.com/LeonamNgr) |
+| **5. [Thiago Sinesio]** | [@thiago-sinesio](https://github.com/thiago-sinesio) |
+
+---
+*Desenvolvido como requisito de avaliação da disciplina de React no curso Serratec.*
