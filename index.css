@@ -1,6 +1,0 @@
-/* Entry CSS for Vite root */
-html, body, #root {
-  margin: 0;
-  min-height: 100%;
-  font-family: system-ui, sans-serif;
-}
