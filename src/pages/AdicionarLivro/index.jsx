@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { criarLivro } from '../../services/api'; 
+import { criarLivro } from '../../service/api'; 
 
 export default function AdicionarLivro() {
   const navigate = useNavigate();

@@ -1,9 +1,11 @@
 import { useState, useContext } from "react";
-import { authContext } from "../../contexts/authContext";
+import { useNavigate } from "react-router-dom";
+import { authContext } from "../../contexts/AuthContext";
 import "./Login.css"; 
 
 const Login = () => {
   const { login } = useContext(authContext);
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -15,7 +17,9 @@ const Login = () => {
       return;
     }
     const success = login(username, password);
-    if (!success) {
+    if (success) {
+      navigate("/home");
+    } else {
       setError("Usuário ou senha inválidos!");
     }
   };
