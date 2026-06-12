@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { buscarTodosOsLivros } from "../../service/api";
 import styles from "./Home.module.css";
 
@@ -6,6 +7,15 @@ export default function Home() {
   const [livros, setLivros] = useState([]);
   const [busca, setBusca] = useState("");
   const [loading, setLoading] = useState(true);
+
+  const iconesLivros = [
+    "/imagens/livro-aberto.svg",
+    "/imagens/pilha-livros.svg",
+    "/imagens/estante.svg",
+    "/imagens/livros-livro-aberto.svg",
+    "/imagens/nicho-livros.svg",
+    "/imagens/livros-voando.svg",
+  ];
 
   useEffect(() => {
     async function carregarLivros() {
@@ -23,35 +33,111 @@ export default function Home() {
   }, []);
 
   const livrosFiltrados = livros.filter((livro) =>
-    livro.titulo.toLowerCase().includes(busca.toLowerCase()),
+    livro.titulo?.toLowerCase().includes(busca.toLowerCase()),
   );
 
   return (
     <main className={styles.container}>
-      <h1 className={styles.titulo}>Biblioteca Era Uma vez...</h1>
-      <p className={styles.subtitulo}>Sistema de gerenciamento de livros</p>
+      <section className={styles.hero}>
+        <div>
+          <p className={styles.tag}>Sistema de gerenciamento de bibliotecas</p>
 
-      <input
-        className="form-control mb-4"
-        type="text"
-        placeholder="Filtrar por título"
-        value={busca}
-        onChange={(e) => setBusca(e.target.value)}
-      />
+          <h1 className={styles.titulo}>Era uma vez...</h1>
 
-      {loading ? (
-        <p className="text-center">Carregando livros...</p>
-      ) : (
-        <section className={styles.lista}>
-          {livrosFiltrados.map((livro) => (
-            <article className={styles.cardLivro} key={livro.id}>
-              <h3>{livro.titulo}</h3>
-              <p>ISBN: {livro.isbn}</p>
-              <p>Ano: {livro.anoPublicacao}</p>
-            </article>
-          ))}
-        </section>
-      )}
+          <p className={styles.subtitulo}>
+            Organize, consulte e gerencie livros cadastrados na API da
+            biblioteca de forma simples e rápida.
+          </p>
+
+          <div className={styles.botoes}>
+            <Link to="/livros" className="btn btn-marrom">
+              Ver todos os livros
+            </Link>
+
+            <Link to="/livros/adicionar" className={styles.botaoSecundario}>
+              Cadastrar livro
+            </Link>
+          </div>
+        </div>
+
+        <div className={styles.caixaDestaque}>
+          <img
+            src="/imagens/menina-voando-livro.svg"
+            alt="Menina voando em um livro"
+            className={styles.imagemHero}
+          />
+
+          <div className={styles.contadorLivros}>
+            <h2>{livros.length}</h2>
+            <p>livros cadastrados</p>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.resumo}>
+        <div className={styles.cardResumo}>
+          <h3>Consulta rápida</h3>
+          <p>Busque livros cadastrados por título.</p>
+        </div>
+
+        <div className={styles.cardResumo}>
+          <h3>Cadastro</h3>
+          <p>Adicione novos livros ao sistema.</p>
+        </div>
+
+        <div className={styles.cardResumo}>
+          <h3>Gerenciamento</h3>
+          <p>Visualize, edite e acompanhe os registros.</p>
+        </div>
+      </section>
+
+      <section className={styles.areaLivros}>
+        <div className={styles.cabecalhoLista}>
+          <div>
+            <h2>Prévia dos livros</h2>
+            <p>Veja alguns livros disponíveis no sistema.</p>
+          </div>
+
+          <input
+            className={`form-control ${styles.inputBusca}`}
+            type="text"
+            placeholder="Filtrar por título"
+            value={busca}
+            onChange={(e) => setBusca(e.target.value)}
+          />
+        </div>
+
+        {loading ? (
+          <p className="text-center">Carregando livros...</p>
+        ) : livrosFiltrados.length === 0 ? (
+          <div className="alert alert-warning text-center">
+            Nenhum livro encontrado.
+          </div>
+        ) : (
+          <section className={styles.lista}>
+            {livrosFiltrados.slice(0, 6).map((livro, index) => (
+              <article className={styles.cardLivro} key={livro.id}>
+                <div className={styles.iconeLivro}>
+                  <img
+                    src={iconesLivros[index % iconesLivros.length]}
+                    alt="Ícone de livro"
+                  />
+                </div>
+
+                <h3>{livro.titulo}</h3>
+
+                <p>
+                  <strong>ISBN:</strong> {livro.isbn || "Não informado"}
+                </p>
+
+                <p>
+                  <strong>Ano:</strong> {livro.anoPublicacao || "Não informado"}
+                </p>
+              </article>
+            ))}
+          </section>
+        )}
+      </section>
     </main>
   );
 }
