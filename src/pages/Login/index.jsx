@@ -1,6 +1,10 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import logo from "../../../public/imagens/logo-redonda-fundo-roxo.svg";
+import livro from "/imagens/livros-voando.svg";
+import styles from "./Login.module.css";
+import Input from "../../components/Input";
 
 export default function Login() {
   const { login, error } = useContext(AuthContext);
@@ -17,36 +21,40 @@ export default function Login() {
     }
   };
 
+  console.log(error);
+
   return (
-    <div className="card shadow p-4">
-      <h2 className="page-title">Login</h2>
-
+    <div className={styles.container}>
+      <img
+        src={livro}
+        className="img-fluid "
+        alt="Logo da Biblioteca - Era uma vez..."
+        style={{ maxWidth: "600px" }}
+      />
       <form onSubmit={autenticar}>
-        <div className="mb-3">
-          <label className="form-label">Usuário</label>
-          <input
-            className="form-control"
-            type="text"
-            placeholder="Digite seu usuário"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+        <div>
+          <img src={logo} style={{ maxWidth: "200px" }} />
+          <h2 className="page-title fonte-rye">Login</h2>
         </div>
+        <Input
+          label="E-mail"
+          onChange={setEmail}
+          placeholder={"Digite seu e-mail"}
+          value={email}
+          type="text"
+        />
+        <Input
+          label="Senha"
+          onChange={setSenha}
+          placeholder={"Digite sua senha"}
+          value={senha}
+          type="password"
+        />
+        {error && <p className="text-danger text-center fw-bold">{error}</p>}
 
-        <div className="mb-3">
-          <label className="form-label">Senha</label>
-          <input
-            className="form-control"
-            type="password"
-            placeholder="Digite sua senha"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-          />
-        </div>
-
-        <button type="submit">Entrar</button>
-
-        {error && <p className="text-danger text-center mt-3">{error}</p>}
+        <button type="submit" className="btn-marrom">
+          Entrar
+        </button>
       </form>
     </div>
   );

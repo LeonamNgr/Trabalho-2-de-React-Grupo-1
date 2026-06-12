@@ -64,3 +64,7 @@ a {
   border-color: #70ae6e;
   box-shadow: 0 0 0 0.2rem rgba(112, 174, 110, 0.2);
 }
+
+.fonte-rye {
+  font-family: "Rye", serif;
+}
