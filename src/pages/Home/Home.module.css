@@ -1,7 +1,7 @@
 .container {
   min-height: 100vh;
   padding: 2rem;
-  background: linear-gradient(135deg, #f8f5f0, #fff7d8);
+  background: linear-gradient(135deg, var(--bg-color), var(--card-bg));
 }
 
 .hero {
@@ -9,10 +9,10 @@
   grid-template-columns: 2fr 1fr;
   gap: 2rem;
   align-items: center;
-  background-color: #ffffff;
+  background-color: var(--card-bg);
   border-radius: 24px;
   padding: 3rem;
-  box-shadow: 0 8px 24px rgba(59, 44, 90, 0.12);
+  box-shadow: 0 8px 24px var(--card-shadow);
   margin-bottom: 2rem;
 }
 
@@ -27,14 +27,14 @@
 }
 
 .titulo {
-  color: #3b2c5a;
+  color: var(--home-titulo);
   font-size: 2.8rem;
   font-weight: 800;
   margin-bottom: 1rem;
 }
 
 .subtitulo {
-  color: #51698d;
+  color: var(--home-subtitulo);
   font-size: 1.1rem;
   max-width: 650px;
   margin-bottom: 1.5rem;
@@ -61,7 +61,7 @@
 }
 
 .caixaDestaque {
-  background: linear-gradient(160deg, #3b2c5a, #51698d);
+  background: linear-gradient(160deg, var(--primary-color), #51698d);
   color: #ffffff;
   border-radius: 24px;
   padding: 2rem;
@@ -157,10 +157,12 @@
 }
 
 .cardLivro {
-  background-color: #f8f5f0;
+  background-color: var(--home-card-bg);
+  border-left: 5px solid var(--home-card-border);
   border-radius: 16px;
   padding: 1.2rem;
   border: 1px solid rgba(81, 105, 141, 0.15);
+  box-shadow: 0 2px 4px var(--card-shadow);
   transition: 0.2s;
 }
 
@@ -188,13 +190,13 @@
 }
 
 .cardLivro h3 {
-  color: #3b2c5a;
+  color: var(--home-card-titulo);
   font-size: 1.1rem;
   font-weight: 700;
 }
 
 .cardLivro p {
-  color: #51698d;
+  color: var(--home-card-texto);
   margin-bottom: 0.4rem;
 }
 

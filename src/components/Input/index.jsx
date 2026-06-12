@@ -1,4 +1,11 @@
-export default function Input({ value, type, onChange, label, placeholder }) {
+export default function Input({
+  value,
+  type,
+  onChange,
+  label,
+  placeholder,
+  isRequired,
+}) {
   return (
     <div className="mb-3">
       <label htmlFor={`input-${value}`} className="form-label" type="text">
@@ -11,8 +18,8 @@ export default function Input({ value, type, onChange, label, placeholder }) {
         value={value}
         required
         onChange={(e) => onChange(e.target.value)}
-        t
         type={type}
+        required={isRequired}
       />
     </div>
   );

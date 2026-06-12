@@ -1,12 +1,12 @@
 import { useState, useContext } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import logo from "../../../public/imagens/logo-redonda-fundo-roxo.svg";
 import livro from "/imagens/livros-voando.svg";
 import styles from "./Login.module.css";
 import Input from "../../components/Input";
+import { AuthContext } from "../../contexts/AuthContext";
 
-export default function Login() {
+const Login = () => {
   const { login, error } = useContext(AuthContext);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -14,14 +14,13 @@ export default function Login() {
 
   const autenticar = async (e) => {
     e.preventDefault();
-    const sucesso = await login(email, senha);
 
-    if (sucesso) {
+    const success = await login(email, senha);
+
+    if (success) {
       navigate("/home");
     }
   };
-
-  console.log(error);
 
   return (
     <div className={styles.container}>
@@ -42,6 +41,7 @@ export default function Login() {
           placeholder={"Digite seu e-mail"}
           value={email}
           type="text"
+          isRequired={true}
         />
         <Input
           label="Senha"
@@ -49,6 +49,7 @@ export default function Login() {
           placeholder={"Digite sua senha"}
           value={senha}
           type="password"
+          isRequired={true}
         />
         {error && <p className="text-danger text-center fw-bold">{error}</p>}
 
@@ -58,4 +59,6 @@ export default function Login() {
       </form>
     </div>
   );
-}
+};
+
+export default Login;
