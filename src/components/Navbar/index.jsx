@@ -26,7 +26,7 @@ export default function Navbar() {
         {/* Logo + Título */}
         <Link className={styles.navbarBrand} to="/home">
           <img
-            src="/assets/3.svg"
+            src="/imagens/pilha-livros.svg"
             alt="Logo Biblioteca"
             className={styles.navbarLogo}
           />
