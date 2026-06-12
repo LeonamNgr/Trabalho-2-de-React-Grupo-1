@@ -1,55 +1,67 @@
-.login-container {
+.container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, var(--primary-color), var(--bg-color));
-  font-family: Arimo, sans-serif;
-}
+  background: linear-gradient(135deg, #f8f5f0, #fff7d8);
 
-.login-form {
-  background: var(--card-bg);
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px var(--card-shadow);
-  width: 300px;
-  text-align: center;
-}
+  form {
+    background: #fff;
+    padding: 3rem 2rem;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px #3b2c5a;
+    width: 500px;
+    background: rgba(250, 227, 131, 0.3);
+    margin-right: 5rem;
+    > div:first-child {
+      display: flex;
+      justify-content: center;
+      padding: 0 0 1rem 0;
+      > h2 {
+        margin: 0 5rem 0 0;
+        align-self: center;
+      }
+    }
 
-.login-form h2 {
-  margin-bottom: 1.5rem;
-  color: var(--text-color);
-}
+    label {
+      font-family: "Rye", serif;
+    }
 
-.login-form input {
-  width: 100%;
-  padding: 10px;
-  margin: 0.5rem 0;
-  border: 1px solid var(--input-border);
-  border-radius: 5px;
-  background-color: var(--input-bg);
-  color: var(--text-color);
-}
+    input {
+      margin-bottom: 2rem;
+    }
 
-.login-form button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 1rem;
-  background: var(--primary-color);
-  color: var(--btn-text);
-  border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s ease, opacity 0.3s ease;
-}
-
-.login-form button:hover {
-  opacity: 0.85;
+    button {
+      display: block;
+      margin: 0 auto;
+      padding: 0.5rem 5rem;
+      border-radius: 10px;
+      margin-top: 3rem;
+    }
+  }
 }
 
 .error {
   color: var(--error-color);
   margin-top: 1rem;
   font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    justify-content: flex-start;
+    height: auto;
+    min-height: 100vh;
+    padding-top: 2rem;
+
+    > img {
+      display: none;
+    }
+
+    form {
+      width: 90%;
+      margin-right: 0;
+    }
+  }
 }

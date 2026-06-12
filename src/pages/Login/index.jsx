@@ -1,5 +1,9 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import logo from "../../../public/imagens/logo-redonda-fundo-roxo.svg";
+import livro from "/imagens/livros-voando.svg";
+import styles from "./Login.module.css";
+import Input from "../../components/Input";
 import { AuthContext } from "../../contexts/AuthContext";
 
 const Login = () => {
@@ -7,24 +11,10 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [localError, setLocalError] = useState("");
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      navigate("/home");
-    }
-  }, [navigate]);
-
-  const handleSubmit = async (e) => {
+  const autenticar = async (e) => {
     e.preventDefault();
 
-    if (!email || !senha) {
-      setLocalError("Preencha todos os campos!");
-      return;
-    }
-
-    setLocalError("");
     const success = await login(email, senha);
 
     if (success) {
@@ -32,46 +22,42 @@ const Login = () => {
     }
   };
 
-  const displayedError = localError || (typeof error === "string" ? error : error?.message || "");
-
   return (
-    <main className="main-container d-flex align-items-center justify-content-center">
-      <div className="card shadow p-4" style={{ maxWidth: "400px", width: "100%" }}>
-        <h2 className="page-title">Login</h2>
+    <div className={styles.container}>
+      <img
+        src={livro}
+        className="img-fluid "
+        alt="Logo da Biblioteca - Era uma vez..."
+        style={{ maxWidth: "600px" }}
+      />
+      <form onSubmit={autenticar}>
+        <div>
+          <img src={logo} style={{ maxWidth: "200px" }} />
+          <h2 className="page-title fonte-rye">Login</h2>
+        </div>
+        <Input
+          label="E-mail"
+          onChange={setEmail}
+          placeholder={"Digite seu e-mail"}
+          value={email}
+          type="text"
+          isRequired={true}
+        />
+        <Input
+          label="Senha"
+          onChange={setSenha}
+          placeholder={"Digite sua senha"}
+          value={senha}
+          type="password"
+          isRequired={true}
+        />
+        {error && <p className="text-danger text-center fw-bold">{error}</p>}
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label className="form-label">Usuário</label>
-            <input
-              className="form-control"
-              type="text"
-              placeholder="Digite seu usuário"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="username"
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Senha</label>
-            <input
-              className="form-control"
-              type="password"
-              placeholder="Digite sua senha"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              autoComplete="current-password"
-            />
-          </div>
-
-          <button className="btn btn-marrom w-100" type="submit">
-            Entrar
-          </button>
-
-          {displayedError && <p className="text-danger text-center mt-3">{displayedError}</p>}
-        </form>
-      </div>
-    </main>
+        <button type="submit" className="btn-marrom">
+          Entrar
+        </button>
+      </form>
+    </div>
   );
 };
 

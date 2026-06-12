@@ -17,8 +17,14 @@ export const AuthProvider = ({ children }) => {
       setIsLogged(true);
       setError("");
       return true;
-    } catch (error) {
-      setError("Usuário ou senha inválidos.");
+    } catch (err) {
+      if (err.response && err.response.data && err.response.data.erros) {
+        setError(err.response.data.erros[0]);
+      } else if (err.response && err.response.status === 403) {
+        setError("Usuário ou senha inválidos.");
+      } else {
+        setError("Ocorreu um erro ao tentar fazer login.");
+      }
       return false;
     }
   };

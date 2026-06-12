@@ -11,7 +11,6 @@
   --input-border: #ccc;
   --input-bg: #fff;
   --error-color: #dc3545;
-  --success-color: #198754;
 
   /* Cores Específicas da Home */
   --home-titulo: #3b2f2f;
@@ -35,7 +34,6 @@
   --input-border: #4a3f5e;
   --input-bg: #1e1830;
   --error-color: #ff6b6b;
-  --success-color: #51cf66;
 
   /* Cores Específicas da Home - Modo Escuro */
   --home-titulo: #f8f5f0;
@@ -55,7 +53,9 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: Arimo, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 a {
@@ -114,4 +114,8 @@ a {
 .form-control:focus {
   border-color: #70ae6e;
   box-shadow: 0 0 0 0.2rem rgba(112, 174, 110, 0.2);
+}
+
+.fonte-rye {
+  font-family: "Rye", serif;
 }
