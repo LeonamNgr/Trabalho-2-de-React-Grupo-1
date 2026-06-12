@@ -3,34 +3,36 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 
 const Login = () => {
-  const { user, login } = useContext(AuthContext);
+  const { login, error } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [localError, setLocalError] = useState("");
 
   useEffect(() => {
-    if (user) {
+    const token = localStorage.getItem("token");
+    if (token) {
       navigate("/home");
     }
-  }, [user, navigate]);
+  }, [navigate]);
 
-  function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!username || !password) {
-      setError("Preencha todos os campos!");
+    if (!email || !senha) {
+      setLocalError("Preencha todos os campos!");
       return;
     }
 
-    const success = login(username, password);
+    setLocalError("");
+    const success = await login(email, senha);
 
     if (success) {
       navigate("/home");
-    } else {
-      setError("Usuário ou senha inválidos!");
     }
-  }
+  };
+
+  const displayedError = localError || (typeof error === "string" ? error : error?.message || "");
 
   return (
     <main className="main-container d-flex align-items-center justify-content-center">
@@ -44,8 +46,8 @@ const Login = () => {
               className="form-control"
               type="text"
               placeholder="Digite seu usuário"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -55,8 +57,8 @@ const Login = () => {
               className="form-control"
               type="password"
               placeholder="Digite sua senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
             />
           </div>
 
@@ -64,7 +66,7 @@ const Login = () => {
             Entrar
           </button>
 
-          {error && <p className="text-danger text-center mt-3">{error}</p>}
+          {displayedError && <p className="text-danger text-center mt-3">{displayedError}</p>}
         </form>
       </div>
     </main>

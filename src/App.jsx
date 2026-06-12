@@ -6,6 +6,7 @@ import PrivateRoute from "./routes/privateRoute.jsx";
 import AdicionarLivro from "./pages/AdicionarLivro/index.jsx";
 import BuscarLivro from "./pages/BuscarLivro/index.jsx";
 import EditarLivro from "./pages/EditarLivro/index.jsx";
+import Livros from "./pages/Livros/index.jsx";
 
 function App() {
   return (
@@ -51,7 +52,14 @@ function App() {
             </PrivateRoute>
           }
         />
-        
+        <Route
+          path="/livros"
+          element={
+            <PrivateRoute>
+              <Livros />
+            </PrivateRoute>
+          }
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
