@@ -6,7 +6,7 @@ body {
   margin: 0;
   background-color: #f8f5f0;
   color: #3b2c5a;
-  font-family: Arimo, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
 a {
@@ -26,26 +26,41 @@ a {
 }
 
 .page-subtitle {
-  color: #3b2c5a;
+  color: #51698d;
   text-align: center;
   margin-bottom: 2rem;
 }
 
 .card-livro {
-  border-left: 5px solid #3b2c5a;
+  border-left: 5px solid #70ae6e;
+  border-radius: 14px;
   transition: 0.2s;
 }
 
 .card-livro:hover {
   transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(59, 44, 90, 0.16);
 }
 
 .btn-marrom {
   background-color: #3b2c5a;
   color: #fae383;
+  border: none;
+  font-weight: 600;
 }
 
 .btn-marrom:hover {
-  background-color: #3b2c5a;
-  color:#fae383;
+  background-color: #70ae6e;
+  color: #ffffff;
+}
+
+.btn-marrom:focus {
+  background-color: #70ae6e;
+  color: #ffffff;
+  box-shadow: 0 0 0 0.2rem rgba(199, 218, 72, 0.35);
+}
+
+.form-control:focus {
+  border-color: #70ae6e;
+  box-shadow: 0 0 0 0.2rem rgba(112, 174, 110, 0.2);
 }
