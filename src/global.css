@@ -1,12 +1,61 @@
+:root {
+  /* Cores Globais da Aplicação */
+  --bg-color: #f8f5f0;
+  --text-color: #3b2c5a;
+  --primary-color: #3b2c5a;
+  --btn-text: #fae383;
+
+  /* Utilitários */
+  --card-bg: #fff;
+  --card-shadow: rgba(0, 0, 0, 0.12);
+  --input-border: #ccc;
+  --input-bg: #fff;
+  --error-color: #dc3545;
+  --success-color: #198754;
+
+  /* Cores Específicas da Home */
+  --home-titulo: #3b2f2f;
+  --home-subtitulo: #6b5b4b;
+  --home-card-border: #8b5e3c;
+  --home-card-titulo: #4a2c1a;
+  --home-card-texto: #555;
+  --home-card-bg: var(--card-bg);
+}
+
+:root[data-bs-theme="dark"] {
+  /* Cores Globais - Modo Escuro */
+  --bg-color: #1a1625;
+  --text-color: #e6e1f9;
+  --primary-color: #8c7db7;
+  --btn-text: #1a1625;
+
+  /* Utilitários - Modo Escuro */
+  --card-bg: #2a2438;
+  --card-shadow: rgba(0, 0, 0, 0.3);
+  --input-border: #4a3f5e;
+  --input-bg: #1e1830;
+  --error-color: #ff6b6b;
+  --success-color: #51cf66;
+
+  /* Cores Específicas da Home - Modo Escuro */
+  --home-titulo: #f8f5f0;
+  --home-subtitulo: #d4ccb8;
+  --home-card-border: #c89670;
+  --home-card-titulo: #f0e6d2;
+  --home-card-texto: #bbb;
+  --home-card-bg: var(--card-bg);
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  background-color: #f8f5f0;
-  color: #3b2c5a;
-  font-family: Arial, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: Arimo, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a {
@@ -19,22 +68,24 @@ a {
 }
 
 .page-title {
-  color: #3b2c5a;
+  color: var(--primary-color);
   font-weight: 700;
   text-align: center;
   margin-bottom: 1.5rem;
 }
 
 .page-subtitle {
-  color: #51698d;
+  color: var(--text-color);
   text-align: center;
   margin-bottom: 2rem;
 }
 
 .card-livro {
-  border-left: 5px solid #70ae6e;
+  border-left: 5px solid var(--primary-color);
   border-radius: 14px;
   transition: 0.2s;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 .card-livro:hover {
@@ -43,8 +94,8 @@ a {
 }
 
 .btn-marrom {
-  background-color: #3b2c5a;
-  color: #fae383;
+  background-color: var(--primary-color);
+  color: var(--btn-text);
   border: none;
   font-weight: 600;
 }
