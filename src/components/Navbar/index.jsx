@@ -1,10 +1,18 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ThemeContext } from "../../contexts/ThemeContext.jsx";
+import { AuthContext } from "../../contexts/AuthContext.jsx";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const { logout, isLogged } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   const navLinks = [
     { id: 1, label: "Início", path: "/home" },
@@ -13,16 +21,20 @@ export default function Navbar() {
   ];
 
   return (
-    <nav
-      className={`navbar navbar-expand-lg bg-body-tertiary ${styles.navbarCustom}`}
-    >
-      <div className="container-fluid">
-        <Link className="navbar-brand" to="/home">
-          📚 Biblioteca
+    <nav className={styles.navbar}>
+      <div className={styles.navbarContainer}>
+        {/* Logo + Título */}
+        <Link className={styles.navbarBrand} to="/home">
+          <img
+            src="/assets/3.svg"
+            alt="Logo Biblioteca"
+            className={styles.navbarLogo}
+          />
+          <span className={styles.navbarTitle}>Biblioteca</span>
         </Link>
 
         <button
-          className="navbar-toggler"
+          className={styles.navbarToggler}
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarCollapse"
@@ -33,21 +45,23 @@ export default function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className="collapse navbar-collapse" id="navbarCollapse">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+        <div className={`collapse navbar-collapse ${styles.navbarCollapse}`} id="navbarCollapse">
+          {/* Links de Navegação */}
+          <ul className={styles.navLinks}>
             {navLinks.map((link) => (
-              <li className="nav-item" key={link.id}>
-                <Link className="nav-link" to={link.path}>
+              <li className={styles.navItem} key={link.id}>
+                <Link className={styles.navLink} to={link.path}>
                   {link.label}
                 </Link>
               </li>
             ))}
           </ul>
 
-          <div className="d-flex align-items-center">
+          {/* Ações da direita */}
+          <div className={styles.navActions}>
             {/* Botão de Dark Mode */}
-            <button 
-              className="btn btn-outline-secondary me-3" 
+            <button
+              className={styles.themeToggle}
               onClick={toggleTheme}
               type="button"
               aria-label="Alternar tema"
@@ -56,21 +70,34 @@ export default function Navbar() {
               {theme === "light" ? "🌙" : "☀️"}
             </button>
 
-            {/* Mantivemos a barra de pesquisa que será perfeita para buscar um livro específico */}
-            <form className="d-flex" role="search">
+            {/* Barra de pesquisa */}
+            <form className={styles.searchForm} role="search">
               <input
-                className="form-control me-2"
+                className={styles.searchInput}
                 type="search"
                 placeholder="Buscar livro..."
                 aria-label="Buscar"
               />
-              <button className="btn btn-outline-success" type="submit">
+              <button className={styles.searchBtn} type="submit">
                 Buscar
               </button>
             </form>
+
+            {/* Botão de Logout */}
+            {isLogged && (
+              <button
+                className={styles.logoutBtn}
+                onClick={handleLogout}
+                type="button"
+                title="Sair da conta"
+              >
+                Sair
+              </button>
+            )}
           </div>
         </div>
       </div>
     </nav>
   );
 }
+

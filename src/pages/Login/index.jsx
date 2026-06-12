@@ -48,6 +48,7 @@ const Login = () => {
               placeholder="Digite seu usuário"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              autoComplete="username"
             />
           </div>
 
@@ -59,6 +60,7 @@ const Login = () => {
               placeholder="Digite sua senha"
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
+              autoComplete="current-password"
             />
           </div>
 

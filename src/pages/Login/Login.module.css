@@ -3,51 +3,53 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
-  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, var(--primary-color), var(--bg-color));
+  font-family: Arimo, sans-serif;
 }
 
 .login-form {
-  background: #fff;
+  background: var(--card-bg);
   padding: 2rem;
   border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 4px 10px var(--card-shadow);
   width: 300px;
   text-align: center;
 }
 
 .login-form h2 {
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--text-color);
 }
 
 .login-form input {
   width: 100%;
   padding: 10px;
   margin: 0.5rem 0;
-  border: 1px solid #ccc;
+  border: 1px solid var(--input-border);
   border-radius: 5px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
 }
 
 .login-form button {
   width: 100%;
   padding: 10px;
   margin-top: 1rem;
-  background: #2575fc;
-  color: #fff;
+  background: var(--primary-color);
+  color: var(--btn-text);
   border: none;
   border-radius: 5px;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, opacity 0.3s ease;
 }
 
 .login-form button:hover {
-  background: #6a11cb;
+  opacity: 0.85;
 }
 
 .error {
-  color: red;
+  color: var(--error-color);
   margin-top: 1rem;
   font-size: 0.9rem;
 }
