@@ -59,6 +59,7 @@ export default function BuscarLivro() {
             <div className="card-header bg-success text-white fw-bold">
               Livro Encontrado!
             </div>
+
             <div className="card-body">
               <h4 className="card-title text-success">
                 {livroEncontrado.titulo}
@@ -67,6 +68,7 @@ export default function BuscarLivro() {
               <h6 className="card-subtitle mb-3 text-muted">
                 Autor: {livroEncontrado.autor?.nome || livroEncontrado.autor}
               </h6>
+
               <p className="card-text">
                 <strong>Editora:</strong>{" "}
                 {livroEncontrado.editora?.nome || livroEncontrado.editora}
@@ -75,7 +77,7 @@ export default function BuscarLivro() {
               <hr />
 
               <Link
-                to={`/editar/${livroEncontrado.id}`}
+                to={`/livros/editar/${livroEncontrado.id}`}
                 className="btn btn-outline-success w-100"
               >
                 Editar este Livro
