@@ -1,49 +1,67 @@
-import { Route, Routes } from "react-router-dom";
-import Home from "../pages/Home";
-import BuscarLivros from "../pages/BuscarLivro";
-import AdicionarLivro from "../pages/AdicionarLivro";
-import EditarLivro from "../pages/EditarLivro";
-import Login from "../pages/Login";
-import PrivateRoute from "./PrivateRoute";
+import {
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
+
+import Navbar from "../components/Navbar/index.jsx";
+
+import Login from "../pages/Login/index.jsx";
+import SobreNos from "../pages/SobreNos/index.jsx";
+import Home from "../pages/Home/index.jsx";
+import Livros from "../pages/Livros/index.jsx";
+import AdicionarLivro from "../pages/AdicionarLivro/index.jsx";
+import BuscarLivro from "../pages/BuscarLivro/index.jsx";
+import EditarLivro from "../pages/EditarLivro/index.jsx";
+
+import PrivateRoute from "./PrivateRoute.jsx";
 
 export default function AppRouter() {
   return (
-    <div>
+    <>
+      <Navbar />
+
       <Routes>
-        <Route path="/" element={<Login />} />
+    
         <Route
-          path="/home"
-          element={
-            <PrivateRoute>
-              <Home />
-            </PrivateRoute>
-          }
+          path="/"
+          element={<Login />}
         />
+
         <Route
-          path="/buscar"
-          element={
-            <PrivateRoute>
-              <BuscarLivros />
-            </PrivateRoute>
-          }
+          path="/sobre"
+          element={<SobreNos />}
         />
-        <Route
-          path="/adicionar"
-          element={
-            <PrivateRoute>
-              <AdicionarLivro />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/editar/:id"
-          element={
-            <PrivateRoute>
-              <EditarLivro />
-            </PrivateRoute>
-          }
-        />
+
+        {/* verificar essa rota dentro da rota */}
+        <Route element={<PrivateRoute />}>
+          <Route
+            path="/home"
+            element={<Home />}
+          />
+
+          <Route
+            path="/livros"
+            element={<Livros />}
+          />
+
+          <Route
+            path="/livros/adicionar"
+            element={<AdicionarLivro />}
+          />
+
+          <Route
+            path="/livros/buscar"
+            element={<BuscarLivro />}
+          />
+
+          <Route
+            path="/livros/editar/:id"
+            element={<EditarLivro />}
+          />
+        </Route>
+
       </Routes>
-    </div>
+    </>
   );
 }

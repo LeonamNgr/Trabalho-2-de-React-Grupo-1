@@ -3,7 +3,6 @@ import { buscarTodosOsLivros } from "../../service/api";
 import CardLivro from "../../components/CardLivro";
 
 export default function Livros() {
-  
   const [livros, setLivros] = useState([]);
   const [busca, setBusca] = useState("");
   const [loading, setLoading] = useState(true);
@@ -25,15 +24,27 @@ export default function Livros() {
     carregarLivros();
   }, []);
 
-  const livrosFiltrados = livros.filter((livro) => {
-    const textoBusca = busca.toLowerCase();
+  const textoBusca = busca.toLowerCase().trim();
 
+  const livrosFiltrados = livros.filter((livro) => {
     const titulo = livro.titulo?.toLowerCase() || "";
     const isbn = livro.isbn?.toLowerCase() || "";
     const ano = livro.anoPublicacao?.toString() || "";
-    const autor = livro.autor?.nome?.toLowerCase() || livro.autor?.toLowerCase() || "";
-    const editora = livro.editora?.nome?.toLowerCase() || livro.editora?.toLowerCase() || "";
-    const genero = livro.genero?.nome?.toLowerCase() || livro.genero?.toLowerCase() || "";
+
+    const autor =
+      livro.autor?.nome?.toLowerCase() ||
+      livro.autor?.toLowerCase() ||
+      "";
+
+    const editora =
+      livro.editora?.nome?.toLowerCase() ||
+      livro.editora?.toLowerCase() ||
+      "";
+
+    const genero =
+      livro.genero?.nome?.toLowerCase() ||
+      livro.genero?.toLowerCase() ||
+      "";
 
     return (
       titulo.includes(textoBusca) ||
@@ -55,16 +66,18 @@ export default function Livros() {
 
       <div className="mb-4">
         <input
-          type="text"
+          type="search"
           className="form-control"
           placeholder="Filtrar por título, autor, editora, gênero, ISBN ou ano"
           value={busca}
-          onChange={(e) => setBusca(e.target.value)}
+          onChange={(event) => setBusca(event.target.value)}
         />
       </div>
 
       {loading && (
-        <p className="text-center">Carregando livros...</p>
+        <p className="text-center">
+          Carregando livros...
+        </p>
       )}
 
       {erro && (
@@ -79,17 +92,25 @@ export default function Livros() {
         </div>
       )}
 
-      {!loading && !erro && livros.length > 0 && livrosFiltrados.length === 0 && (
-        <div className="alert alert-warning text-center">
-          Nenhum livro encontrado com esse filtro.
+      {!loading &&
+        !erro &&
+        livros.length > 0 &&
+        livrosFiltrados.length === 0 && (
+          <div className="alert alert-warning text-center">
+            Nenhum livro encontrado com esse filtro.
+          </div>
+        )}
+
+      {!loading && !erro && (
+        <div className="row g-4">
+          {livrosFiltrados.map((livro) => (
+            <CardLivro
+              key={livro.id}
+              livro={livro}
+            />
+          ))}
         </div>
       )}
-
-      <div className="row g-4">
-        {livrosFiltrados.map((livro) => (
-          <CardLivro key={livro.id} livro={livro} />
-        ))}
-      </div>
     </main>
   );
 }
