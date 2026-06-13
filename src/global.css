@@ -1,46 +1,37 @@
 :root {
-
   --bg-color: #f8f5f0;
   --text-color: #3b2c5a;
   --primary-color: #3b2c5a;
+  --primary-hover: #70ae6e;
   --btn-text: #fae383;
-
- 
-  --card-bg: #fff;
+  --card-bg: #ffffff;
   --card-shadow: rgba(0, 0, 0, 0.12);
-  --input-border: #ccc;
-  --input-bg: #fff;
+  --input-border: #cccccc;
+  --input-bg: #ffffff;
   --error-color: #dc3545;
-
-
   --home-titulo: #3b2f2f;
   --home-subtitulo: #6b5b4b;
   --home-card-border: #8b5e3c;
   --home-card-titulo: #4a2c1a;
-  --home-card-texto: #555;
+  --home-card-texto: #555555;
   --home-card-bg: var(--card-bg);
 }
 
 :root[data-bs-theme="dark"] {
-  /* Cores Globais - Modo Escuro */
   --bg-color: #1a1625;
   --text-color: #e6e1f9;
   --primary-color: #8c7db7;
   --btn-text: #1a1625;
-
   --card-bg: #2a2438;
   --card-shadow: rgba(0, 0, 0, 0.3);
   --input-border: #4a3f5e;
   --input-bg: #1e1830;
   --error-color: #ff6b6b;
-
-  /* Cores Específicas da Home - Modo Escuro */
   --home-titulo: #f8f5f0;
   --home-subtitulo: #d4ccb8;
   --home-card-border: #c89670;
   --home-card-titulo: #f0e6d2;
-  --home-card-texto: #bbb;
-  --home-card-bg: var(--card-bg);
+  --home-card-texto: #bbbbbb;
 }
 
 * {
@@ -52,9 +43,7 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: Arimo, sans-serif;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a {
@@ -66,25 +55,31 @@ a {
   padding: 2rem 1rem;
 }
 
+.page-title,
+.formulario-titulo,
+.fonte-rye {
+  font-family: "Rye", serif;
+  font-weight: 400;
+}
+
 .page-title {
-  color: var(--primary-color);
-  font-weight: 700;
-  text-align: center;
   margin-bottom: 1.5rem;
+  color: var(--primary-color);
+  text-align: center;
 }
 
 .page-subtitle {
+  margin-bottom: 2rem;
   color: var(--text-color);
   text-align: center;
-  margin-bottom: 2rem;
 }
 
 .card-livro {
-  border-left: 5px solid var(--primary-color);
-  border-radius: 14px;
-  transition: 0.2s;
   background-color: var(--bg-color);
   color: var(--text-color);
+  border-left: 5px solid var( --primary-hover);
+  border-radius: 14px;
+  transition: 0.2s;
 }
 
 .card-livro:hover {
@@ -99,22 +94,108 @@ a {
   font-weight: 600;
 }
 
-.btn-marrom:hover {
-  background-color: #70ae6e;
+.btn-marrom:hover,
+.btn-marrom:focus {
+  background-color: var(--primary-hover);
   color: #ffffff;
 }
 
 .btn-marrom:focus {
-  background-color: #70ae6e;
-  color: #ffffff;
   box-shadow: 0 0 0 0.2rem rgba(199, 218, 72, 0.35);
 }
 
-.form-control:focus {
-  border-color: #70ae6e;
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--primary-hover);
   box-shadow: 0 0 0 0.2rem rgba(112, 174, 110, 0.2);
 }
 
-.fonte-rye {
-  font-family: "Rye", serif;
+.pagina-formulario {
+  min-height: calc(100vh - 70px);
+  padding: clamp(1.5rem, 4vw, 3rem) 1rem;
+  background: linear-gradient(135deg, var(--bg-color), var(--card-bg));
+}
+
+.formulario-card {
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border: 1px solid var(--input-border);
+  border-top: 6px solid #ea1880;
+  border-radius: 24px;
+  box-shadow: 0 8px 24px var(--card-shadow);
+}
+
+.formulario-card-livro {
+  max-width: 700px;
+}
+
+.formulario-titulo {
+  margin-bottom: 2rem;
+  color: var(--home-titulo);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  line-height: 1.3;
+  text-align: center;
+}
+
+.formulario-card .form-label {
+  color: var(--text-color);
+  font-weight: 700;
+}
+
+.formulario-card .form-control,
+.formulario-card .form-select {
+  min-height: 46px;
+  padding: 0.7rem 0.9rem;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.formulario-card .form-control::placeholder {
+  color: var(--home-subtitulo);
+  opacity: 0.8;
+}
+
+.formulario-card .form-control:focus,
+.formulario-card .form-select:focus {
+  background-color: var(--input-bg);
+  color: var(--text-color);
+}
+
+.formulario-card .form-control.is-invalid,
+.formulario-card .form-select.is-invalid {
+  border-color: var(--error-color);
+}
+
+.formulario-card .invalid-feedback {
+  color: var(--error-color);
+  font-size: 0.85rem;
+}
+
+.formulario-card .alert {
+  border-radius: 12px;
+}
+
+.btn-formulario {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 0.75rem;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  transition: 0.2s ease;
+}
+
+.btn-formulario:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px var(--card-shadow);
+}
+
+.btn-formulario:active {
+  transform: translateY(0);
 }

@@ -20,7 +20,7 @@
   width: 100%;
 }
 
-/* ---- Logo --=-- */
+
 
 .navbarBrand {
   display: flex;
@@ -64,7 +64,6 @@
   padding-right: 1rem;
 }
 
-/* ---- Toggler ---- */
 
 .navbarToggler {
   display: none;
@@ -83,7 +82,6 @@
 .navbarToggler :global(.navbar-toggler-icon) {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23fae383' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
-/* ---- Nav Links ---- */
 
 .navbarCollapse {
   display: flex !important;
@@ -140,7 +138,6 @@
   transform: translateX(-50%) scaleX(1);
 }
 
-/* ---- Ações (direita) ---- */
 
 .navActions {
   display: flex;
@@ -149,7 +146,6 @@
   margin-left: auto;
 }
 
-/* ---- Theme Toggle ---- */
 
 .themeToggle {
   display: flex;
@@ -228,7 +224,6 @@
   color: #fff;
 }
 
-/* ---- Logout ---- */
 
 .logoutBtn {
   background: transparent;
@@ -251,9 +246,6 @@
   border-color: #ff5555;
 }
 
-/* ============================
-   RESPONSIVO
-   ============================ */
 
 @media (max-width: 991px) {
   .navbarToggler {

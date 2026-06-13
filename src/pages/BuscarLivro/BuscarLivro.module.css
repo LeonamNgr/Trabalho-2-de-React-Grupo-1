@@ -1,141 +1,154 @@
 .container {
-  min-height: calc(100vh - 80px);
-  padding: 3rem 6%;
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .busca {
-  width: 100%;
   max-width: 700px;
-  margin: 0 auto;
-  padding: 2rem;
-  border: 1px solid var(--soft-border);
-  border-radius: 20px;
-  background-color: var(--card-bg);
-  box-shadow: 0 10px 30px var(--card-shadow);
 }
 
-.busca h1 {
-  margin-bottom: 0.5rem;
-  color: var(--heading-color);
-  text-align: center;
-}
-
-.busca > p {
+.cabecalho {
   margin-bottom: 2rem;
-  color: var(--muted-color);
   text-align: center;
 }
 
-.busca form {
+.cabecalho p {
+  margin: 0;
+  color: var(--home-subtitulo);
+  line-height: 1.6;
+}
+
+.formulario {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
-.busca label {
-  color: var(--text-color);
-  font-weight: 600;
+.campo {
+  display: flex;
+  flex-direction: column;
 }
 
-.busca select,
-.busca input {
-  width: 100%;
-  padding: 0.8rem 1rem;
-  border: 1px solid var(--input-border);
-  border-radius: 10px;
-  background-color: var(--input-bg);
-  color: var(--text-color);
-  font-size: 1rem;
-  outline: none;
+.campo label {
+  margin-bottom: 0.5rem;
 }
 
-.busca select:focus,
-.busca input:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px var(--soft-border);
+.botaoBusca {
+  margin-top: 0.5rem;
 }
 
-.busca button {
-  margin-top: 1rem;
+.botaoBusca:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
 }
 
-.erro {
+.mensagem {
   margin: 1.5rem 0 0;
-  color: #c62828;
-  font-weight: 700;
+  padding: 1rem;
+  color: var(--text-color);
+  background-color: rgba(250, 227, 131, 0.25);
+  border: 1px solid rgba(199, 218, 72, 0.65);
+  border-radius: 12px;
   text-align: center;
 }
 
 .resultados {
   width: 100%;
-  max-width: 1100px;
-  margin: 2rem auto 0;
+  max-width: 1000px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.5rem;
 }
 
 .card {
   padding: 1.5rem;
-  border: 1px solid var(--soft-border);
-  border-radius: 16px;
   background-color: var(--card-bg);
-  box-shadow: 0 8px 20px var(--card-shadow);
+  color: var(--text-color);
+  border: 1px solid var(--input-border);
+  border-left: 6px solid var(--home-card-border);
+  border-radius: 18px;
+  box-shadow: 0 6px 18px var(--card-shadow);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 24px var(--card-shadow);
 }
 
 .card h2 {
-  margin: 0 0 1rem;
-  color: var(--heading-color);
-  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: var(--home-titulo);
+  font-family: "Rye", serif;
+  font-size: 1.45rem;
+  font-weight: 400;
 }
 
 .card p {
-  margin: 0.5rem 0;
+  margin-bottom: 0.6rem;
   color: var(--text-color);
-}
-
-@media (max-width: 600px) {
-  .container {
-    padding: 2rem 1rem;
-  }
-
-  .busca {
-    padding: 1.5rem;
-  }
-  .mensagem {
-  margin: 1.5rem 0 0;
-  color: var(--muted-color);
-  font-weight: 700;
-  text-align: center;
+  line-height: 1.5;
 }
 
 .disponivel {
-  color: var(--primary-hover);
-  font-weight: 700;
-}
-
-.dadosLivro {
-  margin-top: 1rem;
-}
-
-.avisoLogin {
-  margin-top: 1.25rem;
-  padding: 1rem;
-  border-radius: 12px;
-  background-color: var(--surface-soft);
-  text-align: center;
-}
-
-.avisoLogin p {
-  margin: 0 0 1rem;
-  color: var(--text-color);
   font-weight: 600;
 }
 
-.avisoLogin a {
-  display: inline-block;
-  text-decoration: none;
+.avisoLogin {
+  margin-top: 1.2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--input-border);
 }
+
+.avisoLogin p {
+  margin-bottom: 1rem;
+}
+
+.botaoCard {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0.6rem 1.2rem;
+  border-radius: 9px;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.botaoCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px var(--card-shadow);
+}
+
+@media (max-width: 768px) {
+  .resultados {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cabecalho p {
+    font-size: 0.95rem;
+  }
+
+  .card h2 {
+    font-size: 1.25rem;
+  }
+
+  .botaoCard {
+    width: 100%;
+  }
 }

@@ -7,7 +7,7 @@ export default function AdicionarAutor() {
   const navigate = useNavigate();
   const [erroAPI, setErroAPI] = useState("");
   const [sucesso, setSucesso] = useState("");
-  
+
   const {
     register,
     handleSubmit,
@@ -23,66 +23,85 @@ export default function AdicionarAutor() {
       await criarAutor(dadosDoFormulario);
       setSucesso("Autor cadastrado com sucesso!");
       reset();
-      
-     
       setTimeout(() => navigate("/livros/adicionar"), 2000);
     } catch {
-      setErroAPI("Erro ao comunicar com a API. Tente novamente.");
+      setErroAPI("Verifique os dados informados.");
     }
   }
 
   return (
-    <div className="container mt-5">
-      <div className="card shadow p-4 mx-auto" style={{ maxWidth: "500px" }}>
-        <h2 className="text-center mb-4">Adicionar Novo Autor</h2>
+    <main className="pagina-formulario">
+      <section className="formulario-card">
+        <h1 className="formulario-titulo">Adicionar Novo Autor</h1>
 
         {erroAPI && <div className="alert alert-danger">{erroAPI}</div>}
+
         {sucesso && <div className="alert alert-success">{sucesso}</div>}
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-3">
-            <label className="form-label fw-bold">Nome do Autor</label>
+            <label className="form-label">Nome do Autor</label>
+
             <input
               type="text"
               className={`form-control ${errors.nome ? "is-invalid" : ""}`}
               placeholder="Ex: João da Silva"
-              {...register("nome", { required: "O nome é obrigatório" })}
+              {...register("nome", {
+                required: "O nome é obrigatório",
+              })}
             />
+
             {errors.nome && (
               <span className="invalid-feedback">{errors.nome.message}</span>
             )}
           </div>
 
           <div className="mb-3">
-            <label className="form-label fw-bold">Nacionalidade</label>
+            <label className="form-label">Nacionalidade</label>
+
             <input
               type="text"
-              className={`form-control ${errors.nacionalidade ? "is-invalid" : ""}`}
+              className={`form-control ${
+                errors.nacionalidade ? "is-invalid" : ""
+              }`}
               placeholder="Ex: Brasileiro"
-              {...register("nacionalidade", { required: "A nacionalidade é obrigatória" })}
+              {...register("nacionalidade", {
+                required: "A nacionalidade é obrigatória",
+              })}
             />
+
             {errors.nacionalidade && (
-              <span className="invalid-feedback">{errors.nacionalidade.message}</span>
+              <span className="invalid-feedback">
+                {errors.nacionalidade.message}
+              </span>
             )}
           </div>
 
           <div className="mb-3">
-            <label className="form-label fw-bold">Data de Nascimento</label>
+            <label className="form-label">Data de Nascimento</label>
+
             <input
               type="date"
-              className={`form-control ${errors.dataNascimento ? "is-invalid" : ""}`}
-              {...register("dataNascimento", { required: "A data de nascimento é obrigatória" })}
+              className={`form-control ${
+                errors.dataNascimento ? "is-invalid" : ""
+              }`}
+              {...register("dataNascimento", {
+                required: "A data de nascimento é obrigatória",
+              })}
             />
+
             {errors.dataNascimento && (
-              <span className="invalid-feedback">{errors.dataNascimento.message}</span>
+              <span className="invalid-feedback">
+                {errors.dataNascimento.message}
+              </span>
             )}
           </div>
 
-          <button type="submit" className="btn btn-primary w-100 mt-3 fw-bold">
+          <button type="submit" className="btn btn-marrom btn-formulario">
             Guardar Autor
           </button>
         </form>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
