@@ -3,18 +3,25 @@ import { Link } from "react-router-dom";
 import { buscarTodosOsLivros } from "../../service/api";
 import styles from "./Home.module.css";
 
+import livroAberto from "../../assets/imagens/livro-aberto.svg";
+import pilhaLivros from "../../assets/imagens/pilha-livros.svg";
+import estante from "../../assets/imagens/estante.svg";
+import livrosLivroAberto from "../../assets/imagens/livros-livro-aberto.svg";
+import nichoLivros from "../../assets/imagens/nicho-livros.svg";
+import meninaVoandoLivro from "../../assets/imagens/menina-voando-livro.svg";
+
 export default function Home() {
   const [livros, setLivros] = useState([]);
   const [busca, setBusca] = useState("");
   const [loading, setLoading] = useState(true);
 
   const iconesLivros = [
-    "/imagens/livro-aberto.svg",
-    "/imagens/pilha-livros.svg",
-    "/imagens/estante.svg",
-    "/imagens/livros-livro-aberto.svg",
-    "/imagens/nicho-livros.svg",
-    "/imagens/livros-voando.svg",
+    livroAberto,
+    pilhaLivros,
+    estante,
+    livrosLivroAberto,
+    nichoLivros,
+    livrosLivroAberto,
   ];
 
   useEffect(() => {
@@ -62,7 +69,7 @@ export default function Home() {
 
         <div className={styles.caixaDestaque}>
           <img
-            src="/imagens/menina-voando-livro.svg"
+            src={meninaVoandoLivro}
             alt="Menina voando em um livro"
             className={styles.imagemHero}
           />
@@ -75,20 +82,20 @@ export default function Home() {
       </section>
 
       <section className={styles.resumo}>
-        <div className={styles.cardResumo}>
+        <Link to="/livros/buscar" className={styles.cardResumo}>
           <h3>Consulta rápida</h3>
           <p>Busque livros cadastrados por título.</p>
-        </div>
+        </Link>
 
-        <div className={styles.cardResumo}>
+        <Link to="/livros/adicionar" className={styles.cardResumo}>
           <h3>Cadastro</h3>
           <p>Adicione novos livros ao sistema.</p>
-        </div>
+        </Link>
 
-        <div className={styles.cardResumo}>
+        <Link to="/livros" className={styles.cardResumo}>
           <h3>Gerenciamento</h3>
           <p>Visualize, edite e acompanhe os registros.</p>
-        </div>
+        </Link>
       </section>
 
       <section className={styles.areaLivros}>
