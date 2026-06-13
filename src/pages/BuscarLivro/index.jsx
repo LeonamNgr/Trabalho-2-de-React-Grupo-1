@@ -1,91 +1,257 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { buscarLivroPorId } from "../../service/api";
+import { AuthContext } from "../../contexts/AuthContext.jsx";
+import styles from "./BuscarLivro.module.css";
 
 export default function BuscarLivro() {
-  const [livroEncontrado, setLivroEncontrado] = useState(null);
-  const [erroAPI, setErroAPI] = useState("");
+  const { isLogged } = useContext(AuthContext);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const usuarioLogado =
+    isLogged === true || isLogged === "true";
 
-  async function onSubmit(dados) {
-    setErroAPI("");
-    setLivroEncontrado(null);
+  const [tipoBusca, setTipoBusca] = useState("nome");
+  const [termoBusca, setTermoBusca] = useState("");
+  const [livrosEncontrados, setLivrosEncontrados] = useState([]);
+  const [mensagem, setMensagem] = useState("");
+  const [carregando, setCarregando] = useState(false);
+  const [buscaRealizada, setBuscaRealizada] = useState(false);
+
+  function normalizarTexto(texto) {
+    return String(texto ?? "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+  }
+
+  function pegarNomeLivro(livro) {
+    return livro.nome || livro.titulo || livro.nomeLivro || "";
+  }
+
+  function pegarAutor(livro) {
+    if (typeof livro.autor === "object") {
+      return livro.autor?.nome || "";
+    }
+
+    return livro.autor || livro.nomeAutor || "";
+  }
+
+  function pegarGenero(livro) {
+    if (typeof livro.genero === "object") {
+      return livro.genero?.nome || "";
+    }
+
+    return (
+      livro.genero ||
+      livro.nomeGenero ||
+      livro.categoria ||
+      livro.tipo ||
+      ""
+    );
+  }
+
+  async function buscarLivros(evento) {
+    evento.preventDefault();
+
+    const termo = normalizarTexto(termoBusca);
+
+    if (!termo) {
+      setMensagem("Digite uma informação para realizar a busca.");
+      setLivrosEncontrados([]);
+      setBuscaRealizada(false);
+      return;
+    }
 
     try {
-      const resultado = await buscarLivroPorId(dados.idLivro);
-      setLivroEncontrado(resultado);
-    } catch {
-      setErroAPI("Livro não encontrado. Verifique se o ID está correto.");
+      setCarregando(true);
+      setMensagem("");
+      setLivrosEncontrados([]);
+      setBuscaRealizada(false);
+
+      const resposta = await fetch("http://localhost:8080/livros", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (!resposta.ok) {
+        if (resposta.status === 401 || resposta.status === 403) {
+          throw new Error(
+            "A API não permite consultar livros antes do login."
+          );
+        }
+
+        if (resposta.status === 404) {
+          throw new Error(
+            "O endereço da API de livros não foi encontrado."
+          );
+        }
+
+        throw new Error(
+          `Não foi possível consultar os livros. Erro ${resposta.status}.`
+        );
+      }
+
+      const dados = await resposta.json();
+
+      const listaLivros = Array.isArray(dados)
+        ? dados
+        : Array.isArray(dados.content)
+          ? dados.content
+          : [];
+
+      const livrosFiltrados = listaLivros.filter((livro) => {
+        let valorParaComparar = "";
+
+        if (tipoBusca === "nome") {
+          valorParaComparar = pegarNomeLivro(livro);
+        } else if (tipoBusca === "autor") {
+          valorParaComparar = pegarAutor(livro);
+        } else if (tipoBusca === "genero") {
+          valorParaComparar = pegarGenero(livro);
+        }
+
+        return normalizarTexto(valorParaComparar).includes(termo);
+      });
+
+      setLivrosEncontrados(livrosFiltrados);
+      setBuscaRealizada(true);
+
+      if (livrosFiltrados.length === 0) {
+        setMensagem(
+          "Nenhum livro foi encontrado na base de dados."
+        );
+      }
+    } catch (erro) {
+      console.error("Erro ao buscar livros:", erro);
+
+      setMensagem(
+        erro.message ||
+          "Não foi possível consultar os livros."
+      );
+
+      setBuscaRealizada(false);
+    } finally {
+      setCarregando(false);
     }
   }
 
+  function trocarTipoBusca(evento) {
+    setTipoBusca(evento.target.value);
+    setTermoBusca("");
+    setLivrosEncontrados([]);
+    setMensagem("");
+    setBuscaRealizada(false);
+  }
+
   return (
-    <div className="container mt-5">
-      <div className="card shadow p-4 mx-auto" style={{ maxWidth: "600px" }}>
-        <h2 className="text-center mb-4">Buscar Livro por ID</h2>
+    <main className={styles.container}>
+      <section className={styles.busca}>
+        <h1 className="page-title fonte-rye">
+          Buscar livros
+        </h1>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="d-flex mb-4">
-          <div className="flex-grow-1 me-2">
-            <input
-              type="text"
-              className={`form-control ${errors.idLivro ? "is-invalid" : ""}`}
-              placeholder="Digite o ID do livro (Ex: 1, 2, 3...)"
-              {...register("idLivro", {
-                required: "Por favor, insira um ID para buscar.",
-              })}
-            />
-            {errors.idLivro && (
-              <span className="invalid-feedback">{errors.idLivro.message}</span>
-            )}
-          </div>
+        <p>
+          Consulte se um livro está disponível em nossa base de dados.
+        </p>
 
-          <button type="submit" className="btn btn-primary fw-bold">
-            Pesquisar
+        <form onSubmit={buscarLivros}>
+          <label htmlFor="tipoBusca">Buscar por</label>
+
+          <select
+            id="tipoBusca"
+            value={tipoBusca}
+            onChange={trocarTipoBusca}
+          >
+            <option value="nome">Nome do livro</option>
+            <option value="autor">Autor</option>
+            <option value="genero">Gênero</option>
+          </select>
+
+          <label htmlFor="termoBusca">
+            Digite sua busca
+          </label>
+
+          <input
+            id="termoBusca"
+            type="search"
+            value={termoBusca}
+            onChange={(evento) =>
+              setTermoBusca(evento.target.value)
+            }
+            placeholder={
+              tipoBusca === "nome"
+                ? "Digite o nome do livro"
+                : tipoBusca === "autor"
+                  ? "Digite o nome do autor"
+                  : "Digite o gênero do livro"
+            }
+          />
+
+          <button
+            type="submit"
+            className="btn-marrom"
+            disabled={carregando}
+          >
+            {carregando ? "Buscando..." : "Buscar"}
           </button>
         </form>
 
-        {erroAPI && (
-          <div className="alert alert-danger text-center">{erroAPI}</div>
+        {mensagem && (
+          <p className={styles.mensagem} role="alert">
+            {mensagem}
+          </p>
         )}
+      </section>
 
-        {livroEncontrado && (
-          <div className="card border-success mb-3">
-            <div className="card-header bg-success text-white fw-bold">
-              Livro Encontrado!
-            </div>
+      {buscaRealizada && livrosEncontrados.length > 0 && (
+        <section className={styles.resultados}>
+          {!usuarioLogado ? (
+            <article className={styles.card}>
+              <h2>Livro encontrado!</h2>
 
-            <div className="card-body">
-              <h4 className="card-title text-success">
-                {livroEncontrado.titulo}
-              </h4>
-
-              <h6 className="card-subtitle mb-3 text-muted">
-                Autor: {livroEncontrado.autor?.nome || livroEncontrado.autor}
-              </h6>
-
-              <p className="card-text">
-                <strong>Editora:</strong>{" "}
-                {livroEncontrado.editora?.nome || livroEncontrado.editora}
+              <p className={styles.disponivel}>
+                {livrosEncontrados.length === 1
+                  ? "O livro está cadastrado em nossa base de dados."
+                  : `Encontramos ${livrosEncontrados.length} livros correspondentes na base de dados.`}
               </p>
 
-              <hr />
+              <div className={styles.avisoLogin}>
+                <p>
+                  Faça o login para acessar os dados do livro.
+                </p>
 
-              <Link
-                to={`/livros/editar/${livroEncontrado.id}`}
-                className="btn btn-outline-success w-100"
+                <Link to="/" className="btn-marrom">
+                  Fazer login
+                </Link>
+              </div>
+            </article>
+          ) : (
+            livrosEncontrados.map((livro, index) => (
+              <article
+                key={livro.id || livro.idLivro || index}
+                className={styles.card}
               >
-                Editar este Livro
-              </Link>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+                <h2>
+                  {pegarNomeLivro(livro) ||
+                    "Nome não informado"}
+                </h2>
+
+                <p>
+                  <strong>Autor:</strong>{" "}
+                  {pegarAutor(livro) || "Não informado"}
+                </p>
+
+                <p>
+                  <strong>Gênero:</strong>{" "}
+                  {pegarGenero(livro) || "Não informado"}
+                </p>
+              </article>
+            ))
+          )}
+        </section>
+      )}
+    </main>
   );
 }

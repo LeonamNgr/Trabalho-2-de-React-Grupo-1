@@ -1,18 +1,18 @@
 :root {
-  /* Cores Globais da Aplicação */
+
   --bg-color: #f8f5f0;
   --text-color: #3b2c5a;
   --primary-color: #3b2c5a;
   --btn-text: #fae383;
 
-  /* Utilitários */
+ 
   --card-bg: #fff;
   --card-shadow: rgba(0, 0, 0, 0.12);
   --input-border: #ccc;
   --input-bg: #fff;
   --error-color: #dc3545;
 
-  /* Cores Específicas da Home */
+
   --home-titulo: #3b2f2f;
   --home-subtitulo: #6b5b4b;
   --home-card-border: #8b5e3c;
@@ -28,7 +28,6 @@
   --primary-color: #8c7db7;
   --btn-text: #1a1625;
 
-  /* Utilitários - Modo Escuro */
   --card-bg: #2a2438;
   --card-shadow: rgba(0, 0, 0, 0.3);
   --input-border: #4a3f5e;
