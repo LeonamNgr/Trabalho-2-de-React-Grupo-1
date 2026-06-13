@@ -3,5 +3,7 @@ export const navLinks = [
   { id: 2, label: "Todos os Livros", path: "/livros" },
   { id: 3, label: "Cadastrar Livro", path: "/livros/adicionar" },
   { id: 4, label: "Buscar Livros", path: "/livros/buscar" },
-  { id: 5, label: "Sobre nós", path: "/sobre" },
+  { id: 5, label: "Adicionar Editora", path: "/editoras/adicionar" },
+  { id: 6, label: "Adicionar Autor", path: "/autores/adicionar"},
+  { id: 7, label: "Sobre nós", path: "/sobre"}
 ];
