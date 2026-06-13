@@ -125,7 +125,7 @@ export default function Home() {
             {livrosFiltrados.slice(0, 6).map((livro, index) => (
               <Link
                 key={livro.id}
-                to={`/livros/${livro.id}`}
+                to="/livros"
                 className={styles.linkCard}
               >
                 <article className={styles.cardLivro}>
