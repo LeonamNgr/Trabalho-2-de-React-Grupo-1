@@ -1,10 +1,4 @@
-import {
-  Navigate,
-  Route,
-  Routes,
-} from "react-router-dom";
-
-import Navbar from "../components/Navbar/index.jsx";
+import { Navigate, Route, Routes } from "react-router-dom";
 
 import Login from "../pages/Login/index.jsx";
 import SobreNos from "../pages/SobreNos/index.jsx";
@@ -18,50 +12,20 @@ import PrivateRoute from "./PrivateRoute.jsx";
 
 export default function AppRouter() {
   return (
-    <>
-      <Navbar />
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/sobre" element={<SobreNos />} />
 
-      <Routes>
-    
-        <Route
-          path="/"
-          element={<Login />}
-        />
+      <Route element={<PrivateRoute />}>
+        <Route path="/home" element={<Home />} />
+        <Route path="/livros" element={<Livros />} />
+        <Route path="/livros/adicionar" element={<AdicionarLivro />} />
+        <Route path="/livros/buscar" element={<BuscarLivro />} />
+        <Route path="/livros/editar/:id" element={<EditarLivro />} />
+      </Route>
 
-        <Route
-          path="/sobre"
-          element={<SobreNos />}
-        />
-
-        {/* verificar essa rota dentro da rota */}
-        <Route element={<PrivateRoute />}>
-          <Route
-            path="/home"
-            element={<Home />}
-          />
-
-          <Route
-            path="/livros"
-            element={<Livros />}
-          />
-
-          <Route
-            path="/livros/adicionar"
-            element={<AdicionarLivro />}
-          />
-
-          <Route
-            path="/livros/buscar"
-            element={<BuscarLivro />}
-          />
-
-          <Route
-            path="/livros/editar/:id"
-            element={<EditarLivro />}
-          />
-        </Route>
-
-      </Routes>
-    </>
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </Routes>
   );
 }
