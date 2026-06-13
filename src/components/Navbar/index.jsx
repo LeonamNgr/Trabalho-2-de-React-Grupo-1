@@ -32,6 +32,7 @@ export default function Navbar() {
               <Link to="/sobre" className={styles.navLink}>
                 Sobre nós
               </Link>
+              
             )}
             <ThemeToggle />
           </div>
