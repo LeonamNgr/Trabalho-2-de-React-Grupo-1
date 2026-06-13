@@ -32,19 +32,13 @@ export default function Livros() {
     const ano = livro.anoPublicacao?.toString() || "";
 
     const autor =
-      livro.autor?.nome?.toLowerCase() ||
-      livro.autor?.toLowerCase() ||
-      "";
+      livro.autor?.nome?.toLowerCase() || livro.autor?.toLowerCase() || "";
 
     const editora =
-      livro.editora?.nome?.toLowerCase() ||
-      livro.editora?.toLowerCase() ||
-      "";
+      livro.editora?.nome?.toLowerCase() || livro.editora?.toLowerCase() || "";
 
     const genero =
-      livro.genero?.nome?.toLowerCase() ||
-      livro.genero?.toLowerCase() ||
-      "";
+      livro.genero?.nome?.toLowerCase() || livro.genero?.toLowerCase() || "";
 
     return (
       titulo.includes(textoBusca) ||
@@ -74,17 +68,9 @@ export default function Livros() {
         />
       </div>
 
-      {loading && (
-        <p className="text-center">
-          Carregando livros...
-        </p>
-      )}
+      {loading && <p className="text-center">Carregando livros...</p>}
 
-      {erro && (
-        <div className="alert alert-danger text-center">
-          {erro}
-        </div>
-      )}
+      {erro && <div className="alert alert-danger text-center">{erro}</div>}
 
       {!loading && !erro && livros.length === 0 && (
         <div className="alert alert-warning text-center">
@@ -104,10 +90,7 @@ export default function Livros() {
       {!loading && !erro && (
         <div className="row g-4">
           {livrosFiltrados.map((livro) => (
-            <CardLivro
-              key={livro.id}
-              livro={livro}
-            />
+            <CardLivro key={livro.id} livro={livro} />
           ))}
         </div>
       )}
