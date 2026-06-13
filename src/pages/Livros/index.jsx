@@ -52,7 +52,12 @@ export default function Livros() {
 
   return (
     <main className="main-container container">
-      <h1 className="page-title">Listagem de Livros</h1>
+      <h1
+        className="page-title"
+        style={{ fontFamily: '"Rye", serif', fontWeight: 400 }}
+      >
+        Listagem de Livros
+      </h1>
 
       <p className="page-subtitle">
         Consulte os livros cadastrados na API da biblioteca.
