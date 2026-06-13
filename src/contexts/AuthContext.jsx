@@ -1,42 +1,57 @@
-import { createContext } from "react";
-import { useState } from "react";
-import api from "../service/api";
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useState } from "react";
+import api, { extrairMensagemErro } from "../service/api";
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
   const [error, setError] = useState("");
-  const [isLogged, setIsLogged] = useState(!!localStorage.getItem("token"));
+  const [isLogged, setIsLogged] = useState(
+    Boolean(localStorage.getItem("token")),
+  );
 
-  const login = async (email, senha) => {
+  async function login(email, senha) {
+    setError("");
+
     try {
-      const response = await api.post("/auth/autenticar", { email, senha });
-      const token = response.data.token;
+      const response = await api.post("/auth/autenticar", {
+        email: email.trim(),
+        senha,
+      });
+
+      const token = response.data?.token;
+
+      if (!token) {
+        setError("A API não retornou o token de autenticação.");
+        return false;
+      }
+
       localStorage.setItem("token", token);
       setIsLogged(true);
-      setError("");
       return true;
     } catch (err) {
-      if (err.response && err.response.data && err.response.data.erros) {
-        setError(err.response.data.erros[0]);
-      } else if (err.response && err.response.status === 403) {
-        setError("Usuário ou senha inválidos.");
-      } else {
-        setError("Ocorreu um erro ao tentar fazer login.");
-      }
+      setError(
+        extrairMensagemErro(err, "Usuário ou senha inválidos."),
+      );
       return false;
     }
-  };
+  }
 
-  const logout = () => {
+  function logout() {
     localStorage.removeItem("token");
     setIsLogged(false);
-  };
+    setError("");
+  }
+
+  function limparErro() {
+    setError("");
+  }
 
   return (
-    <AuthContext.Provider value={{ login, logout, error, isLogged }}>
+    <AuthContext.Provider
+      value={{ login, logout, limparErro, error, isLogged }}
+    >
       {children}
     </AuthContext.Provider>
   );
-};
+}

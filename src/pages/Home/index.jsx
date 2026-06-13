@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { buscarTodosOsLivros } from "../../service/api";
+import { buscarTodosOsLivros, extrairMensagemErro } from "../../service/api";
 import styles from "./Home.module.css";
 
 export default function Home() {
   const [livros, setLivros] = useState([]);
   const [busca, setBusca] = useState("");
   const [loading, setLoading] = useState(true);
+  const [erro, setErro] = useState("");
 
   const iconesLivros = [
     "/imagens/livro-aberto.svg",
@@ -21,9 +22,11 @@ export default function Home() {
     async function carregarLivros() {
       try {
         const dados = await buscarTodosOsLivros();
-        setLivros(dados);
+        setLivros(Array.isArray(dados) ? dados : []);
       } catch (error) {
-        console.error("Erro ao buscar livros:", error);
+        setErro(
+          extrairMensagemErro(error, "Não foi possível carregar os livros."),
+        );
       } finally {
         setLoading(false);
       }
@@ -33,7 +36,9 @@ export default function Home() {
   }, []);
 
   const livrosFiltrados = livros.filter((livro) =>
-    livro.titulo?.toLowerCase().includes(busca.toLowerCase()),
+    String(livro.titulo ?? "")
+      .toLowerCase()
+      .includes(busca.toLowerCase()),
   );
 
   return (
@@ -45,17 +50,17 @@ export default function Home() {
           <h1 className={styles.titulo}>Era uma vez...</h1>
 
           <p className={styles.subtitulo}>
-            Organize, consulte e gerencie livros cadastrados na API da
-            biblioteca de forma simples e rápida.
+            Organize, consulte e gerencie os livros cadastrados na biblioteca de
+            forma simples e rápida.
           </p>
 
           <div className={styles.botoes}>
-            <Link to="/livros" className="btn btn-marrom">
+            <Link to="/livros" className={styles.botaoAcao}>
               Ver todos os livros
             </Link>
 
-            <Link to="/livros/adicionar" className={styles.botaoSecundario}>
-              Cadastrar livro
+            <Link to="/livros/adicionar" className={styles.botaoAcao}>
+              Cadastrar novo livro
             </Link>
           </div>
         </div>
@@ -75,20 +80,47 @@ export default function Home() {
       </section>
 
       <section className={styles.resumo}>
-        <div className={styles.cardResumo}>
-          <h3>Consulta rápida</h3>
-          <p>Busque livros cadastrados por título.</p>
-        </div>
+        <Link to="/livros/buscar" className={styles.cardResumo}>
+          <img
+            src="/imagens/livro-aberto.svg"
+            alt=""
+            className={styles.iconeResumo}
+          />
 
-        <div className={styles.cardResumo}>
-          <h3>Cadastro</h3>
-          <p>Adicione novos livros ao sistema.</p>
-        </div>
+          <div>
+            <h2>Consulta rápida</h2>
+            <p>Busque um livro cadastrado pelo seu ID.</p>
+            <span className={styles.cardChamada}>Buscar livro →</span>
+          </div>
+        </Link>
 
-        <div className={styles.cardResumo}>
-          <h3>Gerenciamento</h3>
-          <p>Visualize, edite e acompanhe os registros.</p>
-        </div>
+        <Link to="/livros/adicionar" className={styles.cardResumo}>
+          <img
+            src="/imagens/pilha-livros.svg"
+            alt=""
+            className={styles.iconeResumo}
+          />
+
+          <div>
+            <h2>Cadastro</h2>
+            <p>Adicione novos livros ao sistema.</p>
+            <span className={styles.cardChamada}>Cadastrar livro →</span>
+          </div>
+        </Link>
+
+        <Link to="/livros" className={styles.cardResumo}>
+          <img
+            src="/imagens/estante.svg"
+            alt=""
+            className={styles.iconeResumo}
+          />
+
+          <div>
+            <h2>Gerenciamento</h2>
+            <p>Visualize, filtre e edite os registros.</p>
+            <span className={styles.cardChamada}>Gerenciar livros →</span>
+          </div>
+        </Link>
       </section>
 
       <section className={styles.areaLivros}>
@@ -100,31 +132,36 @@ export default function Home() {
 
           <input
             className={`form-control ${styles.inputBusca}`}
-            type="text"
+            type="search"
             placeholder="Filtrar por título"
             value={busca}
-            onChange={(e) => setBusca(e.target.value)}
+            onChange={(event) => setBusca(event.target.value)}
           />
         </div>
 
-        {loading ? (
-          <p className="text-center">Carregando livros...</p>
-        ) : livrosFiltrados.length === 0 ? (
+        {loading && <p className="text-center">Carregando livros...</p>}
+
+        {erro && <div className="alert alert-danger text-center">{erro}</div>}
+
+        {!loading && !erro && livrosFiltrados.length === 0 && (
           <div className="alert alert-warning text-center">
             Nenhum livro encontrado.
           </div>
-        ) : (
-          <section className={styles.lista}>
+        )}
+
+        {!loading && !erro && livrosFiltrados.length > 0 && (
+          <div className={styles.lista}>
             {livrosFiltrados.slice(0, 6).map((livro, index) => (
               <article className={styles.cardLivro} key={livro.id}>
                 <div className={styles.iconeLivro}>
-                  <img
-                    src={iconesLivros[index % iconesLivros.length]}
-                    alt="Ícone de livro"
-                  />
+                  <img src={iconesLivros[index % iconesLivros.length]} alt="" />
                 </div>
 
                 <h3>{livro.titulo}</h3>
+
+                <p>
+                  <strong>Autor:</strong> {livro.autorNome || "Não informado"}
+                </p>
 
                 <p>
                   <strong>ISBN:</strong> {livro.isbn || "Não informado"}
@@ -133,9 +170,16 @@ export default function Home() {
                 <p>
                   <strong>Ano:</strong> {livro.anoPublicacao || "Não informado"}
                 </p>
+
+                <Link
+                  to={`/livros/editar/${livro.id}`}
+                  className={styles.linkEditar}
+                >
+                  Ver detalhes
+                </Link>
               </article>
             ))}
-          </section>
+          </div>
         )}
       </section>
     </main>

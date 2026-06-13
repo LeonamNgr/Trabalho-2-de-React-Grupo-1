@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { buscarTodosOsLivros } from "../../service/api";
 import CardLivro from "../../components/CardLivro";
+import {
+  buscarTodosOsLivros,
+  extrairMensagemErro,
+} from "../../service/api";
 
 export default function Livros() {
-  
   const [livros, setLivros] = useState([]);
   const [busca, setBusca] = useState("");
   const [loading, setLoading] = useState(true);
@@ -13,10 +15,14 @@ export default function Livros() {
     async function carregarLivros() {
       try {
         const dados = await buscarTodosOsLivros();
-        setLivros(dados);
+        setLivros(Array.isArray(dados) ? dados : []);
       } catch (error) {
-        console.error("Erro ao buscar livros:", error);
-        setErro("Não foi possível carregar os livros da API.");
+        setErro(
+          extrairMensagemErro(
+            error,
+            "Não foi possível carregar os livros.",
+          ),
+        );
       } finally {
         setLoading(false);
       }
@@ -25,41 +31,45 @@ export default function Livros() {
     carregarLivros();
   }, []);
 
+  const textoBusca = busca.trim().toLowerCase();
+
   const livrosFiltrados = livros.filter((livro) => {
-    const textoBusca = busca.toLowerCase();
+    const campos = [
+      livro.titulo,
+      livro.isbn,
+      livro.anoPublicacao,
+      livro.autorNome,
+      livro.editoraNome,
+      livro.generoSigla,
+    ];
 
-    const titulo = livro.titulo?.toLowerCase() || "";
-    const isbn = livro.isbn?.toLowerCase() || "";
-    const ano = livro.anoPublicacao?.toString() || "";
-    const autor = livro.autor?.nome?.toLowerCase() || livro.autor?.toLowerCase() || "";
-    const editora = livro.editora?.nome?.toLowerCase() || livro.editora?.toLowerCase() || "";
-    const genero = livro.genero?.nome?.toLowerCase() || livro.genero?.toLowerCase() || "";
-
-    return (
-      titulo.includes(textoBusca) ||
-      isbn.includes(textoBusca) ||
-      ano.includes(textoBusca) ||
-      autor.includes(textoBusca) ||
-      editora.includes(textoBusca) ||
-      genero.includes(textoBusca)
+    return campos.some((campo) =>
+      String(campo ?? "")
+        .toLowerCase()
+        .includes(textoBusca),
     );
   });
 
   return (
     <main className="main-container container">
-      <h1 className="page-title">Listagem de Livros</h1>
+      <h1 className="page-title">Listagem de livros</h1>
 
       <p className="page-subtitle">
         Consulte os livros cadastrados na API da biblioteca.
       </p>
 
       <div className="mb-4">
+        <label htmlFor="filtro-livros" className="form-label fw-semibold">
+          Filtrar livros
+        </label>
+
         <input
-          type="text"
+          id="filtro-livros"
+          type="search"
           className="form-control"
-          placeholder="Filtrar por título, autor, editora, gênero, ISBN ou ano"
+          placeholder="Título, autor, editora, gênero, ISBN ou ano"
           value={busca}
-          onChange={(e) => setBusca(e.target.value)}
+          onChange={(event) => setBusca(event.target.value)}
         />
       </div>
 
@@ -68,9 +78,7 @@ export default function Livros() {
       )}
 
       {erro && (
-        <div className="alert alert-danger text-center">
-          {erro}
-        </div>
+        <div className="alert alert-danger text-center">{erro}</div>
       )}
 
       {!loading && !erro && livros.length === 0 && (
@@ -79,11 +87,14 @@ export default function Livros() {
         </div>
       )}
 
-      {!loading && !erro && livros.length > 0 && livrosFiltrados.length === 0 && (
-        <div className="alert alert-warning text-center">
-          Nenhum livro encontrado com esse filtro.
-        </div>
-      )}
+      {!loading &&
+        !erro &&
+        livros.length > 0 &&
+        livrosFiltrados.length === 0 && (
+          <div className="alert alert-warning text-center">
+            Nenhum livro encontrado com esse filtro.
+          </div>
+        )}
 
       <div className="row g-4">
         {livrosFiltrados.map((livro) => (

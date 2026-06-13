@@ -1,103 +1,96 @@
-import { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { ThemeContext } from "../../contexts/ThemeContext.jsx";
-import { AuthContext } from "../../contexts/AuthContext.jsx";
+import { useContext, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { ThemeContext } from "../../contexts/ThemeContext";
+import { AuthContext } from "../../contexts/AuthContext";
 import styles from "./Navbar.module.css";
 
 export default function Navbar() {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { logout, isLogged } = useContext(AuthContext);
+  const [menuAberto, setMenuAberto] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    navigate("/");
-  };
+  if (!isLogged) {
+    return null;
+  }
 
-  const navLinks = [
-    { id: 1, label: "Início", path: "/home" },
-    { id: 2, label: "Cadastrar Livro", path: "/livros/adicionar" },
-    { id: 3, label: "Buscar Livros", path: "/livros/buscar" },
+  const links = [
+    { label: "Início", path: "/home" },
+    { label: "Todos os livros", path: "/livros" },
+    { label: "Cadastrar livro", path: "/livros/adicionar" },
+    { label: "Buscar por ID", path: "/livros/buscar" },
   ];
+
+  function fecharMenu() {
+    setMenuAberto(false);
+  }
+
+  function handleLogout() {
+    logout();
+    navigate("/login", { replace: true });
+  }
 
   return (
     <nav className={styles.navbar}>
-      <div className={styles.navbarContainer}>
-        {/* Logo + Título */}
-        <Link className={styles.navbarBrand} to="/home">
+      <div className={styles.container}>
+        <NavLink className={styles.marca} to="/home" onClick={fecharMenu}>
           <img
-            src="/imagens/pilha-livros.svg"
-            alt="Logo Biblioteca"
-            className={styles.navbarLogo}
+            src="/imagens/logo-redonda-fundo-verde.svg"
+            alt="Logo da Biblioteca Era uma vez"
+            className={styles.logo}
           />
-          <span className={styles.navbarTitle}>Biblioteca</span>
-        </Link>
 
+          <span className={styles.nomeBiblioteca}>Era uma vez...</span>
+        </NavLink>
         <button
-          className={styles.navbarToggler}
           type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarCollapse"
-          aria-controls="navbarCollapse"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+          className={styles.menuButton}
+          onClick={() => setMenuAberto((aberto) => !aberto)}
+          aria-label="Abrir ou fechar menu"
+          aria-expanded={menuAberto}
         >
-          <span className="navbar-toggler-icon"></span>
+          ☰
         </button>
 
-        <div className={`collapse navbar-collapse ${styles.navbarCollapse}`} id="navbarCollapse">
-          {/* Links de Navegação */}
-          <ul className={styles.navLinks}>
-            {navLinks.map((link) => (
-              <li className={styles.navItem} key={link.id}>
-                <Link className={styles.navLink} to={link.path}>
-                  {link.label}
-                </Link>
-              </li>
+        <div
+          className={`${styles.menu} ${menuAberto ? styles.menuAberto : ""}`}
+        >
+          <div className={styles.links}>
+            {links.map((link) => (
+              <NavLink
+                key={link.path}
+                to={link.path}
+                onClick={fecharMenu}
+                className={({ isActive }) =>
+                  `${styles.link} ${isActive ? styles.ativo : ""}`
+                }
+              >
+                {link.label}
+              </NavLink>
             ))}
-          </ul>
+          </div>
 
-          {/* Ações da direita */}
-          <div className={styles.navActions}>
-            {/* Botão de Dark Mode */}
+          <div className={styles.acoes}>
             <button
-              className={styles.themeToggle}
-              onClick={toggleTheme}
               type="button"
-              aria-label="Alternar tema"
+              className={styles.tema}
+              onClick={toggleTheme}
               title="Alternar tema"
+              aria-label="Alternar tema"
             >
               {theme === "light" ? "🌙" : "☀️"}
             </button>
 
-            {/* Barra de pesquisa */}
-            <form className={styles.searchForm} role="search">
-              <input
-                className={styles.searchInput}
-                type="search"
-                placeholder="Buscar livro..."
-                aria-label="Buscar"
-              />
-              <button className={styles.searchBtn} type="submit">
-                Buscar
-              </button>
-            </form>
-
-            {/* Botão de Logout */}
-            {isLogged && (
-              <button
-                className={styles.logoutBtn}
-                onClick={handleLogout}
-                type="button"
-                title="Sair da conta"
-              >
-                Sair
-              </button>
-            )}
+            <button
+              type="button"
+              className={styles.sair}
+              onClick={handleLogout}
+            >
+              Sair
+            </button>
           </div>
         </div>
       </div>
     </nav>
   );
 }
-

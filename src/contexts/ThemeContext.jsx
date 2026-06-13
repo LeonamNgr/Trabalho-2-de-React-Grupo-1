@@ -1,10 +1,12 @@
-import { createContext, useState, useEffect } from "react";
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useEffect, useState } from "react";
 
 export const ThemeContext = createContext();
 
-export const ThemeProvider = ({ children }) => {
+export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem("app-theme") || "light";
+    const temaSalvo = localStorage.getItem("app-theme");
+    return temaSalvo === "dark" ? "dark" : "light";
   });
 
   useEffect(() => {
@@ -12,13 +14,15 @@ export const ThemeProvider = ({ children }) => {
     document.documentElement.setAttribute("data-bs-theme", theme);
   }, [theme]);
 
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
-  };
+  function toggleTheme() {
+    setTheme((temaAtual) =>
+      temaAtual === "light" ? "dark" : "light",
+    );
+  }
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
-};
+}

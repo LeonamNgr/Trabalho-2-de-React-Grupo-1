@@ -1,23 +1,27 @@
 export default function Input({
+  name,
   value,
-  type,
+  type = "text",
   onChange,
   label,
   placeholder,
-  isRequired,
+  isRequired = false,
 }) {
+  const inputId = `input-${name}`;
+
   return (
     <div className="mb-3">
-      <label htmlFor={`input-${value}`} className="form-label" type="text">
+      <label htmlFor={inputId} className="form-label fw-semibold">
         {label}
       </label>
+
       <input
         className="form-control"
-        id={`input-${value}`}
+        id={inputId}
+        name={name}
         placeholder={placeholder}
         value={value}
-        required
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(event) => onChange(event.target.value)}
         type={type}
         required={isRequired}
       />

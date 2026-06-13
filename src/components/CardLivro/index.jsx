@@ -1,45 +1,44 @@
 import { Link } from "react-router-dom";
 
-export default function CardLivro(props) {
-  const livro = props.livro;
-
+export default function CardLivro({ livro }) {
   return (
-    <div className="col-md-4">
-      <div className="card card-livro shadow-sm h-100">
-        <div className="card-body">
-          <h5 className="card-title">{livro.titulo}</h5>
+    <div className="col-sm-6 col-lg-4">
+      <article className="card card-livro shadow-sm h-100">
+        <div className="card-body d-flex flex-column">
+          <h2 className="h5 card-title">{livro.titulo}</h2>
 
           <p className="card-text mb-1">
             <strong>ISBN:</strong> {livro.isbn || "Não informado"}
           </p>
 
           <p className="card-text mb-1">
-            <strong>Ano:</strong> {livro.anoPublicacao || "Não informado"}
+            <strong>Ano:</strong>{" "}
+            {livro.anoPublicacao || "Não informado"}
           </p>
 
           <p className="card-text mb-1">
             <strong>Autor:</strong>{" "}
-            {livro.autor?.nome || livro.autor || "Não informado"}
+            {livro.autorNome || "Não informado"}
           </p>
 
           <p className="card-text mb-1">
             <strong>Editora:</strong>{" "}
-            {livro.editora?.nome || livro.editora || "Não informado"}
+            {livro.editoraNome || "Não informado"}
           </p>
 
-          <p className="card-text">
+          <p className="card-text mb-3">
             <strong>Gênero:</strong>{" "}
-            {livro.genero?.nome || livro.genero || "Não informado"}
+            {livro.generoSigla || "Não informado"}
           </p>
 
           <Link
             to={`/livros/editar/${livro.id}`}
-            className="btn btn-marrom w-100 mt-2"
+            className="btn btn-marrom w-100 mt-auto"
           >
             Editar livro
           </Link>
         </div>
-      </div>
+      </article>
     </div>
   );
 }

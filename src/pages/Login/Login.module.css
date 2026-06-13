@@ -1,67 +1,130 @@
-.container {
+@import url("https://fonts.googleapis.com/css2?family=Rye&display=swap");
+
+.pagina {
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background: linear-gradient(135deg, #f8f5f0, #fff7d8);
-
-  form {
-    background: #fff;
-    padding: 3rem 2rem;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px #3b2c5a;
-    width: 500px;
-    background: rgba(250, 227, 131, 0.3);
-    margin-right: 5rem;
-    > div:first-child {
-      display: flex;
-      justify-content: center;
-      padding: 0 0 1rem 0;
-      > h2 {
-        margin: 0 5rem 0 0;
-        align-self: center;
-      }
-    }
-
-    label {
-      font-family: "Rye", serif;
-    }
-
-    input {
-      margin-bottom: 2rem;
-    }
-
-    button {
-      display: block;
-      margin: 0 auto;
-      padding: 0.5rem 5rem;
-      border-radius: 10px;
-      margin-top: 3rem;
-    }
-  }
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--bg-color), var(--surface-soft));
 }
 
-.error {
-  color: var(--error-color);
-  margin-top: 1rem;
-  font-size: 0.9rem;
+.fundoDecorativo {
+  position: absolute;
+  inset: 0;
+  background-image:
+    url("/imagens/livros-voando.svg"),
+    url("/imagens/menina-lendo.svg"),
+    url("/imagens/pilha-livros.svg");
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-size: 180px, 170px, 160px;
+  background-position: 8% 18%, 90% 75%, 82% 18%;
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+.formulario {
+  width: 100%;
+  max-width: 780px;
+  padding: 2.5rem;
+  border-radius: 28px;
+  background-color: var(--card-bg);
+  box-shadow: 0 14px 34px var(--card-shadow);
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.formulario::before,
+.formulario::after {
+  content: "";
+  position: absolute;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+}
+
+.formulario::before {
+  width: 140px;
+  height: 140px;
+  top: -10px;
+  right: -10px;
+  background-image: url("/imagens/livros-voando.svg");
+  transform: translateY(-8px) rotate(-6deg);
+}
+
+.formulario::after {
+  width: 120px;
+  height: 120px;
+  bottom: -10px;
+  left: -10px;
+  background-image: url("/imagens/menina-sentada-lendo.svg");
+  transform: translateY(8px);
+}
+
+.formulario:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px var(--card-shadow);
+}
+
+.formulario:hover::before,
+.formulario:hover::after {
+  opacity: 0.18;
+  transform: translateY(0);
+}
+
+.logo {
+  display: block;
+  width: min(180px, 70%);
+  margin: 0 auto 1rem;
+  object-fit: contain;
+  filter: drop-shadow(0 5px 12px rgba(59, 44, 90, 0.2));
+}
+
+.titulo {
+  margin: 0;
+  text-align: center;
+  color: var(--heading-color);
+  font-size: clamp(2.2rem, 5vw, 3rem);
+  font-family: "Rye", serif;
+}
+
+.nomeMarca {
+  margin: 0.6rem 0 0.4rem;
+  text-align: center;
+  color: #ea1880;
+  font-size: 1.5rem;
+  font-family: "Rye", serif;
+}
+
+.subtitulo {
+  margin: 0 0 2rem;
+  text-align: center;
+  color: var(--muted-color);
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 @media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-    justify-content: flex-start;
-    height: auto;
-    min-height: 100vh;
-    padding-top: 2rem;
+  .pagina {
+    padding: 1rem;
+  }
 
-    > img {
-      display: none;
-    }
+  .formulario {
+    padding: 2rem 1.4rem;
+  }
 
-    form {
-      width: 90%;
-      margin-right: 0;
-    }
+  .logo {
+    width: min(150px, 65%);
+  }
+
+  .fundoDecorativo {
+    background-size: 120px, 120px, 110px;
+    background-position: 5% 10%, 95% 82%, 85% 10%;
   }
 }

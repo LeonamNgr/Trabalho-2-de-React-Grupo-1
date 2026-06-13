@@ -1,64 +1,90 @@
-import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import logo from "../../../public/imagens/logo-redonda-fundo-roxo.svg";
-import livro from "/imagens/livros-voando.svg";
-import styles from "./Login.module.css";
+import { useContext, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import Input from "../../components/Input";
 import { AuthContext } from "../../contexts/AuthContext";
+import styles from "./Login.module.css";
 
-const Login = () => {
-  const { login, error } = useContext(AuthContext);
+export default function Login() {
+  const { login, error, isLogged, limparErro } =
+    useContext(AuthContext);
+
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
-  const autenticar = async (e) => {
-    e.preventDefault();
+  if (isLogged) {
+    return <Navigate to="/home" replace />;
+  }
 
-    const success = await login(email, senha);
+  async function autenticar(event) {
+    event.preventDefault();
 
-    if (success) {
-      navigate("/home");
+    const sucesso = await login(email, senha);
+
+    if (sucesso) {
+      navigate("/home", { replace: true });
     }
-  };
+  }
+
+  function alterarEmail(valor) {
+    limparErro();
+    setEmail(valor);
+  }
+
+  function alterarSenha(valor) {
+    limparErro();
+    setSenha(valor);
+  }
 
   return (
-    <div className={styles.container}>
-      <img
-        src={livro}
-        className="img-fluid "
-        alt="Logo da Biblioteca - Era uma vez..."
-        style={{ maxWidth: "600px" }}
-      />
-      <form onSubmit={autenticar}>
-        <div>
-          <img src={logo} style={{ maxWidth: "200px" }} />
-          <h2 className="page-title fonte-rye">Login</h2>
-        </div>
-        <Input
-          label="E-mail"
-          onChange={setEmail}
-          placeholder={"Digite seu e-mail"}
-          value={email}
-          type="text"
-          isRequired={true}
-        />
-        <Input
-          label="Senha"
-          onChange={setSenha}
-          placeholder={"Digite sua senha"}
-          value={senha}
-          type="password"
-          isRequired={true}
-        />
-        {error && <p className="text-danger text-center fw-bold">{error}</p>}
+    <main className={styles.pagina}>
+      <div className={styles.fundoDecorativo}></div>
 
-        <button type="submit" className="btn-marrom">
+      <form className={styles.formulario} onSubmit={autenticar}>
+        <img
+          src="/imagens/logo-redonda-fundo-roxo.svg"
+          alt="Logo da Biblioteca Era uma vez"
+          className={styles.logo}
+        />
+
+        <h1 className={styles.titulo}>Login</h1>
+
+        <p className={styles.nomeMarca}>Era uma vez...</p>
+
+        <p className={styles.subtitulo}>
+          Sistema de gerenciamento de bibliotecas
+        </p>
+
+        <Input
+          name="email"
+          label="E-mail"
+          value={email}
+          onChange={alterarEmail}
+          placeholder="Digite seu e-mail"
+          type="email"
+          isRequired
+        />
+
+        <Input
+          name="senha"
+          label="Senha"
+          value={senha}
+          onChange={alterarSenha}
+          placeholder="Digite sua senha"
+          type="password"
+          isRequired
+        />
+
+        {error && (
+          <div className="alert alert-danger py-2 text-center">
+            {error}
+          </div>
+        )}
+
+        <button type="submit" className="btn btn-marrom w-100">
           Entrar
         </button>
       </form>
-    </div>
+    </main>
   );
-};
-
-export default Login;
+}

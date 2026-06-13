@@ -1,7 +1,7 @@
 .container {
   min-height: 100vh;
   padding: 2rem;
-  background: linear-gradient(135deg, var(--bg-color), var(--card-bg));
+  background: linear-gradient(135deg, var(--bg-color), var(--surface-soft));
 }
 
 .hero {
@@ -9,35 +9,35 @@
   grid-template-columns: 2fr 1fr;
   gap: 2rem;
   align-items: center;
-  background-color: var(--card-bg);
-  border-radius: 24px;
   padding: 3rem;
-  box-shadow: 0 8px 24px var(--card-shadow);
   margin-bottom: 2rem;
+  border-radius: 24px;
+  background-color: var(--card-bg);
+  box-shadow: 0 8px 24px var(--card-shadow);
 }
 
 .tag {
   display: inline-block;
-  background-color: #fae383;
-  color: #3b2c5a;
   padding: 0.4rem 0.8rem;
-  border-radius: 999px;
-  font-weight: bold;
   margin-bottom: 1rem;
+  border-radius: 999px;
+  color: #3b2c5a;
+  background-color: #fae383;
+  font-weight: 700;
 }
 
 .titulo {
-  color: var(--home-titulo);
-  font-size: 2.8rem;
-  font-weight: 800;
   margin-bottom: 1rem;
+  color: var(--heading-color);
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 800;
 }
 
 .subtitulo {
-  color: var(--home-subtitulo);
-  font-size: 1.1rem;
   max-width: 650px;
   margin-bottom: 1.5rem;
+  color: var(--muted-color);
+  font-size: 1.08rem;
 }
 
 .botoes {
@@ -46,45 +46,58 @@
   flex-wrap: wrap;
 }
 
-.botaoSecundario {
-  border: 2px solid #ea1880;
-  color: #ea1880;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  font-weight: 600;
-  text-decoration: none;
+.botaoAcao {
+  min-width: 190px;
+  padding: 0.7rem 1.2rem;
+  border: 2px solid var(--primary-color);
+  border-radius: 9px;
+  color: var(--btn-text);
+  background-color: var(--primary-color);
+  font-weight: 700;
+  text-align: center;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
 }
 
-.botaoSecundario:hover {
-  background-color: #ea1880;
+.botaoAcao:hover {
   color: #ffffff;
+  background-color: #70ae6e;
+  border-color: #70ae6e;
+  transform: translateY(-2px);
+}
+
+.botaoAcao:focus-visible {
+  outline: 3px solid rgba(199, 218, 72, 0.5);
+  outline-offset: 3px;
 }
 
 .caixaDestaque {
-  background: linear-gradient(160deg, var(--primary-color), #51698d);
-  color: #ffffff;
-  border-radius: 24px;
   padding: 2rem;
+  border-radius: 24px;
+  color: white;
   text-align: center;
+  background: linear-gradient(160deg, #3b2c5a, #51698d);
 }
 
 .imagemHero {
   width: 100%;
-  max-width: 260px;
-  margin-bottom: 1rem;
+  max-width: 270px;
 }
 
 .contadorLivros h2 {
+  margin: 0.5rem 0 0;
+  color: #c7da48;
   font-size: 3rem;
   font-weight: 800;
-  margin: 0.5rem 0;
-  color: #c7da48;
 }
 
 .contadorLivros p {
   margin: 0;
-  font-weight: 600;
   color: #fae383;
+  font-weight: 700;
 }
 
 .resumo {
@@ -95,11 +108,22 @@
 }
 
 .cardResumo {
-  background-color: #ffffff;
-  border-left: 5px solid #70ae6e;
-  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 170px;
   padding: 1.5rem;
-  box-shadow: 0 6px 18px rgba(59, 44, 90, 0.1);
+  border: 1px solid var(--soft-border);
+  border-left: 6px solid #70ae6e;
+  border-radius: 16px;
+  color: inherit;
+  background-color: var(--card-bg);
+  box-shadow: 0 6px 18px var(--card-shadow);
+  cursor: pointer;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
 }
 
 .cardResumo:nth-child(2) {
@@ -110,22 +134,64 @@
   border-left-color: #ea1880;
 }
 
-.cardResumo h3 {
-  color: #3b2c5a;
+.cardResumo:hover {
+  color: inherit;
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px var(--card-shadow);
+}
+
+.cardResumo:focus-visible {
+  outline: 3px solid rgba(199, 218, 72, 0.6);
+  outline-offset: 4px;
+}
+
+.cardResumo h2 {
+  margin-bottom: 0.5rem;
+  color: var(--heading-color);
   font-size: 1.2rem;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .cardResumo p {
-  color: #51698d;
-  margin: 0;
+  margin-bottom: 0.7rem;
+  color: var(--muted-color);
+}
+
+.iconeResumo {
+  width: 70px;
+  height: 70px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.cardChamada {
+  color: #ea1880;
+  font-weight: 700;
+}
+.cardResumo:nth-child(2) {
+  border-left-color: #c7da48;
+}
+
+.cardResumo:nth-child(3) {
+  border-left-color: #ea1880;
+}
+
+.cardResumo h2 {
+  color: var(--heading-color);
+  font-size: 1.2rem;
+}
+
+.cardResumo p,
+.cabecalhoLista p,
+.cardLivro p {
+  color: var(--muted-color);
 }
 
 .areaLivros {
-  background-color: #ffffff;
-  border-radius: 24px;
   padding: 2rem;
-  box-shadow: 0 8px 24px rgba(59, 44, 90, 0.12);
+  border-radius: 24px;
+  background-color: var(--card-bg);
+  box-shadow: 0 8px 24px var(--card-shadow);
 }
 
 .cabecalhoLista {
@@ -135,14 +201,10 @@
   margin-bottom: 1.5rem;
 }
 
-.cabecalhoLista h2 {
-  color: #3b2c5a;
+.cabecalhoLista h2,
+.cardLivro h3 {
+  color: var(--heading-color);
   font-weight: 800;
-}
-
-.cabecalhoLista p {
-  color: #51698d;
-  margin: 0;
 }
 
 .inputBusca {
@@ -152,62 +214,55 @@
 
 .lista {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(225px, 1fr));
   gap: 1rem;
 }
 
 .cardLivro {
-  background-color: var(--home-card-bg);
-  border-left: 5px solid var(--home-card-border);
-  border-radius: 16px;
   padding: 1.2rem;
-  border: 1px solid rgba(81, 105, 141, 0.15);
-  box-shadow: 0 2px 4px var(--card-shadow);
+  border: 1px solid var(--soft-border);
+  border-radius: 16px;
+  background-color: var(--surface-soft);
   transition: 0.2s;
 }
 
 .cardLivro:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 18px rgba(59, 44, 90, 0.15);
+  box-shadow: 0 8px 18px var(--card-shadow);
 }
 
 .iconeLivro {
-  width: 55px;
-  height: 55px;
-  background-color: #fae383;
+  width: 58px;
+  height: 58px;
+  margin-bottom: 1rem;
+  display: grid;
+  place-items: center;
   border: 2px solid #c7da48;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
+  background-color: #fae383;
 }
 
 .iconeLivro img {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   object-fit: contain;
 }
 
-.cardLivro h3 {
-  color: var(--home-card-titulo);
-  font-size: 1.1rem;
+.linkEditar {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: #ea1880;
   font-weight: 700;
 }
 
-.cardLivro p {
-  color: var(--home-card-texto);
-  margin-bottom: 0.4rem;
-}
-
 @media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
   .hero {
     grid-template-columns: 1fr;
     padding: 2rem;
-  }
-
-  .titulo {
-    font-size: 2rem;
   }
 
   .resumo {
@@ -221,4 +276,11 @@
   .inputBusca {
     max-width: 100%;
   }
+  .botaoAcao {
+  width: 100%;
+}
+
+.cardResumo {
+  min-height: auto;
+}
 }

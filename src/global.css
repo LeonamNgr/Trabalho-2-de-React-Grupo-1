@@ -1,61 +1,51 @@
 :root {
-  /* Cores Globais da Aplicação */
   --bg-color: #f8f5f0;
+  --card-bg: #ffffff;
+  --surface-soft: #fff9e7;
   --text-color: #3b2c5a;
+  --heading-color: #3b2c5a;
+  --muted-color: #51698d;
   --primary-color: #3b2c5a;
+  --primary-hover: #70ae6e;
   --btn-text: #fae383;
-
-  /* Utilitários */
-  --card-bg: #fff;
-  --card-shadow: rgba(0, 0, 0, 0.12);
-  --input-border: #ccc;
-  --input-bg: #fff;
-  --error-color: #dc3545;
-
-  /* Cores Específicas da Home */
-  --home-titulo: #3b2f2f;
-  --home-subtitulo: #6b5b4b;
-  --home-card-border: #8b5e3c;
-  --home-card-titulo: #4a2c1a;
-  --home-card-texto: #555;
-  --home-card-bg: var(--card-bg);
+  --soft-border: rgba(81, 105, 141, 0.2);
+  --card-shadow: rgba(59, 44, 90, 0.13);
+  --input-bg: #ffffff;
+  --input-border: #b9bfd0;
 }
 
 :root[data-bs-theme="dark"] {
-  /* Cores Globais - Modo Escuro */
-  --bg-color: #1a1625;
-  --text-color: #e6e1f9;
-  --primary-color: #8c7db7;
-  --btn-text: #1a1625;
-
-  /* Utilitários - Modo Escuro */
-  --card-bg: #2a2438;
-  --card-shadow: rgba(0, 0, 0, 0.3);
-  --input-border: #4a3f5e;
-  --input-bg: #1e1830;
-  --error-color: #ff6b6b;
-
-  /* Cores Específicas da Home - Modo Escuro */
-  --home-titulo: #f8f5f0;
-  --home-subtitulo: #d4ccb8;
-  --home-card-border: #c89670;
-  --home-card-titulo: #f0e6d2;
-  --home-card-texto: #bbb;
-  --home-card-bg: var(--card-bg);
+  --bg-color: #17131f;
+  --card-bg: #282235;
+  --surface-soft: #332b43;
+  --text-color: #f2edf9;
+  --heading-color: #fae383;
+  --muted-color: #d5dcec;
+  --primary-color: #8f7cb9;
+  --primary-hover: #70ae6e;
+  --btn-text: #17131f;
+  --soft-border: rgba(250, 227, 131, 0.2);
+  --card-shadow: rgba(0, 0, 0, 0.35);
+  --input-bg: #211b2d;
+  --input-border: #5d5270;
 }
 
 * {
   box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
 body {
   margin: 0;
-  background-color: var(--bg-color);
   color: var(--text-color);
-  font-family: Arimo, sans-serif;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+  background-color: var(--bg-color);
+  font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 a {
@@ -63,59 +53,80 @@ a {
 }
 
 .main-container {
-  min-height: calc(100vh - 70px);
+  min-height: calc(100vh - 72px);
   padding: 2rem 1rem;
 }
 
 .page-title {
-  color: var(--primary-color);
-  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--heading-color);
+  font-weight: 800;
   text-align: center;
-  margin-bottom: 1.5rem;
 }
 
 .page-subtitle {
-  color: var(--text-color);
-  text-align: center;
   margin-bottom: 2rem;
+  color: var(--muted-color);
+  text-align: center;
+}
+
+.fonte-rye {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.card,
+.form-card {
+  color: var(--text-color);
+  background-color: var(--card-bg);
+}
+
+.form-card {
+  max-width: 650px;
 }
 
 .card-livro {
-  border-left: 5px solid var(--primary-color);
+  border: 1px solid var(--soft-border);
+  border-left: 5px solid #70ae6e;
   border-radius: 14px;
-  transition: 0.2s;
-  background-color: var(--bg-color);
   color: var(--text-color);
+  background-color: var(--card-bg);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .card-livro:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 18px rgba(59, 44, 90, 0.16);
+  box-shadow: 0 8px 18px var(--card-shadow);
 }
 
 .btn-marrom {
-  background-color: var(--primary-color);
+  border: 0;
   color: var(--btn-text);
-  border: none;
-  font-weight: 600;
+  background-color: var(--primary-color);
+  font-weight: 700;
 }
 
-.btn-marrom:hover {
-  background-color: #70ae6e;
-  color: #ffffff;
-}
-
+.btn-marrom:hover,
 .btn-marrom:focus {
-  background-color: #70ae6e;
-  color: #ffffff;
-  box-shadow: 0 0 0 0.2rem rgba(199, 218, 72, 0.35);
+  color: white;
+  background-color: var(--primary-hover);
 }
 
-.form-control:focus {
+.form-control,
+.form-select {
+  color: var(--text-color);
+  background-color: var(--input-bg);
+  border-color: var(--input-border);
+}
+
+.form-control:focus,
+.form-select:focus {
+  color: var(--text-color);
+  background-color: var(--input-bg);
   border-color: #70ae6e;
-  box-shadow: 0 0 0 0.2rem rgba(112, 174, 110, 0.2);
+  box-shadow: 0 0 0 0.2rem rgba(112, 174, 110, 0.22);
 }
 
-.fonte-rye {
-  font-family: "Rye", serif;
+.form-control::placeholder {
+  color: var(--muted-color);
+  opacity: 0.75;
 }
