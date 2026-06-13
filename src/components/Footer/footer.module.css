@@ -1,25 +1,41 @@
 .footerContainer {
-  background-color: #f8f5f0;
-  color: #3b2c5a;
-  padding: 2rem 1rem;
+  background-color: #343a40;
+  color: #fae383;
+  padding: 1rem 1rem 0;
   text-align: center;
-  border-top: 3px solid #70ae6e;
+  font-size: 0.9rem;
+}
+
+.footerContainer h5 {
+  color: #fae383;
+  font-size: 1rem;
+  font-weight: 200;
+  margin-bottom: 0.5rem;
+}
+
+.footerContainer p {
+  margin-bottom: 0.25rem;
 }
 
 .footerBottom {
-  background-color: #3b2c5a;
+  background-color: #212529;
   color: #fae383;
-  padding: 1rem;
-  margin-top: 1rem;
-  font-weight: 600;
+  padding: 0.6rem;
+  margin: 0.8rem -1rem 0;
+  font-size: 0.85rem;
+  font-weight: 100;
+}
+
+.socialIcons {
+  margin-top: 0.4rem;
 }
 
 .socialIcons a {
-  color: #3b2c5a;
-  margin: 0 12px;
+  color: #fae383;
+  margin: 0 8px;
   transition: 0.3s;
 }
 
 .socialIcons a:hover {
-  color: #70ae6e;
+  color: #ff6b6b;
 }
