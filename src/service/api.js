@@ -13,7 +13,7 @@ api.interceptors.request.use((config) => {
 });
 
 
-// MÉTODOS DE LIVRO 
+
 
 export const buscarTodosOsLivros = async () => {
   const response = await api.get("/Livro/todos-os-livros");
@@ -41,7 +41,6 @@ export const deletarLivro = async (id) => {
 };
 
 
-// MÉTODOS DE AUTOR
 
 export const buscarAutores = async () => {
   const response = await api.get("/Autor/todos-os-autores"); 
@@ -54,7 +53,6 @@ export const criarAutor = async (dadosDoAutor) => {
 };
 
 
-// MÉTODOS DE EDITORA
 
 export const buscarEditoras = async () => {
   const response = await api.get("/Editora/todas-as-editoras");
@@ -67,7 +65,6 @@ export const criarEditora = async (dadosDaEditora) => {
 };
 
 
-// MÉTODOS DE GÉNERO
 
 export const buscarGeneros = async () => {
   const response = await api.get("/generos/todos-os-generos");

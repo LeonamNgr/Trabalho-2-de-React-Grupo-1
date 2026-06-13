@@ -15,7 +15,7 @@ export default function Livros() {
         setLivros(dados);
       } catch (error) {
         console.error("Erro ao buscar livros:", error);
-        setErro("Não foi possível carregar os livros da API.");
+        setErro("Não foi possível carregar os livros do sistema.");
       } finally {
         setLoading(false);
       }
@@ -28,6 +28,7 @@ export default function Livros() {
 
   const livrosFiltrados = livros.filter((livro) => {
     const titulo = livro.titulo?.toLowerCase() || "";
+    
     const isbn = livro.isbn?.toLowerCase() || "";
     const ano = livro.anoPublicacao?.toString() || "";
 
@@ -60,7 +61,7 @@ export default function Livros() {
       </h1>
 
       <p className="page-subtitle">
-        Consulte os livros cadastrados na API da biblioteca.
+        Consulte os livros cadastrados no sistema da biblioteca.
       </p>
 
       <div className="mb-4">

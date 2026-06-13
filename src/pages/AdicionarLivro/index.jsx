@@ -1,50 +1,87 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { 
-  criarLivro, 
-  buscarAutores, 
-  buscarEditoras, 
-  buscarGeneros 
+import {
+  buscarAutores,
+  buscarEditoras,
+  buscarGeneros,
+  criarLivro,
 } from "../../service/api";
 
 export default function AdicionarLivro() {
   const navigate = useNavigate();
   const [erroAPI, setErroAPI] = useState("");
   const [sucesso, setSucesso] = useState("");
-
-  // Estados para guardar as listas vindas da API
   const [autores, setAutores] = useState([]);
   const [editoras, setEditoras] = useState([]);
   const [generos, setGeneros] = useState([]);
+  const [autorDigitado, setAutorDigitado] = useState("");
+  const [editoraDigitada, setEditoraDigitada] = useState("");
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm();
 
-  // Busca os dados assim que o componente é montado no ecrã
   useEffect(() => {
     async function carregarListas() {
       try {
         const [listaAutores, listaEditoras, listaGeneros] = await Promise.all([
           buscarAutores(),
           buscarEditoras(),
-          buscarGeneros()
+          buscarGeneros(),
         ]);
-        
+
         setAutores(listaAutores);
         setEditoras(listaEditoras);
         setGeneros(listaGeneros);
-      } 
-      catch {
-        setErroAPI("Erro ao carregar as listas de opções. Verifique a conexão.");
+      } catch {
+        setErroAPI(
+          "Erro ao carregar as listas de opções. Verifique a conexão.",
+        );
       }
     }
+
     carregarListas();
   }, []);
+
+  function normalizarTexto(texto) {
+    return String(texto ?? "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+  }
+
+  function atualizarAutor(evento) {
+    const nomeDigitado = evento.target.value;
+    setAutorDigitado(nomeDigitado);
+
+    const autorEncontrado = autores.find(
+      (autor) => normalizarTexto(autor.nome) === normalizarTexto(nomeDigitado),
+    );
+
+    setValue("autorId", autorEncontrado?.id || "", {
+      shouldValidate: true,
+    });
+  }
+
+  function atualizarEditora(evento) {
+    const nomeDigitado = evento.target.value;
+    setEditoraDigitada(nomeDigitado);
+
+    const editoraEncontrada = editoras.find(
+      (editora) =>
+        normalizarTexto(editora.nome) === normalizarTexto(nomeDigitado),
+    );
+
+    setValue("editoraId", editoraEncontrada?.id || "", {
+      shouldValidate: true,
+    });
+  }
 
   async function onSubmit(dadosDoFormulario) {
     setErroAPI("");
@@ -54,6 +91,8 @@ export default function AdicionarLivro() {
       await criarLivro(dadosDoFormulario);
       setSucesso("Livro adicionado com sucesso!");
       reset();
+      setAutorDigitado("");
+      setEditoraDigitada("");
       setTimeout(() => navigate("/home"), 2000);
     } catch {
       setErroAPI("Erro ao comunicar com a API. Tente novamente.");
@@ -61,115 +100,189 @@ export default function AdicionarLivro() {
   }
 
   return (
-    <div className="container mt-5">
-      <div className="card shadow p-4 mx-auto" style={{ maxWidth: "600px" }}>
-        <h2 className="text-center mb-4">Adicionar Novo Livro</h2>
+    <main className="pagina-formulario">
+      <section className="formulario-card formulario-card-livro">
+        <h1 className="formulario-titulo">Adicionar Novo Livro</h1>
 
         {erroAPI && <div className="alert alert-danger">{erroAPI}</div>}
+
         {sucesso && <div className="alert alert-success">{sucesso}</div>}
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          
           <div className="mb-3">
-            <label className="form-label fw-bold">Título do Livro</label>
+            <label className="form-label">Título do Livro</label>
+
             <input
               type="text"
               className={`form-control ${errors.titulo ? "is-invalid" : ""}`}
-              {...register("titulo", { required: "O título é obrigatório" })}
+              {...register("titulo", {
+                required: "O título é obrigatório",
+              })}
             />
-            {errors.titulo && <span className="invalid-feedback">{errors.titulo.message}</span>}
+
+            {errors.titulo && (
+              <span className="invalid-feedback">{errors.titulo.message}</span>
+            )}
           </div>
 
           <div className="row mb-3">
             <div className="col-md-6">
-              <label className="form-label fw-bold">ISBN</label>
+              <label className="form-label">ISBN</label>
+
               <input
                 type="text"
                 className={`form-control ${errors.isbn ? "is-invalid" : ""}`}
-                {...register("isbn", { required: "O ISBN é obrigatório" })}
+                {...register("isbn", {
+                  required: "O ISBN é obrigatório",
+                })}
               />
-              {errors.isbn && <span className="invalid-feedback">{errors.isbn.message}</span>}
+
+              {errors.isbn && (
+                <span className="invalid-feedback">{errors.isbn.message}</span>
+              )}
             </div>
 
             <div className="col-md-6">
-              <label className="form-label fw-bold">Ano de Publicação</label>
+              <label className="form-label">Ano de Publicação</label>
+
               <input
                 type="number"
-                className={`form-control ${errors.anoPublicacao ? "is-invalid" : ""}`}
-                {...register("anoPublicacao", { 
+                className={`form-control ${
+                  errors.anoPublicacao ? "is-invalid" : ""
+                }`}
+                {...register("anoPublicacao", {
                   required: "O ano é obrigatório",
-                  valueAsNumber: true 
+                  valueAsNumber: true,
                 })}
               />
-              {errors.anoPublicacao && <span className="invalid-feedback">{errors.anoPublicacao.message}</span>}
+
+              {errors.anoPublicacao && (
+                <span className="invalid-feedback">
+                  {errors.anoPublicacao.message}
+                </span>
+              )}
             </div>
           </div>
 
-          {/* === GÊNERO (SELECT) === */}
           <div className="mb-3">
-            <label className="form-label fw-bold">Gênero</label>
+            <label className="form-label">Gênero</label>
+
             <select
               className={`form-select ${errors.generoId ? "is-invalid" : ""}`}
-              {...register("generoId", { 
+              {...register("generoId", {
                 required: "Selecione um gênero",
-                valueAsNumber: true // Retorna o ID como Number para a API
+                valueAsNumber: true,
               })}
             >
               <option value="">Selecione um gênero...</option>
+
               {generos.map((genero) => (
                 <option key={genero.id} value={genero.id}>
                   {genero.nome} ({genero.sigla})
                 </option>
               ))}
             </select>
-            {errors.generoId && <span className="invalid-feedback">{errors.generoId.message}</span>}
+
+            {errors.generoId && (
+              <span className="invalid-feedback">
+                {errors.generoId.message}
+              </span>
+            )}
           </div>
 
-          {/* === AUTOR (SELECT) === */}
           <div className="mb-3">
-            <label className="form-label fw-bold">Autor</label>
-            <select
-              className={`form-select ${errors.autorId ? "is-invalid" : ""}`}
-              {...register("autorId", { 
-                required: "Selecione um autor",
-                valueAsNumber: true 
-              })}
-            >
-              <option value="">Selecione um autor...</option>
+            <label className="form-label" htmlFor="autor">
+              Autor
+            </label>
+
+            <input
+              id="autor"
+              type="text"
+              list="lista-autores"
+              className={`form-control ${errors.autorId ? "is-invalid" : ""}`}
+              placeholder="Digite o nome do autor"
+              value={autorDigitado}
+              onChange={atualizarAutor}
+              autoComplete="off"
+            />
+
+            <datalist id="lista-autores">
               {autores.map((autor) => (
-                <option key={autor.id} value={autor.id}>
-                  {autor.nome}
-                </option>
+                <option key={autor.id} value={autor.nome} />
               ))}
-            </select>
-            {errors.autorId && <span className="invalid-feedback">{errors.autorId.message}</span>}
-          </div>
+            </datalist>
 
-          {/* === EDITORA (SELECT) === */}
-          <div className="mb-3">
-            <label className="form-label fw-bold">Editora</label>
-            <select
-              className={`form-select ${errors.editoraId ? "is-invalid" : ""}`}
-              {...register("editoraId", { 
-                required: "Selecione uma editora",
-                valueAsNumber: true 
+            <input
+              type="hidden"
+              {...register("autorId", {
+                required: "Digite ou selecione um autor cadastrado",
+                valueAsNumber: true,
               })}
+            />
+
+            {errors.autorId && (
+              <span className="invalid-feedback d-block">
+                {errors.autorId.message}
+              </span>
+            )}
+
+            <Link
+              to="/autores/adicionar"
+              className="btn btn-outline-secondary mt-2"
             >
-              <option value="">Selecione uma editora...</option>
-              {editoras.map((editora) => (
-                <option key={editora.id} value={editora.id}>
-                  {editora.nome}
-                </option>
-              ))}
-            </select>
-            {errors.editoraId && <span className="invalid-feedback">{errors.editoraId.message}</span>}
+              Cadastrar novo autor
+            </Link>
           </div>
 
-          <button type="submit" className="btn btn-primary w-100 mt-3 fw-bold">
+          <div className="mb-3">
+            <label className="form-label" htmlFor="editora">
+              Editora
+            </label>
+
+            <input
+              id="editora"
+              type="text"
+              list="lista-editoras"
+              className={`form-control ${errors.editoraId ? "is-invalid" : ""}`}
+              placeholder="Digite o nome da editora"
+              value={editoraDigitada}
+              onChange={atualizarEditora}
+              autoComplete="off"
+            />
+
+            <datalist id="lista-editoras">
+              {editoras.map((editora) => (
+                <option key={editora.id} value={editora.nome} />
+              ))}
+            </datalist>
+
+            <input
+              type="hidden"
+              {...register("editoraId", {
+                required: "Digite ou selecione uma editora cadastrada",
+                valueAsNumber: true,
+              })}
+            />
+
+            {errors.editoraId && (
+              <span className="invalid-feedback d-block">
+                {errors.editoraId.message}
+              </span>
+            )}
+
+            <Link
+              to="/editoras/adicionar"
+              className="btn btn-outline-secondary mt-2"
+            >
+              Cadastrar nova editora
+            </Link>
+          </div>
+
+          <button type="submit" className="btn btn-marrom btn-formulario">
             Guardar Livro
           </button>
         </form>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
