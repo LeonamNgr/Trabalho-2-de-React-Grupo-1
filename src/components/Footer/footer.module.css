@@ -1,0 +1,25 @@
+.footerContainer {
+  background-color: #f8f5f0;
+  color: #3b2c5a;
+  padding: 2rem 1rem;
+  text-align: center;
+  border-top: 3px solid #70ae6e;
+}
+
+.footerBottom {
+  background-color: #3b2c5a;
+  color: #fae383;
+  padding: 1rem;
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+.socialIcons a {
+  color: #3b2c5a;
+  margin: 0 12px;
+  transition: 0.3s;
+}
+
+.socialIcons a:hover {
+  color: #70ae6e;
+}
