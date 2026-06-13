@@ -7,6 +7,7 @@ import AdicionarLivro from "./pages/AdicionarLivro/index.jsx";
 import BuscarLivro from "./pages/BuscarLivro/index.jsx";
 import EditarLivro from "./pages/EditarLivro/index.jsx";
 import Livros from "./pages/Livros/index.jsx";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -62,6 +63,7 @@ function App() {
         />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <Footer />
     </>
   );
 }
