@@ -12,6 +12,9 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+
+// MÉTODOS DE LIVRO 
+
 export const buscarTodosOsLivros = async () => {
   const response = await api.get("/Livro/todos-os-livros");
   return response.data;
@@ -34,6 +37,45 @@ export const atualizarLivro = async (id, dadosDoLivro) => {
 
 export const deletarLivro = async (id) => {
   const response = await api.delete(`/Livro/deletar-livro/${id}`);
+  return response.data;
+};
+
+
+// MÉTODOS DE AUTOR
+
+export const buscarAutores = async () => {
+  const response = await api.get("/Autor/todos-os-autores"); 
+  return response.data;
+};
+
+export const criarAutor = async (dadosDoAutor) => {
+  const response = await api.post("/Autor/adicionar-autor", dadosDoAutor);
+  return response.data;
+};
+
+
+// MÉTODOS DE EDITORA
+
+export const buscarEditoras = async () => {
+  const response = await api.get("/Editora/todas-as-editoras");
+  return response.data;
+};
+
+export const criarEditora = async (dadosDaEditora) => {
+  const response = await api.post("/Editora/adicionar-editora", dadosDaEditora);
+  return response.data;
+};
+
+
+// MÉTODOS DE GÉNERO
+
+export const buscarGeneros = async () => {
+  const response = await api.get("/generos/todos-os-generos");
+  return response.data;
+};
+
+export const criarGenero = async (dadosDoGenero) => {
+  const response = await api.post("/generos/adicionar-genero", dadosDoGenero);
   return response.data;
 };
 

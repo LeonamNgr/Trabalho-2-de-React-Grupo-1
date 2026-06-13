@@ -8,6 +8,10 @@ import AdicionarLivro from "../pages/AdicionarLivro/index.jsx";
 import BuscarLivro from "../pages/BuscarLivro/index.jsx";
 import EditarLivro from "../pages/EditarLivro/index.jsx";
 
+
+import AdicionarAutor from "../pages/AdicionarAutor/index.jsx";
+import AdicionarEditora from "../pages/AdicionarEditora/index.jsx";
+
 import PrivateRoute from "./PrivateRoute.jsx";
 
 export default function AppRouter() {
@@ -23,8 +27,13 @@ export default function AppRouter() {
         <Route path="/livros/adicionar" element={<AdicionarLivro />} />
         <Route path="/livros/buscar" element={<BuscarLivro />} />
         <Route path="/livros/editar/:id" element={<EditarLivro />} />
+        
+        
+        <Route path="/autores/adicionar" element={<AdicionarAutor />} />
+        <Route path="/editoras/adicionar" element={<AdicionarEditora />} />
       </Route>
 
+      {/* Qualquer rota não encontrada cai aqui e vai para o login */}
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
