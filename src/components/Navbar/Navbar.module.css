@@ -6,7 +6,9 @@
   top: 0;
   z-index: 1000;
   backdrop-filter: blur(10px);
-  transition: background 0.4s ease, box-shadow 0.3s ease;
+  transition:
+    background 0.4s ease,
+    box-shadow 0.3s ease;
 }
 
 .navbarContainer {
@@ -25,7 +27,9 @@
   align-items: center;
   gap: 0.65rem;
   text-decoration: none;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .navbarBrand:hover {
@@ -39,7 +43,9 @@
   object-fit: contain;
   border-radius: 8px;
   filter: drop-shadow(0 2px 6px rgba(250, 227, 131, 0.35));
-  transition: filter 0.3s ease, transform 0.3s ease;
+  transition:
+    filter 0.3s ease,
+    transform 0.3s ease;
 }
 
 .navbarBrand:hover .navbarLogo {
@@ -53,6 +59,9 @@
   color: #fae383;
   letter-spacing: 0.5px;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+  font-family: "Rye", serif;
+  padding-right: 1rem;
 }
 
 /* ---- Toggler ---- */
@@ -100,7 +109,9 @@
   font-weight: 500;
   text-decoration: none;
   border-radius: 6px;
-  transition: color 0.25s ease, background-color 0.25s ease;
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease;
   position: relative;
 }
 
@@ -148,7 +159,10 @@
   border-radius: 50%;
   font-size: 1.1rem;
   cursor: pointer;
-  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
 }
 
 .themeToggle:hover {
@@ -175,7 +189,10 @@
   font-size: 0.88rem;
   outline: none;
   width: 170px;
-  transition: background 0.3s ease, border-color 0.3s ease, width 0.3s ease;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    width 0.3s ease;
 }
 
 .searchInput::placeholder {
@@ -198,7 +215,9 @@
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
 .searchBtn:hover {
@@ -217,7 +236,10 @@
   font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .logoutBtn:hover {
