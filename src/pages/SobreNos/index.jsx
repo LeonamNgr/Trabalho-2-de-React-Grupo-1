@@ -13,32 +13,26 @@ export default function SobreNos() {
             Sistema de Gerenciamento de Biblioteca
           </span>
 
-          <h1 className="fonte-rye">
-            Sobre nós
-          </h1>
+          <h1 className="fonte-rye">Sobre nós</h1>
 
           <p>
-            O Sistema de Gerenciamento de Biblioteca "Era uma vez..."" é um sistema criado para
-            facilitar o gerenciamento de livros, reunindo
+            O Sistema de Gerenciamento de Biblioteca "Era uma vez..." é uma
+            plataforma criada para facilitar o gerenciamento de livros, reunindo
             organização, tecnologia e praticidade em um só lugar.
           </p>
 
           <p>
-            Nossa plataforma permite cadastrar, consultar e
-            localizar livros de maneira simples, auxiliando no
-            controle e na organização do acervo da biblioteca.
+            A plataforma permite cadastrar, consultar e localizar livros de
+            maneira simples, auxiliando no controle e na organização do acervo
+            da biblioteca.
           </p>
 
-          <Link
-            to="/"
-            className={`btn-marrom ${styles.botaoVoltar}`}
-          >
+          <Link to="/" className={`btn-marrom ${styles.botaoVoltar}`}>
             Voltar para o login
           </Link>
         </div>
 
         <div className={styles.imagens}>
-          
           <img
             src={livros}
             className={styles.livros}
@@ -52,8 +46,8 @@ export default function SobreNos() {
           <h2>Nosso objetivo</h2>
 
           <p>
-            Tornar o gerenciamento do acervo mais organizado,
-            acessível e eficiente.
+            Tornar o gerenciamento do acervo mais organizado, acessível e
+            eficiente.
           </p>
         </article>
 
@@ -61,8 +55,8 @@ export default function SobreNos() {
           <h2>O que oferecemos</h2>
 
           <p>
-            Cadastro, pesquisa, consulta e visualização das
-            informações dos livros da biblioteca.
+            Cadastro, pesquisa, consulta e visualização das informações dos
+            livros da biblioteca.
           </p>
         </article>
 
@@ -71,13 +65,8 @@ export default function SobreNos() {
 
           <p>
             Sistema desenvolvido pelo Grupo 1 como projeto de React.
-           Integrantes:
-
-        1. Ana Paula Pimenta;
-        2. Diana Monteiro;
-        3. Laís Ferrari;
-        4. Leonam Machado;
-        5. Thiago Sinesio;
+            Integrantes: 1. Ana Paula Pimenta; 2. Diana Monteiro; 3. Laís
+            Ferrari; 4. Leonam Machado; 5. Thiago Sinesio;
           </p>
         </article>
       </section>

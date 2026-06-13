@@ -22,19 +22,22 @@
   color: #3b2c5a;
   padding: 0.4rem 0.8rem;
   border-radius: 999px;
+  font-family: "Rye", serif;
   font-weight: bold;
   margin-bottom: 1rem;
 }
 
 .titulo {
   color: var(--home-titulo);
+  font-family: "Rye", serif;
   font-size: 2.8rem;
-  font-weight: 800;
+  font-weight: 400;
   margin-bottom: 1rem;
 }
 
 .subtitulo {
   color: var(--home-subtitulo);
+  font-family: "Rye", serif;
   font-size: 1.1rem;
   max-width: 650px;
   margin-bottom: 1.5rem;
@@ -46,18 +49,29 @@
   flex-wrap: wrap;
 }
 
-.botaoSecundario {
-  border: 2px solid #ea1880;
-  color: #ea1880;
-  padding: 0.5rem 1rem;
+.botoes a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primary-color);
+  color: var(--btn-text);
+  border: 2px solid var(--primary-color);
   border-radius: 6px;
+  padding: 0.5rem 1rem;
   font-weight: 600;
   text-decoration: none;
+  transition: 0.2s;
 }
 
-.botaoSecundario:hover {
-  background-color: #ea1880;
+.botoes a:hover {
+  background-color: #70ae6e;
+  border-color: #70ae6e;
   color: #ffffff;
+}
+
+.botaoSecundario {
+  background-color: var(--primary-color);
+  color: var(--btn-text);
 }
 
 .caixaDestaque {
@@ -75,16 +89,18 @@
 }
 
 .contadorLivros h2 {
-  font-size: 3rem;
-  font-weight: 800;
-  margin: 0.5rem 0;
   color: #c7da48;
+  font-family: "Rye", serif;
+  font-size: 3rem;
+  font-weight: 400;
+  margin: 0.5rem 0;
 }
 
 .contadorLivros p {
-  margin: 0;
-  font-weight: 600;
   color: #fae383;
+  font-family: "Rye", serif;
+  font-weight: 400;
+  margin: 0;
 }
 
 .resumo {
@@ -100,6 +116,14 @@
   border-radius: 16px;
   padding: 1.5rem;
   box-shadow: 0 6px 18px rgba(59, 44, 90, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease,
+    border-left-width 0.2s ease;
+}
+
+.cardResumo:hover {
+  transform: translateY(-5px);
+  border-left-width: 8px;
+  box-shadow: 0 10px 24px rgba(59, 44, 90, 0.18);
 }
 
 .cardResumo:nth-child(2) {
@@ -110,14 +134,29 @@
   border-left-color: #ea1880;
 }
 
+.cardResumo:nth-child(1):hover h3 {
+  color: #70ae6e;
+}
+
+.cardResumo:nth-child(2):hover h3 {
+  color: #91a513;
+}
+
+.cardResumo:nth-child(3):hover h3 {
+  color: #ea1880;
+}
+
 .cardResumo h3 {
   color: #3b2c5a;
+  font-family: "Rye", serif;
   font-size: 1.2rem;
-  font-weight: 700;
+  font-weight: 400;
+  transition: color 0.2s ease;
 }
 
 .cardResumo p {
   color: #51698d;
+  font-family: "Rye", serif;
   margin: 0;
 }
 
@@ -137,11 +176,13 @@
 
 .cabecalhoLista h2 {
   color: #3b2c5a;
-  font-weight: 800;
+  font-family: "Rye", serif;
+  font-weight: 400;
 }
 
 .cabecalhoLista p {
   color: #51698d;
+  font-family: "Rye", serif;
   margin: 0;
 }
 
@@ -158,10 +199,10 @@
 
 .cardLivro {
   background-color: var(--home-card-bg);
+  border: 1px solid rgba(81, 105, 141, 0.15);
   border-left: 5px solid var(--home-card-border);
   border-radius: 16px;
   padding: 1.2rem;
-  border: 1px solid rgba(81, 105, 141, 0.15);
   box-shadow: 0 2px 4px var(--card-shadow);
   transition: 0.2s;
 }
@@ -191,8 +232,9 @@
 
 .cardLivro h3 {
   color: var(--home-card-titulo);
+  font-family: "Rye", serif;
   font-size: 1.1rem;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 .cardLivro p {
@@ -220,5 +262,9 @@
 
   .inputBusca {
     max-width: 100%;
+  }
+
+  .botoes a {
+    width: 100%;
   }
 }

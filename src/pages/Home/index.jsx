@@ -47,12 +47,12 @@ export default function Home() {
     <main className={styles.container}>
       <section className={styles.hero}>
         <div>
-          <p className={styles.tag}>Sistema de gerenciamento de bibliotecas</p>
+          <p className={styles.tag}>Sistema de gerenciamento de biblioteca</p>
 
           <h1 className={styles.titulo}>Era uma vez...</h1>
 
           <p className={styles.subtitulo}>
-            Organize, consulte e gerencie livros cadastrados na API da
+            Organize, consulte e gerencie os livros cadastrados no arquivo da
             biblioteca de forma simples e rápida.
           </p>
 
@@ -76,7 +76,7 @@ export default function Home() {
 
           <div className={styles.contadorLivros}>
             <h2>{livros.length}</h2>
-            <p>livros cadastrados</p>
+            <p>livros cadastrados!</p>
           </div>
         </div>
       </section>
@@ -123,24 +123,31 @@ export default function Home() {
         ) : (
           <section className={styles.lista}>
             {livrosFiltrados.slice(0, 6).map((livro, index) => (
-              <article className={styles.cardLivro} key={livro.id}>
-                <div className={styles.iconeLivro}>
-                  <img
-                    src={iconesLivros[index % iconesLivros.length]}
-                    alt="Ícone de livro"
-                  />
-                </div>
+              <Link
+                key={livro.id}
+                to={`/livros/${livro.id}`}
+                className={styles.linkCard}
+              >
+                <article className={styles.cardLivro}>
+                  <div className={styles.iconeLivro}>
+                    <img
+                      src={iconesLivros[index % iconesLivros.length]}
+                      alt="Ícone de livro"
+                    />
+                  </div>
 
-                <h3>{livro.titulo}</h3>
+                  <h3>{livro.titulo}</h3>
 
-                <p>
-                  <strong>ISBN:</strong> {livro.isbn || "Não informado"}
-                </p>
+                  <p>
+                    <strong>ISBN:</strong> {livro.isbn || "Não informado"}
+                  </p>
 
-                <p>
-                  <strong>Ano:</strong> {livro.anoPublicacao || "Não informado"}
-                </p>
-              </article>
+                  <p>
+                    <strong>Ano:</strong>{" "}
+                    {livro.anoPublicacao || "Não informado"}
+                  </p>
+                </article>
+              </Link>
             ))}
           </section>
         )}
