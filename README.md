@@ -11,10 +11,11 @@ Construir uma interface agradável utilizando **React** para consumir uma API. A
 - **Componentes Funcionais & Hooks:** Uso intensivo de `useState`, `useEffect` e `useContext`.
 - **Rotas com React Router:** Navegação fluída entre páginas (`/`, `/login`, `/cadastrar`, `/buscar`, `/editar/:id`).
 - **Autenticação Simples:** Context API (`AuthContext`) protegendo rotas privadas (`PrivateRoute`).
-- **Requisições HTTP:** Uso da biblioteca `axios` para métodos `GET`, `POST`, `PUT` e `DELETE`.
+- **Acessibilidade Universal:** Suporte a Alto Contraste, aumento de fonte global e integração nativa com o **VLibras**.
+- **Tema Dinâmico:** Context API (`ThemeContext`) controlando a alternância entre modo claro e escuro.
+- **Requisições HTTP:** Uso da biblioteca `axios` para métodos `GET`, `POST`, `PUT` e `DELETE` usando Interceptors.
 - **Organização de Componentes:** Props sendo utilizadas para dinamizar a interface.
-- **Estrutura Completa:** Possui mais de 2 componentes e 5 páginas (Home, Login, Cadastrar, Buscar, Editar).
-- **Filtros e Validações:** Capacidade de buscar/filtrar livros e validar entradas no formulário.
+- **Filtros e Validações:** Capacidade de buscar/filtrar livros e validar entradas no formulário com Hook Form.
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -32,6 +33,7 @@ A estrutura do projeto dentro do diretório `src/` está organizada da seguinte 
 src/
 ├── assets/              # Arquivos estáticos (imagens, ícones, etc.)
 ├── components/          # Componentes reaproveitáveis da interface
+│   ├── Acessibilidade/  # Componente do menu de alto contraste e acessibilidade
 │   ├── CardLivro/       # Componente de card para exibição dos livros
 │   ├── Footer/          # Rodapé da aplicação
 │   ├── Input/           # Componente de campo de texto customizado
@@ -62,6 +64,18 @@ src/
 
 ## 🚀 Como Rodar o Projeto
 
+### Passo 1: Iniciando a API (Backend)
+
+Antes de rodar a interface em React, é necessário garantir que a API esteja em execução.
+
+1. Localize o arquivo `.jar` do backend fornecido pela equipe.
+2. No seu terminal, execute o seguinte comando:
+   ```bash
+   java -jar nome-do-arquivo.jar
+   ```
+
+### Passo 2: Iniciando o Frontend (React)
+
 1. Clone este repositório:
    ```bash
    git clone https://github.com/LeonamNgr/Trabalho-2-de-React-Grupo-1.git
@@ -83,13 +97,14 @@ src/
 
 Este projeto foi desenvolvido colaborativamente por:
 
-| Integrante | GitHub |
-| :--- | :--- |
-| **1. [Ana Paula Pimenta]** | [@anapimenta74](https://github.com/anapimenta74) |
-| **2. [Diana Monteiro]** | [@DiaMont30](https://github.com/DiaMont30) |
-| **3. [Laís Ferrari]** | [@laislaferrari](https://github.com/laislaferrari) |
-| **4. [Leonam Machado]** | [@LeonamNgr](https://github.com/LeonamNgr) |
-| **5. [Thiago Sinesio]** | [@thiago-sinesio](https://github.com/thiago-sinesio) |
+| Integrante                 | GitHub                                               |
+| :------------------------- | :--------------------------------------------------- |
+| **1. [Ana Paula Pimenta]** | [@anapimenta74](https://github.com/anapimenta74)     |
+| **2. [Diana Monteiro]**    | [@DiaMont30](https://github.com/DiaMont30)           |
+| **3. [Laís Ferrari]**      | [@laislaferrari](https://github.com/laislaferrari)   |
+| **4. [Leonam Machado]**    | [@LeonamNgr](https://github.com/LeonamNgr)           |
+| **5. [Thiago Sinesio]**    | [@thiago-sinesio](https://github.com/thiago-sinesio) |
 
 ---
-*Desenvolvido como requisito de avaliação da disciplina de React no curso Serratec.*
+
+_Desenvolvido como requisito de avaliação da disciplina de React no curso Serratec._
