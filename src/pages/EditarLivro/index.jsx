@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
   buscarLivroPorId,
@@ -9,6 +9,8 @@ import {
   buscarEditoras,
   buscarGeneros
 } from "../../service/api";
+import Input from "../../components/Input";
+import Select from "../../components/Select";
 
 export default function EditarLivro() {
   const { id } = useParams();
@@ -17,22 +19,23 @@ export default function EditarLivro() {
   const [erroAPI, setErroAPI] = useState("");
   const [sucesso, setSucesso] = useState("");
 
-  // Listas para popular os selects
   const [autores, setAutores] = useState([]);
   const [editoras, setEditoras] = useState([]);
   const [generos, setGeneros] = useState([]);
+  const [autorDigitado, setAutorDigitado] = useState("");
+  const [editoraDigitada, setEditoraDigitada] = useState("");
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm();
 
   useEffect(() => {
     async function carregarDados() {
       try {
-        // Busca os dados do livro E as listas simultaneamente
         const [livro, listaAutores, listaEditoras, listaGeneros] = await Promise.all([
           buscarLivroPorId(id),
           buscarAutores(),
@@ -44,7 +47,6 @@ export default function EditarLivro() {
         setEditoras(listaEditoras);
         setGeneros(listaGeneros);
 
-        
         reset({
           titulo: livro.titulo || "",
           isbn: livro.isbn || "",
@@ -53,6 +55,21 @@ export default function EditarLivro() {
           autorId: livro.autor?.id || livro.autorId || "",
           editoraId: livro.editora?.id || livro.editoraId || "",
         });
+
+        if (livro.autor) {
+          setAutorDigitado(livro.autor.nome);
+        } else if (livro.autorId) {
+          const autorEncontrado = listaAutores.find((a) => a.id === livro.autorId);
+          if (autorEncontrado) setAutorDigitado(autorEncontrado.nome);
+        }
+
+        if (livro.editora) {
+          setEditoraDigitada(livro.editora.nome);
+        } else if (livro.editoraId) {
+          const editoraEncontrada = listaEditoras.find((e) => e.id === livro.editoraId);
+          if (editoraEncontrada) setEditoraDigitada(editoraEncontrada.nome);
+        }
+
       } catch {
         setErroAPI("Não foi possível carregar os dados completos deste livro.");
       }
@@ -60,6 +77,40 @@ export default function EditarLivro() {
 
     carregarDados();
   }, [id, reset]);
+
+  function normalizarTexto(texto) {
+    return String(texto ?? "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
+  }
+
+  function atualizarAutor(evento) {
+    const nomeDigitado = evento.target.value;
+    setAutorDigitado(nomeDigitado);
+
+    const autorEncontrado = autores.find(
+      (autor) => normalizarTexto(autor.nome) === normalizarTexto(nomeDigitado),
+    );
+
+    setValue("autorId", autorEncontrado?.id || "", {
+      shouldValidate: true,
+    });
+  }
+
+  function atualizarEditora(evento) {
+    const nomeDigitado = evento.target.value;
+    setEditoraDigitada(nomeDigitado);
+
+    const editoraEncontrada = editoras.find(
+      (editora) => normalizarTexto(editora.nome) === normalizarTexto(nomeDigitado),
+    );
+
+    setValue("editoraId", editoraEncontrada?.id || "", {
+      shouldValidate: true,
+    });
+  }
 
   async function onSubmit(dadosDoFormulario) {
     setErroAPI("");
@@ -89,117 +140,158 @@ export default function EditarLivro() {
   }
 
   return (
-    <div className="container mt-5">
-      <div className="card shadow p-4 mx-auto" style={{ maxWidth: "600px" }}>
-        <h2 className="text-center mb-4">Editar Livro</h2>
+    <main className="pagina-formulario">
+      <section className="formulario-card formulario-card-livro">
+        <h1 className="formulario-titulo">Editar Livro</h1>
 
         {erroAPI && <div className="alert alert-danger">{erroAPI}</div>}
+
         {sucesso && <div className="alert alert-success">{sucesso}</div>}
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          
-          <div className="mb-3">
-            <label className="form-label fw-bold">Título do Livro</label>
-            <input
-              type="text"
-              className={`form-control ${errors.titulo ? "is-invalid" : ""}`}
-              {...register("titulo", { required: "O título é obrigatório" })}
-            />
-            {errors.titulo && <span className="invalid-feedback">{errors.titulo.message}</span>}
-          </div>
+          <Input
+            label="Título do Livro"
+            placeholder="Ex: O Senhor dos Anéis"
+            error={errors.titulo?.message}
+            {...register("titulo", { required: "O título é obrigatório" })}
+          />
 
           <div className="row mb-3">
             <div className="col-md-6">
-              <label className="form-label fw-bold">ISBN</label>
-              <input
-                type="text"
-                className={`form-control ${errors.isbn ? "is-invalid" : ""}`}
+              <Input
+                label="ISBN"
+                placeholder="Ex: 978-3-16-148410-0"
+                error={errors.isbn?.message}
                 {...register("isbn", { required: "O ISBN é obrigatório" })}
               />
-              {errors.isbn && <span className="invalid-feedback">{errors.isbn.message}</span>}
             </div>
 
             <div className="col-md-6">
-              <label className="form-label fw-bold">Ano de Publicação</label>
-              <input
+              <Input
+                label="Ano de Publicação"
                 type="number"
-                className={`form-control ${errors.anoPublicacao ? "is-invalid" : ""}`}
-                {...register("anoPublicacao", { 
+                placeholder="Ex: 1954"
+                error={errors.anoPublicacao?.message}
+                {...register("anoPublicacao", {
                   required: "O ano é obrigatório",
-                  valueAsNumber: true 
+                  valueAsNumber: true,
                 })}
               />
-              {errors.anoPublicacao && <span className="invalid-feedback">{errors.anoPublicacao.message}</span>}
             </div>
           </div>
 
-          <div className="mb-3">
-            <label className="form-label fw-bold">Gênero</label>
-            <select
-              className={`form-select ${errors.generoId ? "is-invalid" : ""}`}
-              {...register("generoId", { 
-                required: "Selecione um gênero",
-                valueAsNumber: true 
-              })}
-            >
-              <option value="">Selecione um gênero...</option>
-              {generos.map((genero) => (
-                <option key={genero.id} value={genero.id}>
-                  {genero.nome} ({genero.sigla})
-                </option>
-              ))}
-            </select>
-            {errors.generoId && <span className="invalid-feedback">{errors.generoId.message}</span>}
-          </div>
+          <Select
+            label="Gênero"
+            defaultOption="Selecione um gênero..."
+            error={errors.generoId?.message}
+            options={generos.map((genero) => ({
+              value: genero.id,
+              label: `${genero.nome} (${genero.sigla})`,
+            }))}
+            {...register("generoId", {
+              required: "Selecione um gênero",
+              valueAsNumber: true,
+            })}
+          />
 
           <div className="mb-3">
-            <label className="form-label fw-bold">Autor</label>
-            <select
-              className={`form-select ${errors.autorId ? "is-invalid" : ""}`}
-              {...register("autorId", { 
-                required: "Selecione um autor",
-                valueAsNumber: true 
-              })}
-            >
-              <option value="">Selecione um autor...</option>
+            <label className="form-label" htmlFor="autor">
+              Autor
+            </label>
+
+            <input
+              id="autor"
+              type="text"
+              list="lista-autores"
+              className={`form-control ${errors.autorId ? "is-invalid" : ""}`}
+              placeholder="Digite o nome do autor"
+              value={autorDigitado}
+              onChange={atualizarAutor}
+              autoComplete="off"
+            />
+
+            <datalist id="lista-autores">
               {autores.map((autor) => (
-                <option key={autor.id} value={autor.id}>
-                  {autor.nome}
-                </option>
+                <option key={autor.id} value={autor.nome} />
               ))}
-            </select>
-            {errors.autorId && <span className="invalid-feedback">{errors.autorId.message}</span>}
+            </datalist>
+
+            <input
+              type="hidden"
+              {...register("autorId", {
+                required: "Digite ou selecione um autor cadastrado",
+                valueAsNumber: true,
+              })}
+            />
+
+            {errors.autorId && (
+              <span className="invalid-feedback d-block">
+                {errors.autorId.message}
+              </span>
+            )}
+
+            <Link
+              to="/autores/adicionar"
+              className="btn btn-outline-secondary mt-2"
+            >
+              Cadastrar novo autor
+            </Link>
           </div>
 
           <div className="mb-3">
-            <label className="form-label fw-bold">Editora</label>
-            <select
-              className={`form-select ${errors.editoraId ? "is-invalid" : ""}`}
-              {...register("editoraId", { 
-                required: "Selecione uma editora",
-                valueAsNumber: true 
-              })}
-            >
-              <option value="">Selecione uma editora...</option>
+            <label className="form-label" htmlFor="editora">
+              Editora
+            </label>
+
+            <input
+              id="editora"
+              type="text"
+              list="lista-editoras"
+              className={`form-control ${errors.editoraId ? "is-invalid" : ""}`}
+              placeholder="Digite o nome da editora"
+              value={editoraDigitada}
+              onChange={atualizarEditora}
+              autoComplete="off"
+            />
+
+            <datalist id="lista-editoras">
               {editoras.map((editora) => (
-                <option key={editora.id} value={editora.id}>
-                  {editora.nome}
-                </option>
+                <option key={editora.id} value={editora.nome} />
               ))}
-            </select>
-            {errors.editoraId && <span className="invalid-feedback">{errors.editoraId.message}</span>}
+            </datalist>
+
+            <input
+              type="hidden"
+              {...register("editoraId", {
+                required: "Digite ou selecione uma editora cadastrada",
+                valueAsNumber: true,
+              })}
+            />
+
+            {errors.editoraId && (
+              <span className="invalid-feedback d-block">
+                {errors.editoraId.message}
+              </span>
+            )}
+
+            <Link
+              to="/editoras/adicionar"
+              className="btn btn-outline-secondary mt-2"
+            >
+              Cadastrar nova editora
+            </Link>
           </div>
 
           <div className="d-flex justify-content-between mt-4">
-            <button type="submit" className="btn btn-primary w-50 me-2 fw-bold">
+            <button type="submit" className="btn btn-marrom btn-formulario w-50 me-2">
               Salvar Alterações
             </button>
-            <button type="button" onClick={apagarLivro} className="btn btn-danger w-50 ms-2 fw-bold">
+            <button type="button" onClick={apagarLivro} className="btn btn-danger btn-formulario w-50 ms-2">
               Apagar Livro
             </button>
           </div>
         </form>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
