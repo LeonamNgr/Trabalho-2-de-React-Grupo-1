@@ -7,6 +7,7 @@ import {
   buscarTodosOsLivros,
 } from "../../service/api";
 import styles from "./BuscarLivro.module.css";
+import Select from "../../components/Select/index.jsx";
 
 export default function BuscarLivro() {
   const { isLogged } = useContext(AuthContext);
@@ -162,34 +163,30 @@ export default function BuscarLivro() {
     setBuscaRealizada(false);
   }
 
+  const opcoesDeBusca = [
+    { value: "nome", label: "Nome do livro" },
+    { value: "autor", label: "Autor" },
+    { value: "genero", label: "Gênero" },
+  ];
+
   return (
     <main className={`pagina-formulario ${styles.container}`}>
       <section className={`formulario-card ${styles.busca}`}>
         <header className={styles.cabecalho}>
           <h1 className="formulario-titulo">Buscar Livros</h1>
 
-          <p>
-            Consulte se um livro está disponível em nossa base de dados.
-          </p>
+          <p>Consulte se um livro está disponível em nossa base de dados.</p>
         </header>
 
         <form className={styles.formulario} onSubmit={buscarLivros}>
-          <div className={styles.campo}>
-            <label className="form-label" htmlFor="tipoBusca">
-              Buscar por
-            </label>
-
-            <select
-              id="tipoBusca"
-              className="form-select"
-              value={tipoBusca}
-              onChange={trocarTipoBusca}
-            >
-              <option value="nome">Nome do livro</option>
-              <option value="autor">Autor</option>
-              <option value="genero">Gênero</option>
-            </select>
-          </div>
+          <Select
+            id="tipoBusca"
+            label="Buscar por"
+            wrapperClass={styles.campo}
+            options={opcoesDeBusca}
+            value={tipoBusca}
+            onChange={trocarTipoBusca}
+          />
 
           <div className={styles.campo}>
             <label className="form-label" htmlFor="termoBusca">
@@ -253,10 +250,7 @@ export default function BuscarLivro() {
               const livroId = livro.id || livro.idLivro;
 
               return (
-                <article
-                  key={livroId || index}
-                  className={styles.card}
-                >
+                <article key={livroId || index} className={styles.card}>
                   <h2>{pegarNomeLivro(livro) || "Nome não informado"}</h2>
 
                   <p>

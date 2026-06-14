@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { criarAutor } from "../../service/api";
+import Input from "../../components/Input";
 
 export default function AdicionarAutor() {
   const navigate = useNavigate();
@@ -24,8 +25,12 @@ export default function AdicionarAutor() {
       setSucesso("Autor cadastrado com sucesso!");
       reset();
       setTimeout(() => navigate("/livros/adicionar"), 2000);
-    } catch {
-      setErroAPI("Verifique os dados informados.");
+    } catch (erro) {
+      setErroAPI(
+        erro.response?.data?.message ||
+          erro.response?.data?.erros?.[0] ||
+          erro.response?.data,
+      );
     }
   }
 
@@ -35,67 +40,35 @@ export default function AdicionarAutor() {
         <h1 className="formulario-titulo">Adicionar Novo Autor</h1>
 
         {erroAPI && <div className="alert alert-danger">{erroAPI}</div>}
-
         {sucesso && <div className="alert alert-success">{sucesso}</div>}
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-3">
-            <label className="form-label">Nome do Autor</label>
+          <Input
+            label="Nome do Autor"
+            placeholder="Ex: João da Silva"
+            error={errors.nome?.message}
+            {...register("nome", {
+              required: "O nome é obrigatório",
+            })}
+          />
 
-            <input
-              type="text"
-              className={`form-control ${errors.nome ? "is-invalid" : ""}`}
-              placeholder="Ex: João da Silva"
-              {...register("nome", {
-                required: "O nome é obrigatório",
-              })}
-            />
+          <Input
+            label="Nacionalidade"
+            placeholder="Ex: Brasileiro"
+            error={errors.nacionalidade?.message}
+            {...register("nacionalidade", {
+              required: "A nacionalidade é obrigatória",
+            })}
+          />
 
-            {errors.nome && (
-              <span className="invalid-feedback">{errors.nome.message}</span>
-            )}
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Nacionalidade</label>
-
-            <input
-              type="text"
-              className={`form-control ${
-                errors.nacionalidade ? "is-invalid" : ""
-              }`}
-              placeholder="Ex: Brasileiro"
-              {...register("nacionalidade", {
-                required: "A nacionalidade é obrigatória",
-              })}
-            />
-
-            {errors.nacionalidade && (
-              <span className="invalid-feedback">
-                {errors.nacionalidade.message}
-              </span>
-            )}
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Data de Nascimento</label>
-
-            <input
-              type="date"
-              className={`form-control ${
-                errors.dataNascimento ? "is-invalid" : ""
-              }`}
-              {...register("dataNascimento", {
-                required: "A data de nascimento é obrigatória",
-              })}
-            />
-
-            {errors.dataNascimento && (
-              <span className="invalid-feedback">
-                {errors.dataNascimento.message}
-              </span>
-            )}
-          </div>
+          <Input
+            label="Data de Nascimento"
+            type="date"
+            error={errors.dataNascimento?.message}
+            {...register("dataNascimento", {
+              required: "A data de nascimento é obrigatória",
+            })}
+          />
 
           <button type="submit" className="btn btn-marrom btn-formulario">
             Guardar Autor

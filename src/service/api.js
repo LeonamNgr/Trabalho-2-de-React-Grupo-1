@@ -12,9 +12,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-
-
-
 export const buscarTodosOsLivros = async () => {
   const response = await api.get("/Livro/todos-os-livros");
   return response.data;
@@ -40,10 +37,8 @@ export const deletarLivro = async (id) => {
   return response.data;
 };
 
-
-
 export const buscarAutores = async () => {
-  const response = await api.get("/Autor/todos-os-autores"); 
+  const response = await api.get("/Autor/todos-os-autores");
   return response.data;
 };
 
@@ -51,8 +46,6 @@ export const criarAutor = async (dadosDoAutor) => {
   const response = await api.post("/Autor/adicionar-autor", dadosDoAutor);
   return response.data;
 };
-
-
 
 export const buscarEditoras = async () => {
   const response = await api.get("/Editora/todas-as-editoras");
@@ -63,8 +56,6 @@ export const criarEditora = async (dadosDaEditora) => {
   const response = await api.post("/Editora/adicionar-editora", dadosDaEditora);
   return response.data;
 };
-
-
 
 export const buscarGeneros = async () => {
   const response = await api.get("/generos/todos-os-generos");
