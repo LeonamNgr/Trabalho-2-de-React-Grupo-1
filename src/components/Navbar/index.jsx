@@ -4,6 +4,7 @@ import { AuthContext } from "../../contexts/AuthContext.jsx";
 
 import BrandLogo from "./BrandLogo";
 import ThemeToggle from "./ThemeToggle";
+import Acessibilidade from "../Acessibilidade";
 import { navLinks } from "./navLinks";
 
 import styles from "./Navbar.module.css";
@@ -33,6 +34,7 @@ export default function Navbar() {
                 Sobre nós
               </Link>
             )}
+            <Acessibilidade />
             <ThemeToggle />
           </div>
         </div>
@@ -69,6 +71,7 @@ export default function Navbar() {
           </ul>
 
           <div className={styles.navActions}>
+            <Acessibilidade />
             <ThemeToggle />
             <button
               className={styles.logoutBtn}
