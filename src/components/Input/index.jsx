@@ -1,26 +1,20 @@
-export default function Input({
-  value,
-  type,
-  onChange,
-  label,
-  placeholder,
-  isRequired,
-}) {
+import { forwardRef } from "react";
+
+const Input = forwardRef(({ label, type = "text", error, ...rest }, ref) => {
   return (
     <div className="mb-3">
-      <label htmlFor={`input-${value}`} className="form-label" type="text">
-        {label}
-      </label>
+      {label && <label className="form-label">{label}</label>}
       <input
-        className="form-control"
-        id={`input-${value}`}
-        placeholder={placeholder}
-        value={value}
-        required
-        onChange={(e) => onChange(e.target.value)}
+        className={`form-control ${error ? "is-invalid" : ""}`}
         type={type}
-        required={isRequired}
+        ref={ref}
+        {...rest}
       />
+      {error && <span className="invalid-feedback">{error}</span>}
     </div>
   );
-}
+});
+
+Input.displayName = "Input";
+
+export default Input;

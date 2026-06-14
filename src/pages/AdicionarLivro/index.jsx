@@ -7,6 +7,8 @@ import {
   buscarGeneros,
   criarLivro,
 } from "../../service/api";
+import Input from "../../components/Input";
+import Select from "../../components/Select";
 
 export default function AdicionarLivro() {
   const navigate = useNavigate();
@@ -109,86 +111,50 @@ export default function AdicionarLivro() {
         {sucesso && <div className="alert alert-success">{sucesso}</div>}
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-3">
-            <label className="form-label">Título do Livro</label>
-
-            <input
-              type="text"
-              className={`form-control ${errors.titulo ? "is-invalid" : ""}`}
-              {...register("titulo", {
-                required: "O título é obrigatório",
-              })}
-            />
-
-            {errors.titulo && (
-              <span className="invalid-feedback">{errors.titulo.message}</span>
-            )}
-          </div>
+          <Input
+            label="Título do Livro"
+            placeholder="Ex: O Senhor dos Anéis"
+            error={errors.titulo?.message}
+            {...register("titulo", { required: "O título é obrigatório" })}
+          />
 
           <div className="row mb-3">
             <div className="col-md-6">
-              <label className="form-label">ISBN</label>
-
-              <input
-                type="text"
-                className={`form-control ${errors.isbn ? "is-invalid" : ""}`}
-                {...register("isbn", {
-                  required: "O ISBN é obrigatório",
-                })}
+              <Input
+                label="ISBN"
+                placeholder="Ex: 978-3-16-148410-0"
+                error={errors.isbn?.message}
+                {...register("isbn", { required: "O ISBN é obrigatório" })}
               />
-
-              {errors.isbn && (
-                <span className="invalid-feedback">{errors.isbn.message}</span>
-              )}
             </div>
 
             <div className="col-md-6">
-              <label className="form-label">Ano de Publicação</label>
-
-              <input
+              <Input
+                label="Ano de Publicação"
                 type="number"
-                className={`form-control ${
-                  errors.anoPublicacao ? "is-invalid" : ""
-                }`}
+                placeholder="Ex: 1954"
+                error={errors.anoPublicacao?.message}
                 {...register("anoPublicacao", {
                   required: "O ano é obrigatório",
                   valueAsNumber: true,
                 })}
               />
-
-              {errors.anoPublicacao && (
-                <span className="invalid-feedback">
-                  {errors.anoPublicacao.message}
-                </span>
-              )}
             </div>
           </div>
 
-          <div className="mb-3">
-            <label className="form-label">Gênero</label>
-
-            <select
-              className={`form-select ${errors.generoId ? "is-invalid" : ""}`}
-              {...register("generoId", {
-                required: "Selecione um gênero",
-                valueAsNumber: true,
-              })}
-            >
-              <option value="">Selecione um gênero...</option>
-
-              {generos.map((genero) => (
-                <option key={genero.id} value={genero.id}>
-                  {genero.nome} ({genero.sigla})
-                </option>
-              ))}
-            </select>
-
-            {errors.generoId && (
-              <span className="invalid-feedback">
-                {errors.generoId.message}
-              </span>
-            )}
-          </div>
+          <Select
+            label="Gênero"
+            defaultOption="Selecione um gênero..."
+            error={errors.generoId?.message}
+            options={generos.map((genero) => ({
+              value: genero.id,
+              label: `${genero.nome} (${genero.sigla})`,
+            }))}
+            {...register("generoId", {
+              required: "Selecione um gênero",
+              valueAsNumber: true,
+            })}
+          />
 
           <div className="mb-3">
             <label className="form-label" htmlFor="autor">
