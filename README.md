@@ -30,25 +30,34 @@ A estrutura do projeto dentro do diretório `src/` está organizada da seguinte 
 
 ```text
 src/
+├── assets/              # Arquivos estáticos (imagens, ícones, etc.)
 ├── components/          # Componentes reaproveitáveis da interface
-│   ├── Header/          # Cabeçalho da aplicação
-│   └── Navbar/          # Menu de navegação superior
+│   ├── CardLivro/       # Componente de card para exibição dos livros
+│   ├── Footer/          # Rodapé da aplicação
+│   ├── Input/           # Componente de campo de texto customizado
+│   ├── Navbar/          # Menu de navegação superior
+│   └── Select/          # Componente de seleção (dropdown)
 ├── contexts/            # Context API para gerenciamento de estados
-│   └── AuthContext.jsx  # Contexto responsável pelo login/autenticação
+│   ├── AuthContext.jsx  # Contexto responsável pelo login/autenticação
+│   └── ThemeContext.jsx # Contexto responsável pela alternância de tema (claro/escuro)
 ├── pages/               # Páginas roteáveis da aplicação
+│   ├── AdicionarAutor/  # Formulário de cadastro de autores
+│   ├── AdicionarEditora/# Formulário de cadastro de editoras
 │   ├── AdicionarLivro/  # Formulário de cadastro de livros
 │   ├── BuscarLivro/     # Listagem e filtro de livros
 │   ├── EditarLivro/     # Formulário de edição de livros
-│   ├── Home/            # Página inicial após o login
-│   └── Login/           # Tela de autenticação
+│   ├── Home/            # Página inicial
+│   ├── Livros/          # Página geral para exibição do acervo de livros
+│   ├── Login/           # Tela de autenticação
+│   └── SobreNos/        # Página de informações sobre o projeto/equipe
 ├── routes/              # Configurações de roteamento
 │   ├── AppRouter.jsx    # Mapeamento central das rotas
 │   └── privateRoute.jsx # Wrapper para proteção de rotas privadas
 ├── service/             # Configurações de integração externa
-│   └── api.js           # Instância e métodos do Axios
-├── App.jsx              # Componente raiz e árvore de rotas
+│   └── api.js           # Instância e métodos de requisição (ex: Axios)
+├── App.jsx              # Componente raiz e provedores principais
 ├── global.css           # Estilos globais
-└── main.jsx             # Ponto de entrada do React
+└── main.jsx             # Ponto de entrada do ReactReact
 ```
 
 ## 🚀 Como Rodar o Projeto
