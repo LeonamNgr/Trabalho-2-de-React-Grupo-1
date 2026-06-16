@@ -2,7 +2,15 @@ import { forwardRef } from "react";
 
 const Select = forwardRef(
   (
-    { label, options, error, defaultOption, wrapperClass = "mb-3", ...rest },
+    {
+      label,
+      options,
+      error,
+      defaultOption,
+      helperText,
+      wrapperClass = "mb-3",
+      ...rest
+    },
     ref,
   ) => {
     return (
@@ -22,7 +30,9 @@ const Select = forwardRef(
             </option>
           ))}
         </select>
-
+        {helperText && (
+          <small className="text-muted d-block mt-1">{helperText}</small>
+        )}
         {error && <span className="invalid-feedback d-block">{error}</span>}
       </div>
     );

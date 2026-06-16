@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { criarLivro } from "../../service/api";
-import { useListasAuxiliares } from "../../hooks/useListasAuxiliares"; // Central de dados
+import { useListasAuxiliares } from "../../hooks/useListasAuxiliares";
 import Input from "../../components/Input";
 import Select from "../../components/Select";
 
@@ -65,7 +65,7 @@ export default function AdicionarLivro() {
             {...register("titulo", { required: "O título é obrigatório" })}
           />
 
-          <div className="row mb-3">
+          <div className="row my-3">
             <div className="col-md-6">
               <Input
                 label="ISBN"
@@ -102,11 +102,12 @@ export default function AdicionarLivro() {
             })}
           />
 
-          <div className="mb-3">
+          <div className="my-3">
             <Select
               label="Autor"
               defaultOption="Selecione um autor..."
               error={errors.autorId?.message}
+              helperText="Não encontrou o autor desejado? Cadastre um novo aqui."
               options={autores.map((a) => ({ value: a.id, label: a.nome }))}
               {...register("autorId", {
                 required: "Selecione um autor",
@@ -121,11 +122,12 @@ export default function AdicionarLivro() {
             </Link>
           </div>
 
-          <div className="mb-3">
+          <div className="my-3">
             <Select
               label="Editora"
               defaultOption="Selecione uma editora..."
               error={errors.editoraId?.message}
+              helperText="Não encontrou a editora desejada? Cadastre uma nova aqui."
               options={editoras.map((e) => ({ value: e.id, label: e.nome }))}
               {...register("editoraId", {
                 required: "Selecione uma editora",

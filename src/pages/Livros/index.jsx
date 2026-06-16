@@ -31,12 +31,12 @@ export default function Livros() {
 
     return livros.filter((livro) => {
       const valoresParaBuscar = [
-        livro.titulo,
-        livro.isbn,
-        livro.anoPublicacao?.toString(),
-        livro.autor?.nome || livro.autor,
-        livro.editora?.nome || livro.editora,
-        livro.genero?.nome || livro.genero,
+        livro.titulo || "",
+        livro.isbn || "",
+        livro.anoPublicacao?.toString() || "",
+        livro.autor?.nome || livro.autorNome || "",
+        livro.editora?.nome || livro.editoraNome || "",
+        livro.genero?.nome || livro.generoSigla || livro.genero || "",
       ].join(" ");
 
       return normalizarTexto(valoresParaBuscar).includes(termoBusca);
