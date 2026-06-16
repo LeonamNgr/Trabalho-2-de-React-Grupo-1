@@ -19,69 +19,66 @@ export default function Navbar() {
     navigate("/login", { replace: true });
   };
 
-  if (!isLogged) {
-    return (
-      <nav className={styles.navbar}>
-        <div className={styles.navbarContainer}>
-          <BrandLogo isLogged={isLogged} />
-          <div className={styles.navActions}>
-            {location.pathname === "/sobre" ? (
-              <Link to="/login" className={styles.navLink}>
-                Voltar ao login
-              </Link>
-            ) : (
-              <Link to="/sobre" className={styles.navLink}>
-                Sobre nós
-              </Link>
-            )}
-            <Acessibilidade />
-            <ThemeToggle />
-          </div>
-        </div>
-      </nav>
-    );
-  }
+  const isSobrePage = location.pathname === "/sobre";
 
   return (
     <nav className={styles.navbar}>
       <div className={styles.navbarContainer}>
         <BrandLogo isLogged={isLogged} />
 
-        <button
-          className={styles.navbarToggler}
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarCollapse"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div
-          className={`collapse navbar-collapse ${styles.navbarCollapse}`}
-          id="navbarCollapse"
-        >
-          <ul className={styles.navLinks}>
-            {navLinks.map((link) => (
-              <li className={styles.navItem} key={link.id}>
-                <Link className={styles.navLink} to={link.path}>
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-
+        {!isLogged ? (
           <div className={styles.navActions}>
+            <Link
+              to={isSobrePage ? "/login" : "/sobre"}
+              className={styles.navLink}
+            >
+              {isSobrePage ? "Voltar ao login" : "Sobre nós"}
+            </Link>
             <Acessibilidade />
             <ThemeToggle />
-            <button
-              className={styles.logoutBtn}
-              onClick={handleLogout}
-              type="button"
-            >
-              Sair
-            </button>
           </div>
-        </div>
+        ) : (
+          <>
+            <button
+              className={styles.navbarToggler}
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarCollapse"
+              aria-controls="navbarCollapse"
+              aria-expanded="false"
+              aria-label="Alternar navegação"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+
+            <div
+              className={`collapse navbar-collapse ${styles.navbarCollapse}`}
+              id="navbarCollapse"
+            >
+              <ul className={styles.navLinks}>
+                {navLinks.map(({ id, path, label }) => (
+                  <li className={styles.navItem} key={id}>
+                    <Link className={styles.navLink} to={path}>
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+              <div className={styles.navActions}>
+                <Acessibilidade />
+                <ThemeToggle />
+                <button
+                  className={styles.logoutBtn}
+                  onClick={handleLogout}
+                  type="button"
+                >
+                  Sair
+                </button>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </nav>
   );

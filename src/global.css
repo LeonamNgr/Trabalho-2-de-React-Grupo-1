@@ -43,7 +43,9 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   font-family: Arimo, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 a {
@@ -77,7 +79,7 @@ a {
 .card-livro {
   background-color: var(--bg-color);
   color: var(--text-color);
-  border-left: 5px solid var( --primary-hover);
+  border-left: 5px solid var(--primary-hover);
   border-radius: 14px;
   transition: 0.2s;
 }
@@ -154,7 +156,9 @@ a {
   color: var(--text-color);
   border: 1px solid var(--input-border);
   border-radius: 10px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .formulario-card .form-control::placeholder {
@@ -213,7 +217,7 @@ body.alto-contraste-visual * {
 
 body.alto-contraste-visual a,
 body.alto-contraste-visual .navLink {
-  color: #0000EE !important;
+  color: #0000ee !important;
   text-decoration: underline !important;
 }
 
@@ -232,6 +236,8 @@ body.alto-contraste-visual .card-livro {
 body.alto-contraste-visual svg,
 body.alto-contraste-visual img {
   background-color: transparent !important;
+}
+
 body.alto-contraste-visual .btnFlutuante img {
   filter: invert(1) !important;
 }

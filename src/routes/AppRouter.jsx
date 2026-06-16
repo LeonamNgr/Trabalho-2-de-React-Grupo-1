@@ -33,7 +33,6 @@ export default function AppRouter() {
         <Route path="/livros/adicionar" element={<AdicionarLivro />} />
         <Route path="/livros/buscar" element={<BuscarLivro />} />
         <Route path="/livros/editar/:id" element={<EditarLivro />} />
-
         <Route path="/autores/adicionar" element={<AdicionarAutor />} />
         <Route path="/editoras/adicionar" element={<AdicionarEditora />} />
       </Route>
