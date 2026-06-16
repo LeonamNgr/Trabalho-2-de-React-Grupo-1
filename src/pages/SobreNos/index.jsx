@@ -3,8 +3,12 @@ import { Link } from "react-router-dom";
 import livros from "../../assets/imagens/livros-voando.svg";
 
 import styles from "./SobreNos.module.css";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function SobreNos() {
+  const { isLogged } = useContext(AuthContext);
+
   return (
     <main className={styles.container}>
       <section className={styles.apresentacao}>
@@ -28,7 +32,7 @@ export default function SobreNos() {
           </p>
 
           <Link to="/" className={`btn-marrom ${styles.botaoVoltar}`}>
-            Voltar para o login
+            Voltar para o {isLogged ? "Início" : "Login"}
           </Link>
         </div>
 

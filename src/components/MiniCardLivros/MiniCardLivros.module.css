@@ -1,0 +1,44 @@
+.cardLivro {
+  background-color: var(--home-card-bg);
+  border: 1px solid rgba(81, 105, 141, 0.15);
+  border-left: 5px solid var(--home-card-border);
+  border-radius: 16px;
+  padding: 1.2rem;
+  box-shadow: 0 2px 4px var(--card-shadow);
+  transition: 0.2s;
+}
+
+.cardLivro:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 18px rgba(59, 44, 90, 0.15);
+}
+
+.iconeLivro {
+  width: 55px;
+  height: 55px;
+  background-color: #fae383;
+  border: 2px solid #c7da48;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.iconeLivro img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
+.cardLivro h3 {
+  color: var(--home-card-titulo);
+  font-family: "Rye", serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+.cardLivro p {
+  color: var(--home-card-texto);
+  margin-bottom: 0.4rem;
+}

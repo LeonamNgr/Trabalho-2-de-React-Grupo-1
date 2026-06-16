@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { buscarTodosOsLivros } from "../../service/api";
 import CardLivro from "../../components/CardLivro";
+import Input from "../../components/Input";
+import { normalizarTexto } from "../../utils/normalizarTexto";
 
 export default function Livros() {
   const [livros, setLivros] = useState([]);
@@ -12,88 +14,65 @@ export default function Livros() {
     async function carregarLivros() {
       try {
         const dados = await buscarTodosOsLivros();
-        setLivros(dados);
-      } catch (error) {
-        console.error("Erro ao buscar livros:", error);
+        setLivros(Array.isArray(dados) ? dados : dados?.content || []);
+      } catch {
         setErro("Não foi possível carregar os livros do sistema.");
       } finally {
         setLoading(false);
       }
     }
-
     carregarLivros();
   }, []);
 
-  const textoBusca = busca.toLowerCase().trim();
+  const livrosFiltrados = useMemo(() => {
+    if (!busca) return livros;
 
-  const livrosFiltrados = livros.filter((livro) => {
-    const titulo = livro.titulo?.toLowerCase() || "";
-    
-    const isbn = livro.isbn?.toLowerCase() || "";
-    const ano = livro.anoPublicacao?.toString() || "";
+    const termoBusca = normalizarTexto(busca);
 
-    const autor =
-      livro.autor?.nome?.toLowerCase() || livro.autor?.toLowerCase() || "";
+    return livros.filter((livro) => {
+      const valoresParaBuscar = [
+        livro.titulo,
+        livro.isbn,
+        livro.anoPublicacao?.toString(),
+        livro.autor?.nome || livro.autor,
+        livro.editora?.nome || livro.editora,
+        livro.genero?.nome || livro.genero,
+      ].join(" ");
 
-    const editora =
-      livro.editora?.nome?.toLowerCase() || livro.editora?.toLowerCase() || "";
-
-    const genero =
-      livro.genero?.nome?.toLowerCase() || livro.genero?.toLowerCase() || "";
-
-    return (
-      titulo.includes(textoBusca) ||
-      isbn.includes(textoBusca) ||
-      ano.includes(textoBusca) ||
-      autor.includes(textoBusca) ||
-      editora.includes(textoBusca) ||
-      genero.includes(textoBusca)
-    );
-  });
+      return normalizarTexto(valoresParaBuscar).includes(termoBusca);
+    });
+  }, [livros, busca]);
 
   return (
     <main className="main-container container">
-      <h1
-        className="page-title"
-        style={{ fontFamily: '"Rye", serif', fontWeight: 400 }}
-      >
-        Listagem de Livros
-      </h1>
+      <h1 className="page-title fonte-rye">Listagem de Livros</h1>
 
       <p className="page-subtitle">
         Consulte os livros cadastrados no sistema da biblioteca.
       </p>
 
       <div className="mb-4">
-        <input
+        <Input
           type="search"
-          className="form-control"
           placeholder="Filtrar por título, autor, editora, gênero, ISBN ou ano"
           value={busca}
           onChange={(event) => setBusca(event.target.value)}
         />
       </div>
 
-      {loading && <p className="text-center">Carregando livros...</p>}
-
-      {erro && <div className="alert alert-danger text-center">{erro}</div>}
-
-      {!loading && !erro && livros.length === 0 && (
+      {loading ? (
+        <p className="text-center">Carregando livros...</p>
+      ) : erro ? (
+        <div className="alert alert-danger text-center">{erro}</div>
+      ) : livros.length === 0 ? (
         <div className="alert alert-warning text-center">
           Nenhum livro foi encontrado na API.
         </div>
-      )}
-
-      {!loading &&
-        !erro &&
-        livros.length > 0 &&
-        livrosFiltrados.length === 0 && (
-          <div className="alert alert-warning text-center">
-            Nenhum livro encontrado com esse filtro.
-          </div>
-        )}
-
-      {!loading && !erro && (
+      ) : livrosFiltrados.length === 0 ? (
+        <div className="alert alert-warning text-center">
+          Nenhum livro encontrado com esse filtro.
+        </div>
+      ) : (
         <div className="row g-4">
           {livrosFiltrados.map((livro) => (
             <CardLivro key={livro.id} livro={livro} />
