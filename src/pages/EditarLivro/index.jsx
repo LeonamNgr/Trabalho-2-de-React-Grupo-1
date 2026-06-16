@@ -5,10 +5,8 @@ import {
   buscarLivroPorId,
   atualizarLivro,
   deletarLivro,
-  buscarAutores,
-  buscarEditoras,
-  buscarGeneros
 } from "../../service/api";
+import { useListasAuxiliares } from "../../hooks/useListasAuxiliares";
 import Input from "../../components/Input";
 import Select from "../../components/Select";
 
@@ -19,34 +17,20 @@ export default function EditarLivro() {
   const [erroAPI, setErroAPI] = useState("");
   const [sucesso, setSucesso] = useState("");
 
-  const [autores, setAutores] = useState([]);
-  const [editoras, setEditoras] = useState([]);
-  const [generos, setGeneros] = useState([]);
-  const [autorDigitado, setAutorDigitado] = useState("");
-  const [editoraDigitada, setEditoraDigitada] = useState("");
+  const { autores, editoras, generos, carregandoListas } =
+    useListasAuxiliares();
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
-    setValue,
   } = useForm();
 
   useEffect(() => {
     async function carregarDados() {
       try {
-        const [livro, listaAutores, listaEditoras, listaGeneros] = await Promise.all([
-          buscarLivroPorId(id),
-          buscarAutores(),
-          buscarEditoras(),
-          buscarGeneros()
-        ]);
-
-        setAutores(listaAutores);
-        setEditoras(listaEditoras);
-        setGeneros(listaGeneros);
-
+        const livro = await buscarLivroPorId(id);
         reset({
           titulo: livro.titulo || "",
           isbn: livro.isbn || "",
@@ -55,103 +39,62 @@ export default function EditarLivro() {
           autorId: livro.autor?.id || livro.autorId || "",
           editoraId: livro.editora?.id || livro.editoraId || "",
         });
-
-        if (livro.autor) {
-          setAutorDigitado(livro.autor.nome);
-        } else if (livro.autorId) {
-          const autorEncontrado = listaAutores.find((a) => a.id === livro.autorId);
-          if (autorEncontrado) setAutorDigitado(autorEncontrado.nome);
-        }
-
-        if (livro.editora) {
-          setEditoraDigitada(livro.editora.nome);
-        } else if (livro.editoraId) {
-          const editoraEncontrada = listaEditoras.find((e) => e.id === livro.editoraId);
-          if (editoraEncontrada) setEditoraDigitada(editoraEncontrada.nome);
-        }
-
       } catch {
-        setErroAPI("Não foi possível carregar os dados completos deste livro.");
+        setErroAPI("Não foi possível carregar os dados deste livro.");
       }
     }
-
     carregarDados();
   }, [id, reset]);
 
-  function normalizarTexto(texto) {
-    return String(texto ?? "")
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase()
-      .trim();
-  }
-
-  function atualizarAutor(evento) {
-    const nomeDigitado = evento.target.value;
-    setAutorDigitado(nomeDigitado);
-
-    const autorEncontrado = autores.find(
-      (autor) => normalizarTexto(autor.nome) === normalizarTexto(nomeDigitado),
-    );
-
-    setValue("autorId", autorEncontrado?.id || "", {
-      shouldValidate: true,
-    });
-  }
-
-  function atualizarEditora(evento) {
-    const nomeDigitado = evento.target.value;
-    setEditoraDigitada(nomeDigitado);
-
-    const editoraEncontrada = editoras.find(
-      (editora) => normalizarTexto(editora.nome) === normalizarTexto(nomeDigitado),
-    );
-
-    setValue("editoraId", editoraEncontrada?.id || "", {
-      shouldValidate: true,
-    });
-  }
-
-  async function onSubmit(dadosDoFormulario) {
+  async function onSubmit(dados) {
     setErroAPI("");
     setSucesso("");
-
     try {
-      await atualizarLivro(id, dadosDoFormulario);
+      await atualizarLivro(id, dados);
       setSucesso("Livro atualizado com sucesso!");
-      setTimeout(() => navigate("/home"), 2000);
+      setTimeout(() => navigate("/livros"), 2000);
     } catch {
       setErroAPI("Erro ao tentar atualizar o livro.");
     }
   }
 
   async function apagarLivro() {
-    const confirmar = window.confirm("Tem certeza que deseja apagar este livro?");
-
-    if (confirmar) {
+    if (window.confirm("Tem certeza que deseja apagar este livro?")) {
       try {
         await deletarLivro(id);
         setSucesso("Livro apagado com sucesso!");
-        setTimeout(() => navigate("/home"), 2000);
+        setTimeout(() => navigate("/livros"), 2000);
       } catch {
         setErroAPI("Erro ao tentar apagar o livro.");
       }
     }
   }
 
+  if (carregandoListas)
+    return <p className="text-center mt-5">Carregando dados...</p>;
+
   return (
-    <main className="pagina-formulario">
-      <section className="formulario-card formulario-card-livro">
-        <h1 className="formulario-titulo">Editar Livro</h1>
+    <main className="pagina-formulario container mt-4">
+      <section
+        className="formulario-card formulario-card-livro shadow-sm p-4 rounded bg-white mx-auto"
+        style={{ maxWidth: "800px" }}
+      >
+        <h1 className="formulario-titulo mb-4">Editar Livro</h1>
 
-        {erroAPI && <div className="alert alert-danger">{erroAPI}</div>}
-
-        {sucesso && <div className="alert alert-success">{sucesso}</div>}
+        {erroAPI && (
+          <div className="alert alert-danger" role="alert">
+            {erroAPI}
+          </div>
+        )}
+        {sucesso && (
+          <div className="alert alert-success" role="alert">
+            {sucesso}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <Input
             label="Título do Livro"
-            placeholder="Ex: O Senhor dos Anéis"
             error={errors.titulo?.message}
             {...register("titulo", { required: "O título é obrigatório" })}
           />
@@ -160,17 +103,14 @@ export default function EditarLivro() {
             <div className="col-md-6">
               <Input
                 label="ISBN"
-                placeholder="Ex: 978-3-16-148410-0"
                 error={errors.isbn?.message}
                 {...register("isbn", { required: "O ISBN é obrigatório" })}
               />
             </div>
-
             <div className="col-md-6">
               <Input
                 label="Ano de Publicação"
                 type="number"
-                placeholder="Ex: 1954"
                 error={errors.anoPublicacao?.message}
                 {...register("anoPublicacao", {
                   required: "O ano é obrigatório",
@@ -184,9 +124,9 @@ export default function EditarLivro() {
             label="Gênero"
             defaultOption="Selecione um gênero..."
             error={errors.generoId?.message}
-            options={generos.map((genero) => ({
-              value: genero.id,
-              label: `${genero.nome} (${genero.sigla})`,
+            options={generos.map((g) => ({
+              value: g.id,
+              label: `${g.nome} (${g.sigla})`,
             }))}
             {...register("generoId", {
               required: "Selecione um gênero",
@@ -195,41 +135,16 @@ export default function EditarLivro() {
           />
 
           <div className="mb-3">
-            <label className="form-label" htmlFor="autor">
-              Autor
-            </label>
-
-            <input
-              id="autor"
-              type="text"
-              list="lista-autores"
-              className={`form-control ${errors.autorId ? "is-invalid" : ""}`}
-              placeholder="Digite o nome do autor"
-              value={autorDigitado}
-              onChange={atualizarAutor}
-              autoComplete="off"
-            />
-
-            <datalist id="lista-autores">
-              {autores.map((autor) => (
-                <option key={autor.id} value={autor.nome} />
-              ))}
-            </datalist>
-
-            <input
-              type="hidden"
+            <Select
+              label="Autor"
+              defaultOption="Selecione um autor..."
+              error={errors.autorId?.message}
+              options={autores.map((a) => ({ value: a.id, label: a.nome }))}
               {...register("autorId", {
-                required: "Digite ou selecione um autor cadastrado",
+                required: "Selecione um autor",
                 valueAsNumber: true,
               })}
             />
-
-            {errors.autorId && (
-              <span className="invalid-feedback d-block">
-                {errors.autorId.message}
-              </span>
-            )}
-
             <Link
               to="/autores/adicionar"
               className="btn btn-outline-secondary mt-2"
@@ -239,41 +154,16 @@ export default function EditarLivro() {
           </div>
 
           <div className="mb-3">
-            <label className="form-label" htmlFor="editora">
-              Editora
-            </label>
-
-            <input
-              id="editora"
-              type="text"
-              list="lista-editoras"
-              className={`form-control ${errors.editoraId ? "is-invalid" : ""}`}
-              placeholder="Digite o nome da editora"
-              value={editoraDigitada}
-              onChange={atualizarEditora}
-              autoComplete="off"
-            />
-
-            <datalist id="lista-editoras">
-              {editoras.map((editora) => (
-                <option key={editora.id} value={editora.nome} />
-              ))}
-            </datalist>
-
-            <input
-              type="hidden"
+            <Select
+              label="Editora"
+              defaultOption="Selecione uma editora..."
+              error={errors.editoraId?.message}
+              options={editoras.map((e) => ({ value: e.id, label: e.nome }))}
               {...register("editoraId", {
-                required: "Digite ou selecione uma editora cadastrada",
+                required: "Selecione uma editora",
                 valueAsNumber: true,
               })}
             />
-
-            {errors.editoraId && (
-              <span className="invalid-feedback d-block">
-                {errors.editoraId.message}
-              </span>
-            )}
-
             <Link
               to="/editoras/adicionar"
               className="btn btn-outline-secondary mt-2"
@@ -282,11 +172,19 @@ export default function EditarLivro() {
             </Link>
           </div>
 
-          <div className="d-flex justify-content-between mt-4">
-            <button type="submit" className="btn btn-marrom btn-formulario w-50 me-2">
-              Salvar Alterações
+          <div className="d-flex justify-content-between mt-4 gap-3">
+            <button
+              type="submit"
+              className="btn btn-marrom flex-grow-1"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Salvando..." : "Salvar Alterações"}
             </button>
-            <button type="button" onClick={apagarLivro} className="btn btn-danger btn-formulario w-50 ms-2">
+            <button
+              type="button"
+              onClick={apagarLivro}
+              className="btn btn-danger flex-grow-1"
+            >
               Apagar Livro
             </button>
           </div>
