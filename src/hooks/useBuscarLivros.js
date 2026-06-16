@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { useListasAuxiliares } from "./useListasAuxiliares"; // Consumindo nossa nova Central!
+import { useListasAuxiliares } from "./useListasAuxiliares";
 import { normalizarTexto } from "../utils/normalizarTexto";
 
 const pegarNomeLivro = (livro) =>
@@ -27,17 +27,12 @@ export function useBuscarLivros() {
       ),
     [listaAutores],
   );
-  const mapaGeneros = useMemo(
-    () =>
-      listaGeneros.reduce(
-        (acc, genero) => ({
-          ...acc,
-          [genero.id]: `${genero.nome} (${genero.sigla})`,
-        }),
-        {},
-      ),
-    [listaGeneros],
-  );
+  const mapaGeneros = useMemo(() => {
+    return listaGeneros.reduce((acc, genero) => {
+      acc[genero.id] = normalizarTexto(`${genero.nome} ${genero.sigla}`);
+      return acc;
+    }, {});
+  }, [listaGeneros]);
 
   const pegarAutor = (livro) =>
     livro.autorNome ||
@@ -64,12 +59,20 @@ export function useBuscarLivros() {
     setMensagem("");
 
     const filtrados = listaLivros.filter((livro) => {
-      const valorParaComparar =
-        tipoBusca === "nome"
-          ? pegarNomeLivro(livro)
-          : tipoBusca === "autor"
-            ? pegarAutor(livro)
-            : pegarGenero(livro);
+      let valorParaComparar = "";
+
+      if (tipoBusca === "nome") {
+        valorParaComparar = pegarNomeLivro(livro);
+      } else if (tipoBusca === "autor") {
+        valorParaComparar = pegarAutor(livro);
+      } else if (tipoBusca === "genero") {
+        const generoObj = listaGeneros.find(
+          (g) => String(g.id) === String(livro.generoId || livro.generold),
+        );
+        valorParaComparar = generoObj
+          ? `${generoObj.nome} ${generoObj.sigla}`
+          : "Gênero não informado";
+      }
 
       return normalizarTexto(valorParaComparar).includes(termo);
     });

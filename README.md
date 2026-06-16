@@ -35,6 +35,8 @@ src/
 ├── components/          # Componentes reaproveitáveis da interface
 │   ├── Acessibilidade/  # Componente do menu de alto contraste e acessibilidade
 │   ├── CardLivro/       # Componente de card para exibição dos livros
+│   ├── CardLivroEncontrado/ # Componente de card para exibição de livros encontrados
+│   ├── CardLivroSimples/ # Componente de card para exibição simples dos livros
 │   ├── Footer/          # Rodapé da aplicação
 │   ├── Input/           # Componente de campo de texto customizado
 │   ├── Navbar/          # Menu de navegação superior
@@ -55,8 +57,14 @@ src/
 ├── routes/              # Configurações de roteamento
 │   ├── AppRouter.jsx    # Mapeamento central das rotas
 │   └── privateRoute.jsx # Wrapper para proteção de rotas privadas
+├── hooks/              # Configurações de roteamento
+│   ├── useAcessibilidade.jsx # Lida com toda a parte lógica de acessibilidade
+│   ├── useBuscarLivros.jsx # Lida com toda a lógica da busca de livros
+│   └── useListasAuxiliares.jsx # Lógicas para popular todas as listas vindas da API
 ├── service/             # Configurações de integração externa
 │   └── api.js           # Instância e métodos de requisição (ex: Axios)
+├── utils/             # Configurações de integração externa
+│   └── normalizarTexto.js # Função de normalizar texto
 ├── App.jsx              # Componente raiz e provedores principais
 ├── global.css           # Estilos globais
 └── main.jsx             # Ponto de entrada do ReactReact
