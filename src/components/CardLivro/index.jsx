@@ -9,7 +9,7 @@ const InfoLinha = ({ label, valor }) => (
 
 export default function CardLivro({ livro }) {
   if (!livro) return null;
-  console.log(livro);
+
   return (
     <div className="col-md-4 mb-4">
       <div className="card card-livro shadow-sm h-100">
