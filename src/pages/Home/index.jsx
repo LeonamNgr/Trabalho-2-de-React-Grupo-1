@@ -6,7 +6,7 @@ import Input from "../../components/Input";
 import styles from "./Home.module.css";
 
 import meninaVoandoLivro from "../../assets/imagens/menina-voando-livro.svg";
-import { MiniCardLivro } from "../../components/MiniCardLivros";
+import { CardLivroSimples } from "../../components/CardLivroSimples";
 
 export default function Home() {
   const [livros, setLivros] = useState([]);
@@ -109,7 +109,7 @@ export default function Home() {
         ) : (
           <section className={styles.lista}>
             {livrosFiltrados.slice(0, 6).map((livro, index) => (
-              <MiniCardLivro key={livro.id} livro={livro} index={index} />
+              <CardLivroSimples key={livro.id} livro={livro} index={index} />
             ))}
           </section>
         )}

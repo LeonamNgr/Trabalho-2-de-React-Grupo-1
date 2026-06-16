@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import styles from "./MiniCardLivros.module.css";
+import styles from "./CardLivroSimples.module.css";
 
 import livroAberto from "../../assets/imagens/livro-aberto.svg";
 import pilhaLivros from "../../assets/imagens/pilha-livros.svg";
@@ -16,7 +16,7 @@ const ICONES_LIVROS = [
   livrosLivroAberto,
 ];
 
-export const MiniCardLivro = ({ livro, index }) => (
+export const CardLivroSimples = ({ livro, index }) => (
   <Link to="/livros">
     <article className={styles.cardLivro}>
       <div className={styles.iconeLivro}>
